@@ -1,28 +1,69 @@
 #include "selaura.hpp"
 
 std::shared_ptr<selaura> selaura::get() {
-	static std::shared_ptr<selaura> instance = std::make_shared<selaura>();
-	return instance;
+	static auto inst = std::make_shared<selaura>();
+	return inst;
 }
 
 void selaura::init(HMODULE hModule) {
+	if (this->m_initialized.load()) return;
+	logger::clear();
+	logger::info("Initializing Selaura Client");
 	this->hModule = hModule;
-	this->initialized = true;
-}
 
-void selaura::eject() {
-	HANDLE hThread = CreateThread(nullptr, 0, [](LPVOID param) -> DWORD {
-		selaura* instance = static_cast<selaura*>(param);
-		instance->shutdown();
+	std::string buildType;
+	#ifdef _DEBUG
+		buildType = "Debug";
+	#else
+		buildType = "Release";
+	#endif
+	winrt_utils::set_title("Selaura Client ({}) - {}", buildType, winrt_utils::get_formatted_package_version_string());
+	
+	winrt_utils::run_async([this]() {
+		auto window = winrt::Windows::UI::Core::CoreWindow::GetForCurrentThread();
+		if (window)
+		{
+			selaura_handlers::input::initialize(window);
+		}
+	});
 
-		Sleep(500);
-		FreeLibraryAndExitThread(instance->hModule, 0);
-		return 0;
-	}, this, 0, nullptr);
+	/*
+			if (args.VirtualKey() == winrt::Windows::System::VirtualKey::Shift && args.KeyStatus().ScanCode == 42)
+	{
+		// left shift
+	}
 
-	if (hThread) CloseHandle(hThread);
+	if (args.VirtualKey() == winrt::Windows::System::VirtualKey::Shift && args.KeyStatus().ScanCode == 54)
+	{
+		// right shift
+		std::terminate();
+	}
+	*/
+
+	while (true) {
+		logger::debug("Mouse X: {}, Mouse Y: {}", selaura_handlers::input::get_mouse_x(), selaura_handlers::input::get_mouse_y());
+		if (selaura_handlers::input::is_key_down("RightShift")) {
+			std::terminate();
+		}
+	}
+
+	this->m_initialized.store(true);
+	logger::info("Selaura Client initialized");
 }
 
 void selaura::shutdown() {
-	this->initialized = false;
+	if (!this->m_initialized.load()) return;
+	logger::info("Shutting down Selaura Client");
+
+	winrt_utils::reset_title();
+
+	this->m_initialized.store(false);
+	logger::info("Selaura Client shutdown");
+}
+
+void selaura::eject() {
+	this->shutdown();
+
+	Sleep(200);
+	CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)FreeLibraryAndExitThread, this->hModule, 0, nullptr);
 }
