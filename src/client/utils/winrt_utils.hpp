@@ -1,9 +1,11 @@
 #pragma once
 
+#include <Windows.h>
 #include <winrt/base.h>
 #include <winrt/Windows.UI.ViewManagement.h>
 #include <winrt/Windows.ApplicationModel.Core.h>
 #include <winrt/Windows.UI.Core.h>
+#include <CoreWindow.h>
 
 #include <format>
 #include <string>
@@ -38,6 +40,6 @@ namespace winrt_utils {
 	game_version get_package_version();
 	std::string get_package_version_string();
 	std::string get_formatted_package_version_string();
-
+	HWND get_window_handle(winrt::Windows::UI::Core::CoreWindow const&);
 
 };

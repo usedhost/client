@@ -11,6 +11,8 @@
 #include "io/logger.hpp"
 #include "utils/winrt_utils.hpp"
 #include "handlers/input.hpp"
+#include "handlers/event.hpp"
+#include "../memory/hooks.hpp"
 
 class selaura {
 public:

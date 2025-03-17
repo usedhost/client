@@ -22,3 +22,12 @@ std::string winrt_utils::get_formatted_package_version_string() {
 	int build = version.build / 100;
 	return std::to_string(version.major) + "." + std::to_string(version.minor) + "." + std::to_string(build);
 }
+
+HWND winrt_utils::get_window_handle(winrt::Windows::UI::Core::CoreWindow const& window) {
+	HWND hwnd = nullptr;
+	winrt::com_ptr<ICoreWindowInterop> interop;
+	winrt::check_hresult(winrt::get_unknown(window)->QueryInterface(interop.put()));
+	winrt::check_hresult(interop->get_WindowHandle(&hwnd));
+
+	return hwnd;
+}

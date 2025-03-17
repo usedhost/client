@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -122,7 +122,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>WindowsApp.lib;d3d11.lib;d3d12.lib;d3dcompiler.lib;include/minhook/MinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -145,11 +145,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\imgui\backends\imgui_impl_dx11.cpp" />
+    <ClCompile Include="include\imgui\backends\imgui_impl_dx12.cpp" />
+    <ClCompile Include="include\imgui\backends\imgui_impl_selaura.cpp" />
+    <ClCompile Include="include\imgui\imgui.cpp" />
+    <ClCompile Include="include\imgui\imgui_demo.cpp" />
+    <ClCompile Include="include\imgui\imgui_draw.cpp" />
+    <ClCompile Include="include\imgui\imgui_tables.cpp" />
+    <ClCompile Include="include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="include\kiero\kiero.cpp" />
+    <ClCompile Include="src\client\handlers\event.cpp" />
     <ClCompile Include="src\client\handlers\input.cpp" />
     <ClCompile Include="src\client\io\logger.cpp" />
+    <ClCompile Include="src\client\renderer\renderer.cpp" />
     <ClCompile Include="src\client\selaura.cpp" />
     <ClCompile Include="src\client\utils\winrt_utils.cpp" />
     <ClCompile Include="src\load\dllmain.cpp" />
+    <ClCompile Include="src\load\linux_main.cpp" />
+    <ClCompile Include="src\memory\hooks.cpp" />
+    <ClCompile Include="src\memory\hooks\swapchain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitattributes" />
@@ -171,12 +185,29 @@
     <ClInclude Include="include\fmt\ranges.h" />
     <ClInclude Include="include\fmt\std.h" />
     <ClInclude Include="include\fmt\xchar.h" />
+    <ClInclude Include="include\imgui\backends\imgui_impl_dx11.h" />
+    <ClInclude Include="include\imgui\backends\imgui_impl_dx12.h" />
+    <ClInclude Include="include\imgui\backends\imgui_impl_selaura.hpp" />
+    <ClInclude Include="include\imgui\imconfig.h" />
+    <ClInclude Include="include\imgui\imgui.h" />
+    <ClInclude Include="include\imgui\imgui_internal.h" />
+    <ClInclude Include="include\imgui\imstb_rectpack.h" />
+    <ClInclude Include="include\imgui\imstb_textedit.h" />
+    <ClInclude Include="include\imgui\imstb_truetype.h" />
+    <ClInclude Include="include\kiero\kiero.h" />
     <ClInclude Include="include\magic_enum\magic_enum.hpp" />
+    <ClInclude Include="include\minhook\minhook.h" />
+    <ClInclude Include="src\client\handlers\event.hpp" />
     <ClInclude Include="src\client\handlers\input.hpp" />
     <ClInclude Include="src\client\io\logger.hpp" />
+    <ClInclude Include="src\client\renderer\renderer.hpp" />
     <ClInclude Include="src\client\selaura.hpp" />
+    <ClInclude Include="src\client\types\event_types.hpp" />
     <ClInclude Include="src\client\utils\winrt_utils.hpp" />
     <ClInclude Include="src\load\dllmain.hpp" />
+    <ClInclude Include="src\load\linux_main.hpp" />
+    <ClInclude Include="src\memory\hooks.hpp" />
+    <ClInclude Include="src\memory\hooks\swapchain.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
