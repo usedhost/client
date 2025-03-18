@@ -52,7 +52,7 @@ namespace selaura_handlers {
     input_key keys::RightBracket = { "RightBracket", 27 };
     input_key keys::Backslash = { "", 43 };
 
-    input_key keys::CapsLock = { "CapsLock", 58 };
+    input_key keys::CapsLock = { "CapitalLock", 58 };
     input_key keys::A = { "A", 30 };
     input_key keys::S = { "S", 31 };
     input_key keys::D = { "D", 32 };
@@ -220,7 +220,7 @@ namespace selaura_handlers {
         m_keyStates[translated_key] = true;
 
 		auto event = selaura_event_types::KeyDown{ &translated_key };
-		selaura_handlers::event::dispatch(event);
+		selaura_handlers::event::dispatch<selaura_event_types::KeyDown>(event);
 
 		logger::debug("Key Down: {}, {}", translated_key.name, translated_key.scancode);
     }
@@ -234,7 +234,7 @@ namespace selaura_handlers {
         m_keyReleased[translated_key] = true;
 
 		auto event = selaura_event_types::KeyUp{ &translated_key };
-		selaura_handlers::event::dispatch(event);
+		selaura_handlers::event::dispatch<selaura_event_types::KeyUp>(event);
     }
 
     void input::OnCharReceived(winrt::Windows::UI::Core::CoreWindow const& sender,
@@ -242,7 +242,7 @@ namespace selaura_handlers {
 
 		auto character = args.KeyCode();
 		auto event = selaura_event_types::CharReceived{ character };
-		selaura_handlers::event::dispatch(event);
+		selaura_handlers::event::dispatch<selaura_event_types::CharReceived>(event);
     }
 
     void input::OnPointerMoved(winrt::Windows::UI::Core::CoreWindow const& sender,
@@ -254,7 +254,7 @@ namespace selaura_handlers {
 
 		auto event = selaura_event_types::PointerMoved{ m_x, m_y };
 
-		selaura_handlers::event::dispatch(event);
+		selaura_handlers::event::dispatch<selaura_event_types::PointerMoved>(event);
     }
 
     void input::OnPointerExited(winrt::Windows::UI::Core::CoreWindow const& sender,
@@ -263,7 +263,7 @@ namespace selaura_handlers {
         m_y = -1.0f;
 
 		auto event = selaura_event_types::PointerExited{};
-		selaura_handlers::event::dispatch(event);
+		selaura_handlers::event::dispatch<selaura_event_types::PointerExited>(event);
     }
 
     void input::OnPointerPressed(winrt::Windows::UI::Core::CoreWindow const& sender,
@@ -298,7 +298,7 @@ namespace selaura_handlers {
 
         if (state != -1) {
             auto event = selaura_event_types::PointerPressed{ m_x, m_y, state };
-            selaura_handlers::event::dispatch(event);
+            selaura_handlers::event::dispatch<selaura_event_types::PointerPressed>(event);
         }
 
         args.Handled(true);
@@ -338,7 +338,7 @@ namespace selaura_handlers {
         if (state != -1) {
             logger::debug("release {}", state);
             auto event = selaura_event_types::PointerReleased{ m_x, m_y, state };
-            selaura_handlers::event::dispatch(event);
+            selaura_handlers::event::dispatch<selaura_event_types::PointerReleased>(event);
         }
 
         args.Handled(true);
@@ -351,7 +351,7 @@ namespace selaura_handlers {
         m_wheelDelta += point.Properties().MouseWheelDelta();
 
 		auto event = selaura_event_types::PointerWheelChanged{ m_wheelDelta };
-		selaura_handlers::event::dispatch(event);
+		selaura_handlers::event::dispatch<selaura_event_types::PointerWheelChanged>(event);
     }
 
 	void input::OnDpiChanged(winrt::Windows::Graphics::Display::DisplayInformation const& sender,

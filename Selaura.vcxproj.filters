@@ -72,6 +72,12 @@
     <ClCompile Include="include\imgui\backends\imgui_impl_selaura.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\memory\hooks\screenview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\memory\scanner\scanner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
@@ -188,6 +194,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\imgui\backends\imgui_impl_selaura.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\entt\entt.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\memory\hooks\screenview.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\memory\scanner\scanner.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

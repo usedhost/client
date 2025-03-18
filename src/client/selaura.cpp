@@ -29,8 +29,8 @@ void selaura::init(HMODULE hModule) {
 	#endif
 	winrt_utils::set_title("Selaura Client ({}) - {}", buildType, winrt_utils::get_formatted_package_version_string());
 
-	selaura_handlers::event::subscribe([](selaura_event_types::PointerWheelChanged& event) {
-		logger::debug("{}", selaura_handlers::input::get_wheel_delta());
+	selaura_handlers::event::subscribe([](selaura_event_types::PointerPressed& event) {
+		logger::debug("{}", event.button);
 	});
 
 	this->m_initialized.store(true);

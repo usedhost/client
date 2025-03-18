@@ -12,6 +12,10 @@ void selaura_hooks::initialize() {
 		kiero::bind(8, reinterpret_cast<void**>(&selaura_hooks::trampolines::Present), selaura_hooks::IDXGISwapChain_Present);
 		kiero::bind(13, reinterpret_cast<void**>(&selaura_hooks::trampolines::ResizeBuffers), selaura_hooks::IDXGISwapChain_ResizeBuffers);
 	}
+
+	auto sig = selaura_memory::find_pattern("48 8B C4 48 89 58 18 55 56 57 41 54 41 55 41 56 41 57 48 8D A8 98 FD");
+	MH_CreateHook((LPVOID)sig, (LPVOID)selaura_hooks::ScreenView_SetupAndRender, (LPVOID*)&selaura_hooks::trampolines::SetupAndRender);
+	MH_EnableHook((LPVOID)sig);
 }
 
 void selaura_hooks::shutdown() {

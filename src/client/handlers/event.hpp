@@ -38,8 +38,10 @@ namespace selaura_handlers {
     class event {
     public:
         using SubscriptionToken = std::uint64_t;
+
         template<typename T>
         using listener_t = std::function<void(T&)>;
+        
         template<typename T>
         struct ListenerContainer {
             struct ListenerEntry {
@@ -51,6 +53,7 @@ namespace selaura_handlers {
             std::vector<ListenerEntry> listeners;
             SubscriptionToken nextToken = 1;
         };
+        
         template <typename T>
         static void dispatch(T& eventObj) {
             auto listenersCopy = getListenerContainer<T>().listeners;
@@ -58,33 +61,42 @@ namespace selaura_handlers {
                 entry.callback(eventObj);
             }
         }
+        
         template <typename T>
         static void dispatch() {
             T eventObj{};
             dispatch<T>(eventObj);
         }
+        
         template <typename T>
         static SubscriptionToken subscribe(std::function<void(T&)> listener) {
             auto& container = getListenerContainer<T>();
+            
             SubscriptionToken token = container.nextToken++;
+            
             typename ListenerContainer<T>::ListenerEntry entry;
             entry.token = token;
             entry.callback = std::move(listener);
             entry.instance = nullptr;
             entry.memberFunction = nullptr;
+            
             container.listeners.push_back(std::move(entry));
             return token;
         }
+        
         template <typename Func>
         static SubscriptionToken subscribe(Func listener) {
             using raw_event_type = typename callable_traits<Func>::argument_type;
             using event_type = std::remove_reference_t<raw_event_type>;
             return subscribe<event_type>(listener_t<event_type>{listener});
         }
+        
         template <typename T, typename C>
         static SubscriptionToken subscribe(void (C::* listener)(T&), C* instance) {
             auto& container = getListenerContainer<T>();
+            
             SubscriptionToken token = container.nextToken++;
+            
             typename ListenerContainer<T>::ListenerEntry entry;
             entry.token = token;
             entry.callback = [instance, listener](T& eventObj) {
@@ -92,6 +104,7 @@ namespace selaura_handlers {
                 };
             entry.instance = static_cast<void*>(instance);
             entry.memberFunction = *reinterpret_cast<void**>(&listener);
+            
             container.listeners.push_back(std::move(entry));
             return token;
         }
@@ -117,10 +130,12 @@ namespace selaura_handlers {
                 }
             }
         }
+        
         template <typename T, typename Func>
         static void unsubscribe(Func listener) {
             unsubscribe<T>(listener_t<T>{listener});
         }
+        
         template <typename T, typename C>
         static void unsubscribe(void (C::* listener)(T&), C* instance) {
             auto& entries = getListenerContainer<T>().listeners;
@@ -140,5 +155,4 @@ namespace selaura_handlers {
             return container;
         }
     };
-
 }

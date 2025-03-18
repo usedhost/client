@@ -143,6 +143,7 @@ HRESULT selaura_hooks::IDXGISwapChain_ResizeBuffers(IDXGISwapChain* pSwapChain, 
 		d3d11DeviceContext->Flush();
 		renderTargetInitialized = false;
 	}
+
 	selaura_handlers::event::dispatch<selaura_event_types::Resize>();
 	return reinterpret_cast<decltype(&selaura_hooks::IDXGISwapChain_ResizeBuffers)>(selaura_hooks::trampolines::ResizeBuffers)(pSwapChain, BufferCount, Width, Height, NewFormat, SwapChainFlags);
 }
