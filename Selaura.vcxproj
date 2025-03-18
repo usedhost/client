@@ -163,6 +163,7 @@
     <ClCompile Include="src\load\dllmain.cpp" />
     <ClCompile Include="src\load\linux_main.cpp" />
     <ClCompile Include="src\memory\hooks.cpp" />
+    <ClCompile Include="src\memory\hooks\bgfx_hooks.cpp" />
     <ClCompile Include="src\memory\hooks\screenview.cpp" />
     <ClCompile Include="src\memory\hooks\swapchain.cpp" />
     <ClCompile Include="src\memory\scanner\scanner.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="src\load\dllmain.hpp" />
     <ClInclude Include="src\load\linux_main.hpp" />
     <ClInclude Include="src\memory\hooks.hpp" />
+    <ClInclude Include="src\memory\hooks\bgfx_hooks.hpp" />
     <ClInclude Include="src\memory\hooks\screenview.hpp" />
     <ClInclude Include="src\memory\hooks\swapchain.hpp" />
     <ClInclude Include="src\memory\scanner\scanner.hpp" />

@@ -5,6 +5,7 @@
 
 #include "hooks/swapchain.hpp"
 #include "hooks/screenview.hpp"
+#include "hooks/bgfx_hooks.hpp"
 
 namespace selaura_hooks {
 	void initialize();

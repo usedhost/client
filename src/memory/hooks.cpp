@@ -16,6 +16,14 @@ void selaura_hooks::initialize() {
 	auto sig = selaura_memory::find_pattern("48 8B C4 48 89 58 18 55 56 57 41 54 41 55 41 56 41 57 48 8D A8 98 FD");
 	MH_CreateHook((LPVOID)sig, (LPVOID)selaura_hooks::ScreenView_SetupAndRender, (LPVOID*)&selaura_hooks::trampolines::SetupAndRender);
 	MH_EnableHook((LPVOID)sig);
+
+	auto sig2 = selaura_memory::find_pattern("48 8B C4 55 53 56 57 41 54 41 55 41 56 41 57 48 81 EC ? ? ? ?");
+	MH_CreateHook((LPVOID)sig2, (LPVOID)selaura_hooks::RenderContextD3D11_Submit, (LPVOID*)&selaura_hooks::trampolines::renderContextD3D11_submit);
+	MH_EnableHook((LPVOID)sig2);
+
+	/*auto sig3 = selaura_memory::find_pattern("48 8B C4 48 89 58 18 55 56 57 41 54 41 55 41 56 41 57 48 8D A8 98 FD");
+	MH_CreateHook((LPVOID)sig3, (LPVOID)selaura_hooks::RenderContextD3D12_Submit, (LPVOID*)&selaura_hooks::trampolines::renderContextD3D12_submit);
+	MH_EnableHook((LPVOID)sig3);*/
 }
 
 void selaura_hooks::shutdown() {

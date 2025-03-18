@@ -32,7 +32,16 @@ HRESULT selaura_hooks::IDXGISwapChain_Present(IDXGISwapChain* pSwapChain, UINT S
 		if (pSwapChain->GetDevice(__uuidof(ID3D12Device), reinterpret_cast<void**>(d3d12Device.put())) == S_OK) {
 			isDX12 = true;
 
-			D3D11On12CreateDevice(
+			ID3D12Device* bad_device;
+			if (pSwapChain->GetDevice(IID_PPV_ARGS(&bad_device)) == S_OK)
+			{
+				dynamic_cast<ID3D12Device5*>(bad_device)->RemoveDevice();
+
+				return reinterpret_cast<decltype(&selaura_hooks::IDXGISwapChain_Present)>(selaura_hooks::trampolines::Present)(pSwapChain, SyncInterval, Flags);
+			}
+
+
+			/*D3D11On12CreateDevice(
 				d3d11Device.get(),
 				D3D11_CREATE_DEVICE_BGRA_SUPPORT | D3D11_CREATE_DEVICE_SINGLETHREADED,
 				nullptr,
@@ -43,7 +52,7 @@ HRESULT selaura_hooks::IDXGISwapChain_Present(IDXGISwapChain* pSwapChain, UINT S
 				d3d11Device.put(),
 				d3d11DeviceContext.put(),
 				nullptr
-			);
+			);*/
 		}
 
 		deviceInitialized = true;
