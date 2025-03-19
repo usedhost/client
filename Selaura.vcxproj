@@ -113,7 +113,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>memory/;include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src/memory/;include/;src/client/</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -167,6 +167,7 @@
     <ClCompile Include="src\memory\hooks\screenview.cpp" />
     <ClCompile Include="src\memory\hooks\swapchain.cpp" />
     <ClCompile Include="src\memory\scanner\scanner.cpp" />
+    <ClCompile Include="src\memory\sdk\bgfx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitattributes" />
@@ -215,6 +216,7 @@
     <ClInclude Include="src\memory\hooks\screenview.hpp" />
     <ClInclude Include="src\memory\hooks\swapchain.hpp" />
     <ClInclude Include="src\memory\scanner\scanner.hpp" />
+    <ClInclude Include="src\memory\sdk\bgfx.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

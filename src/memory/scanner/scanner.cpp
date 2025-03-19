@@ -40,3 +40,4 @@ uintptr_t selaura_memory::find_pattern(const char* signature) {
 
     return ret;
 };
+

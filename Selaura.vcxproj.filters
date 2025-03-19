@@ -81,6 +81,9 @@
     <ClCompile Include="src\memory\hooks\bgfx_hooks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\memory\sdk\bgfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
@@ -209,6 +212,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\memory\hooks\bgfx_hooks.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\memory\sdk\bgfx.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
