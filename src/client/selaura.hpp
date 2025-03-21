@@ -34,8 +34,13 @@ public:
 
         backend.run_async([&]() {
             std::string backend_debug = "";
-            if (backend.type == backend_type::Windows) backend_debug = (backend.debug) ? "/Debug" : "/Release";
-            backend.set_title("Selaura Client ({}{}) - {}", magic_enum::enum_name(backend.type), backend_debug, "Version Soon");
+#if SELAURA_WIN32
+            backend_debug = (backend.debug) ? "/Debug" : "/Release";
+            backend.set_title("Selaura Client (Windows{}) - {}", backend_debug, "Version Soon");
+#elif SELAURA_LINUX
+			backend_debug = (backend.debug) ? "Debug" : "Release";
+			backend.set_title("Selaura Client (Linux{}) - {}", backend_debug, "Version Soon");
+#endif
         });
     }
 
