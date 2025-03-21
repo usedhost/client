@@ -205,6 +205,7 @@
     <ClInclude Include="src\client\handlers\event.hpp" />
     <ClInclude Include="src\client\handlers\input.hpp" />
     <ClInclude Include="src\client\io\logger.hpp" />
+    <ClInclude Include="src\client\platform_backend.hpp" />
     <ClInclude Include="src\client\renderer\renderer.hpp" />
     <ClInclude Include="src\client\selaura.hpp" />
     <ClInclude Include="src\client\types\event_types.hpp" />

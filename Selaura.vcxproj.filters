@@ -217,5 +217,8 @@
     <ClInclude Include="src\memory\sdk\bgfx.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\client\platform_backend.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,27 +1,54 @@
 #pragma once
-#include <Windows.h>
-#include <memory>
 
-#include <winrt/Windows.UI.Core.h>
-#include <winrt/Windows.System.h>
-#include <winrt/Windows.Foundation.h>
-
+#include <entt/entt.hpp>
 #include <magic_enum/magic_enum.hpp>
+#include <type_traits>
+#include <thread>
 
 #include "io/logger.hpp"
-#include "utils/winrt_utils.hpp"
-#include "handlers/input.hpp"
-#include "handlers/event.hpp"
-#include "../memory/hooks.hpp"
+#include "platform_backend.hpp"
 
 class selaura {
 public:
-	static std::shared_ptr<selaura> get();
+    static selaura& get();
 
-	void init(HMODULE hModule);
-	void shutdown();
-	void eject();
+    template <typename System, typename... Args>
+    System& add_system(Args&&... args) {
+        return registry.ctx().emplace<System>(std::forward<Args>(args)...);
+    }
+
+    template <typename System>
+    System& get_system() {
+        return registry.ctx().get<System>();
+    }
+
+    template <typename handle>
+    void init(handle _handle) {
+        static_assert(std::is_convertible<handle, module_handle_t>::value,
+            "Provided handle must be convertible to the platform's module handle type");
+        auto& backend = add_system<platform_backend>();
+        backend.init(static_cast<module_handle_t>(_handle));
+
+        logger::clear();
+        logger::info("Initializing Selaura Client");
+
+        backend.run_async([&]() {
+            std::string backend_debug = "";
+            if (backend.type == backend_type::Windows) backend_debug = (backend.debug) ? "/Debug" : "/Release";
+            backend.set_title("Selaura Client ({}{}) - {}", magic_enum::enum_name(backend.type), backend_debug, "Version Soon");
+        });
+    }
+
+    void shutdown() {
+        logger::info("Shutting down Selaura Client.");
+        get_system<platform_backend>().shutdown();
+    }
+
 private:
-	HMODULE hModule = nullptr;
-	std::atomic<bool> m_initialized{ false };
+    selaura() = default;
+    ~selaura() = default;
+    selaura(const selaura&) = delete;
+    selaura& operator=(const selaura&) = delete;
+
+	entt::registry registry;
 };

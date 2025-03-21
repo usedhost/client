@@ -1,10 +1,16 @@
 #include "selaura.hpp"
 
+selaura& selaura::get() {
+	static selaura inst;
+	return inst;
+};
+
+
+/*
 std::shared_ptr<selaura> selaura::get() {
 	static auto inst = std::make_shared<selaura>();
 	return inst;
 }
-
 void selaura::init(HMODULE hModule) {
 	if (this->m_initialized.load()) return;
 	logger::clear();
@@ -56,4 +62,4 @@ void selaura::eject() {
 
 	Sleep(200);
 	CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)FreeLibraryAndExitThread, this->hModule, 0, nullptr);
-}
+}*/
