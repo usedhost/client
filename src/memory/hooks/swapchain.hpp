@@ -11,10 +11,10 @@
 #include <winrt/Windows.ApplicationModel.Core.h>
 #include <CoreWindow.h>
 
-#include <imgui/imgui.h>
-#include <imgui/backends/imgui_impl_dx11.h>
-#include <imgui/backends/imgui_impl_dx12.h>
-#include <imgui/backends/imgui_impl_selaura.hpp>
+#include "../include/imgui/imgui.h"
+#include "../include/imgui/backends/imgui_impl_dx11.h"
+#include "../include/imgui/backends/imgui_impl_dx12.h"
+#include "../include/imgui/backends/imgui_impl_selaura.hpp"
 
 #include "../../client/handlers/event.hpp"
 #include "../../client/renderer/renderer.hpp"

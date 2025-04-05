@@ -15,7 +15,7 @@
 // - Introduction, links and more at the top of imgui.cpp
 
 #pragma once
-#include <imgui/imgui.h>      // IMGUI_IMPL_API
+#include "../imgui.h"
 #ifndef IMGUI_DISABLE
 #include <dxgiformat.h> // DXGI_FORMAT
 

@@ -9,7 +9,7 @@
 #include <shlobj.h>
 
 #define FMT_HEADER_ONLY
-#include <fmt/format.h>
+#include "../include/fmt/format.h"
 
 namespace logger {
 	void write(const std::string& message);
