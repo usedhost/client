@@ -32,7 +32,7 @@ using module_handle_t = void*;
 #endif
 
 #define FMT_HEADER_ONLY
-#include <fmt/format.h>
+#include "../../include/fmt/format.h"
 #include <memory>
 #include <thread>
 #include <chrono>

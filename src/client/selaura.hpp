@@ -1,7 +1,7 @@
 #pragma once
 
-#include <entt/entt.hpp>
-#include <magic_enum/magic_enum.hpp>
+#include "../../include/entt/entt.hpp"
+#include "../../include/magic_enum/magic_enum.hpp"
 #include <type_traits>
 #include <thread>
 

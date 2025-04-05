@@ -3,7 +3,7 @@
 #include <d3d11.h>
 #include <d3d12.h>
 
-#include <scanner/scanner.hpp>
+#include "../scanner/scanner.hpp"
 
 namespace SDK {
 	struct bgfx {

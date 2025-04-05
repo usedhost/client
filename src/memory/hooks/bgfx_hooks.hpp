@@ -1,10 +1,10 @@
 #pragma once
 #include <memory>
 
-#include <imgui/imgui.h>
+#include "../include/imgui/imgui.h"
 #include "../../client/handlers/event.hpp"
 #include "../../client/io/logger.hpp"
-#include <sdk/bgfx.hpp>
+#include "memory/sdk/bgfx.hpp"
 
 namespace selaura_hooks {
 	namespace trampolines {

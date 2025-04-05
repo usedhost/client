@@ -6,11 +6,11 @@
 #include <winrt/windows.graphics.display.h>
 #include <Windows.h>
 
-#include <magic_enum/magic_enum.hpp>
+#include "../../../include/magic_enum/magic_enum.hpp"
 #include <functional>
 #include <string>
 #include <unordered_map>
-#include <imgui/imgui.h>
+#include "../../../include/imgui/imgui.h"
 
 #include "../io/logger.hpp"
 #include "event.hpp"
