@@ -2,7 +2,6 @@
 
 #include <Windows.h>
 #include <thread>
-
-#include "../client/selaura.hpp"
+#include "io/logger.hpp"
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved);

@@ -7,8 +7,10 @@ add_compile_options($<$<CONFIG:Release>:/Gw>)
 add_compile_options(/bigobj)
 add_compile_options(/utf-8)
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_compile_definitions(BUILD_TYPE_RELEASE)
     add_compile_options(/O2 /Oi /Gy /Gw /GF /fp:fast /Gd /MT /Ob2)
 elseif (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_compile_definitions(BUILD_TYPE_DEBUG)
     add_compile_options(/Od /Zi /MT)
 endif()
 
@@ -17,12 +19,11 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
 file(GLOB_RECURSE SOURCE_FILES "src/*.cpp" "src/*.hpp")
 file(GLOB_RECURSE LIB_FILES "include/*.cpp" "include/*.h")
 
-add_library(Selaura SHARED src/load/dllmain.cpp ${SOURCE_FILES} ${LIB_FILES})
+add_library(Selaura SHARED "src/load/main.cpp" ${SOURCE_FILES} ${LIB_FILES})
 
 target_include_directories(Selaura PRIVATE
-        "src"
-        "src/client"
-        "include"
+    "src"
+    "include"
 )
 
 add_library(MinHook SHARED IMPORTED GLOBAL)
