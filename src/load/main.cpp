@@ -1,20 +1,22 @@
 #include "main.hpp"
 
-DWORD WINAPI init(LPVOID hModule) {
+void init() {
 	logger::init();
-	return 1;
 }
 
+#ifdef _WIN32
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 {
 	if (dwReason == DLL_PROCESS_ATTACH) {
 		if (GetModuleHandleA("Minecraft.Windows.exe") == nullptr) return FALSE;
 		DisableThreadLibraryCalls(hModule);
-		auto thread = CreateThread(nullptr, NULL, (LPTHREAD_START_ROUTINE)init, hModule, NULL, nullptr);
-		if (!thread) return FALSE;
-
-		return CloseHandle(thread);
+		try {
+            std::thread(init).detach();
+        } catch (...) {
+            return FALSE;
+        }
 	}
 
 	return TRUE;
 }
+#endif

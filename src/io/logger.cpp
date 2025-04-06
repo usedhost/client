@@ -10,7 +10,10 @@ namespace logger {
 
 
     static std::ofstream logs;
+
+    #ifdef _WIN32
     static std::filesystem::path path = (std::filesystem::path)(winrt::Windows::Storage::ApplicationData::Current().RoamingFolder().Path().c_str()) / "selaura" / "logs.txt";
+    #endif
 
     void clear() {
         logs.open(path);
@@ -54,6 +57,7 @@ namespace logger {
     }
 }
 
+#ifdef _WIN32
 namespace console {
     static HWND window = nullptr;
     static FILE* f = nullptr;
@@ -104,3 +108,4 @@ namespace console {
         if (logCount != MAX_LOG_COUNT) scrollToTop();
     }
 }
+#endif
