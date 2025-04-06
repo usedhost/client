@@ -1,4 +1,5 @@
 set(CMAKE_CXX_STANDARD 23)
+cmake_minimum_required(VERSION 3.24.0)
 
 project(Selaura)
 
@@ -26,7 +27,23 @@ target_include_directories(Selaura PRIVATE
     "include"
 )
 
+include(FetchContent)
+
+FetchContent_Declare(
+        fmt
+        GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+        GIT_TAG        master
+)
+FetchContent_Declare(
+        entt
+        GIT_REPOSITORY https://github.com/skypjack/entt.git
+        GIT_TAG        f931687ff04d435871ac9664bb299f71f2a8fafc
+)
+
+FetchContent_MakeAvailable(fmt entt)
+
 add_library(MinHook SHARED IMPORTED GLOBAL)
 set_target_properties(MinHook PROPERTIES IMPORTED_IMPLIB "${CMAKE_CURRENT_SOURCE_DIR}/include/minhook/minhook.lib")
 
+target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT)
 target_link_libraries(Selaura PUBLIC MinHook)

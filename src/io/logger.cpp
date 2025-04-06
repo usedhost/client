@@ -7,14 +7,10 @@ static int biggest = MIN_MESSAGE_LENGTH;
 static int logCount = 1;
 
 namespace logger {
-
-
-    static std::ofstream logs;
-
-    #ifdef _WIN32
-    static std::filesystem::path path = (std::filesystem::path)(winrt::Windows::Storage::ApplicationData::Current().RoamingFolder().Path().c_str()) / "selaura" / "logs.txt";
-    #endif
-
+    std::ofstream logs;
+#ifdef _WIN32
+    std::filesystem::path path = (std::filesystem::path)(winrt::Windows::Storage::ApplicationData::Current().RoamingFolder().Path().c_str()) / "selaura" / "logs.txt";
+#endif
     void clear() {
         logs.open(path);
         logs << "";
@@ -25,53 +21,45 @@ namespace logger {
         if (!std::filesystem::exists(path.parent_path())) {
             std::filesystem::create_directories(path.parent_path());
         }
-#ifdef _WIN32
-#ifdef BUILD_TYPE_DEBUG
+        #ifdef _WIN32
+        #ifdef BUILD_TYPE_DEBUG
         console::open();
-#endif
-#endif
+        #endif
+        #endif
         clear();
     }
-
-    void updateDimensions(const std::string& string) {
-        if (string.length() > biggest && string.length() < MAX_MESSAGE_LENGTH) biggest = string.length();
-        else if (string.length() > biggest) biggest = MAX_MESSAGE_LENGTH;
-        if (logCount < MAX_LOG_COUNT) logCount++;
-    }
-
-    void out(const std::string& prefix, const std::string& string) {
-        logs.open(path, std::ios::app);
-        logs << "[" << prefix << "] " << string << std::endl;
-        logs.close();
-        std::cout << "[" << prefix << "] " << string << std::endl;
-        updateDimensions(string);
-        console::resize();
-    }
-
-    void info(const std::string& string) {
-        out("INFO", string);
-    }
-
-    void error(const std::string& string) {
-        out("ERROR", string);
-    }
 }
+
 
 #ifdef _WIN32
 namespace console {
     static HWND window = nullptr;
     static FILE* f = nullptr;
     static RECT rect;
+    static HANDLE handle = nullptr;
+
+    void updateDimensions(std::string string) {
+        if (string.length() > biggest && string.length() < MAX_MESSAGE_LENGTH) biggest = string.length();
+        else if (string.length() > biggest) biggest = MAX_MESSAGE_LENGTH;
+        if (logCount < MAX_LOG_COUNT) logCount++;
+    }
 
     void open() {
         window = GetConsoleWindow();
         if (!window) {
-            AllocConsole();
-            SetConsoleTitleA("selaura debugger");
-            freopen_s(&f, "CONOUT$", "w", stdout);
+            AllocConsole(); 
+            SetConsoleTitleA("selaura i/o win32"); 
+            freopen_s(&f, "CONOUT$", "w", stdout); 
             freopen_s(&f, "CONIN$", "r", stdin);
-            window = GetConsoleWindow();
-            ShowWindow(window, SW_SHOW);
+
+            DWORD mode;
+            handle = GetStdHandle(STD_OUTPUT_HANDLE);
+            GetConsoleMode(handle, &mode);
+            mode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING; 
+            SetConsoleMode(handle, mode);
+
+            window = GetConsoleWindow(); 
+            ShowWindow(window, SW_SHOW); 
         }
         SetWindowPos(
             window, 

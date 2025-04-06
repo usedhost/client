@@ -2,6 +2,7 @@
 
 void init() {
 	logger::init();
+	logger::info("loaded selaura");
 }
 
 #ifdef _WIN32
