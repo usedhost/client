@@ -29,6 +29,4 @@ target_include_directories(Selaura PRIVATE
 add_library(MinHook SHARED IMPORTED GLOBAL)
 set_target_properties(MinHook PROPERTIES IMPORTED_IMPLIB "${CMAKE_CURRENT_SOURCE_DIR}/include/minhook/minhook.lib")
 
-target_precompile_headers(Selaura PRIVATE "src/pch.hpp")
-
 target_link_libraries(Selaura PUBLIC MinHook)
