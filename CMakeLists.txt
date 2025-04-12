@@ -52,4 +52,4 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(fmt entt typesafe bgfx)
 
-target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe bgfx)
+target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe)

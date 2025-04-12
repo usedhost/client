@@ -361,3 +361,15 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+CMakeFiles/
+.ninja_deps
+.ninja_lock
+*.dll
+*.lib
+*.obj
+.ninja_log
+*.ninja
+CMakeCache.txt
+*.cmake
+_deps/
