@@ -50,6 +50,18 @@ FetchContent_Declare(
     GIT_TAG        01dc8c59b4c70d1ad9ec3a33984cb98b2c07777a
 )
 
-FetchContent_MakeAvailable(fmt entt typesafe bgfx)
+FetchContent_Declare(
+        libhat
+        GIT_REPOSITORY https://github.com/BasedInc/libhat.git
+        GIT_TAG        master
+)
 
-target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe)
+FetchContent_Declare(
+        magic_enum
+        GIT_REPOSITORY https://github.com/Neargye/magic_enum.git
+        GIT_TAG        master
+)
+
+FetchContent_MakeAvailable(fmt entt typesafe bgfx libhat magic_enum)
+
+target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat)
