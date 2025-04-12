@@ -38,7 +38,30 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 #endif
 
 #ifdef PLATFORM_LINUX
-extern "C" [[gnu::visibility("default")]] void mod_preinit() {}
+extern "C" [[gnu::visibility("default")]] void mod_preinit() {
+    // credits to: https://github.com/CrackedMatter/mcpelauncher-zoom/blob/main/src/main.cpp
+    auto gameWindowLib = dlopen("libmcpelauncher_gamewindow.so", 0);
+
+    getPrimaryWindow = reinterpret_cast<decltype(getPrimaryWindow)>(dlsym(gwLib, "game_window_get_primary_window"));
+    isMouseLocked = reinterpret_cast<decltype(isMouseLocked)>(dlsym(gwLib, "game_window_is_mouse_locked"));
+    addKeyboardCallback = reinterpret_cast<decltype(addKeyboardCallback)>(dlsym(gwLib, "game_window_add_keyboard_callback"));
+    addMouseButtonCallback = reinterpret_cast<decltype(addMouseButtonCallback)>(dlsym(gwLib, "game_window_add_mouse_button_callback"));
+    addMousePositionCallback = reinterpret_cast<decltype(addMouseButtonCallback)>(dlsym(gwLib, "game_window_add_mouse_position_callback"));
+    addMouseScrollCallback = reinterpret_cast<decltype(addMouseScrollCallback)>(dlsym(gwLib, "game_window_add_mouse_scroll_callback"));
+    addWindowCreationCallback = reinterpret_cast<decltype(addWindowCreationCallback)>(dlsym(gwLib, "game_window_add_window_creation_callback"));
+
+    auto menuLib = dlopen("libmcpelauncher_menu.so", 0);
+
+    addMenu = reinterpret_cast<decltype(addMenu)>(dlsym(menuLib, "mcpelauncher_addmenu"));
+    showWindow = reinterpret_cast<decltype(showWindow)>(dlsym(menuLib, "mcpelauncher_show_window"));
+    closeWindow = reinterpret_cast<decltype(closeWindow)>(dlsym(menuLib, "mcpelauncher_close_window"));
+
+    addWindowCreationCallback(nullptr, [](void*) {
+        g_window = getPrimaryWindow();
+        //addKeyboardCallback(g_window, nullptr, onKeyboard);
+        //addMouseScrollCallback(g_window, nullptr, onMouseScroll);
+    });
+}
 
 extern "C" [[gnu::visibility("default")]] void mod_init() {
     static std::span<std::byte> game_bytes;
