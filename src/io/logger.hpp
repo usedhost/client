@@ -4,14 +4,14 @@
 #include <fstream>
 #include <filesystem>
 #include <string>
+#include <fmt/base.h>
+#include <fmt/color.h>
+#include <fmt/format.h>
 
 #ifdef _WIN32
 #include <winrt/Windows.UI.Core.h>
 #include <winrt/Windows.Storage.h>
 #include <Windows.h>
-#include <fmt/base.h>
-#include <fmt/color.h>
-#include <fmt/format.h>
 
 namespace console {
     extern HANDLE handle;
@@ -23,13 +23,14 @@ namespace console {
     void resize();
     void updateDimensions(std::string string);
 }
+#else
+#include <android/log.h>
 #endif
 
 namespace logger {
     extern std::ofstream logs;
-#ifdef _WIN32
     extern std::filesystem::path path;
-#endif
+
     void clear();
     void init();
 
@@ -39,6 +40,7 @@ namespace logger {
         logs.open(path, std::ios::app);
         logs << "[" << prefix << "] " << msg << std::endl;
         logs.close();
+#ifdef _WIN32
         fmt::print("{}{}{} {}\n",
             fmt::format(fmt::fg(fmt::color::gray), "["),
             fmt::format(color, fmt::runtime(prefix)),
@@ -48,6 +50,9 @@ namespace logger {
 
         console::updateDimensions(msg);
         console::resize();
+#else
+        __android_log_print(ANDROID_LOG_INFO, "SELAURA", "[%s] %s", prefix, msg);
+#endif
     }
 
     void info(const std::string& fmt, auto&&... args) {

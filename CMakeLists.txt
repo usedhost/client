@@ -62,17 +62,22 @@ FetchContent_Declare(
 )
 
 FetchContent_Declare(
-        libhat
-        GIT_REPOSITORY https://github.com/BasedInc/libhat.git
-        GIT_TAG        master
+    libhat
+    GIT_REPOSITORY https://github.com/BasedInc/libhat.git
+    GIT_TAG        master
 )
 
 FetchContent_Declare(
-        magic_enum
-        GIT_REPOSITORY https://github.com/Neargye/magic_enum.git
-        GIT_TAG        master
+    magic_enum
+    GIT_REPOSITORY https://github.com/Neargye/magic_enum.git
+    GIT_TAG        master
 )
 
 FetchContent_MakeAvailable(fmt entt typesafe bgfx libhat magic_enum)
 
 target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat)
+
+if (!MSVC)
+    find_library(log-lib log)
+    target_link_libraries(Selaura PRIVATE ${log-lib})
+endif()

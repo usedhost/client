@@ -10,6 +10,8 @@ namespace logger {
     std::ofstream logs;
 #ifdef _WIN32
     std::filesystem::path path = (std::filesystem::path)(winrt::Windows::Storage::ApplicationData::Current().RoamingFolder().Path().c_str()) / "selaura" / "logs.txt";
+#else
+    std::filesystem::path path("/data/data/selaura/logs.txt");
 #endif
     void clear() {
         logs.open(path);

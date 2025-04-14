@@ -17,7 +17,9 @@
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved);
 #endif
 
-#ifdef PLATFORM_LINUX
+// #ifdef PLATFORM_LINUX
+#include <dlfcn.h>
+#include <link.h>
 
 struct MenuEntryABI {
     const char* name;
@@ -75,6 +77,8 @@ inline void* g_window;
 inline void* (*getPrimaryWindow)();
 inline bool (*isMouseLocked)(void* handle);
 inline void (*addKeyboardCallback)(void* handle, void* user, bool (*callback)(void* user, int keyCode, int action));
+// inline void (*addMouseButtonCallback)(void* handle, void* user, bool(*callback)(void* user, int button, bool down)); // TODO
+// inline void (*addMousePositionCallback)(void* handle, void* user, bool(*callback)(void* user, int ); // TODO
 inline void (*addMouseScrollCallback)(void* handle, void* user, bool (*callback)(void* user, double x, double y, double dx, double dy));
 inline void (*addWindowCreationCallback)(void* user, void (*onCreated)(void* user));
 inline void (*addMenu)(size_t length, MenuEntryABI* entries);
@@ -83,4 +87,4 @@ inline void (*closeWindow)(const char* title);
 
 extern "C" [[gnu::visibility("default")]] void mod_preinit();
 extern "C" [[gnu::visibility("default")]] void mod_init();
-#endif
+// #endif
