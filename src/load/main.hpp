@@ -77,8 +77,8 @@ inline void* g_window;
 inline void* (*getPrimaryWindow)();
 inline bool (*isMouseLocked)(void* handle);
 inline void (*addKeyboardCallback)(void* handle, void* user, bool (*callback)(void* user, int keyCode, int action));
-// inline void (*addMouseButtonCallback)(void* handle, void* user, bool(*callback)(void* user, int button, bool down)); // TODO
-// inline void (*addMousePositionCallback)(void* handle, void* user, bool(*callback)(void* user, int ); // TODO
+inline bool (*addMouseButtonCallback)(void* handle, void* user, bool (*hook)(void* user, double x, double y, int button, int action));
+inline bool (*addMousePositionCallback)(void* handle, void* user, bool (*hook)(void* user, double x, double y, bool relative));
 inline void (*addMouseScrollCallback)(void* handle, void* user, bool (*callback)(void* user, double x, double y, double dx, double dy));
 inline void (*addWindowCreationCallback)(void* user, void (*onCreated)(void* user));
 inline void (*addMenu)(size_t length, MenuEntryABI* entries);

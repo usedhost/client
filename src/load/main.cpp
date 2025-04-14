@@ -44,8 +44,8 @@ extern "C" [[gnu::visibility("default")]] void mod_preinit() {
     getPrimaryWindow = reinterpret_cast<decltype(getPrimaryWindow)>(dlsym(gwLib, "game_window_get_primary_window"));
     isMouseLocked = reinterpret_cast<decltype(isMouseLocked)>(dlsym(gwLib, "game_window_is_mouse_locked"));
     addKeyboardCallback = reinterpret_cast<decltype(addKeyboardCallback)>(dlsym(gwLib, "game_window_add_keyboard_callback"));
-    // addMouseButtonCallback = reinterpret_cast<decltype(addMouseButtonCallback)>(dlsym(gwLib, "game_window_add_mouse_button_callback"));
-    // addMousePositionCallback = reinterpret_cast<decltype(addMousePositionCallback)>(dlsym(gwLib, "game_window_add_mouse_position_callback"));
+    addMouseButtonCallback = reinterpret_cast<decltype(addMouseButtonCallback)>(dlsym(gwLib, "game_window_add_mouse_button_callback"));
+    addMousePositionCallback = reinterpret_cast<decltype(addMousePositionCallback)>(dlsym(gwLib, "game_window_add_mouse_position_callback"));
     addMouseScrollCallback = reinterpret_cast<decltype(addMouseScrollCallback)>(dlsym(gwLib, "game_window_add_mouse_scroll_callback"));
     addWindowCreationCallback = reinterpret_cast<decltype(addWindowCreationCallback)>(dlsym(gwLib, "game_window_add_window_creation_callback"));
 
