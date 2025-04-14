@@ -1,9 +1,9 @@
 #pragma once
 
 #if defined(__unix__) || defined(__APPLE__)
-#if !defined(__ANDROID__)
+//#if !defined(__ANDROID__)
 #define PLATFORM_LINUX
-#endif
+//#endif
 #endif
 
 #include <thread>
@@ -17,7 +17,7 @@
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved);
 #endif
 
-// #ifdef PLATFORM_LINUX
+#ifdef PLATFORM_LINUX
 #include <dlfcn.h>
 #include <link.h>
 
@@ -87,4 +87,4 @@ inline void (*closeWindow)(const char* title);
 
 extern "C" [[gnu::visibility("default")]] void mod_preinit();
 extern "C" [[gnu::visibility("default")]] void mod_init();
-// #endif
+#endif

@@ -36,7 +36,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 }
 #endif
 
-// #ifdef PLATFORM_LINUX
+#ifdef PLATFORM_LINUX
 extern "C" [[gnu::visibility("default")]] void mod_preinit() {
     // credits to: https://github.com/CrackedMatter/mcpelauncher-zoom/blob/main/src/main.cpp
     auto gwLib = dlopen("libmcpelauncher_gamewindow.so", 0);
@@ -83,4 +83,4 @@ extern "C" [[gnu::visibility("default")]] void mod_init() {
         init(game_bytes);
     // }).detach();
 }
-// #endif
+#endif
