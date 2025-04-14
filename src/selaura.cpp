@@ -11,7 +11,7 @@ selaura::selaura(std::span<std::byte> bytes) {
 
 void selaura::init(std::span<std::byte> bytes) {
 	std::call_once(init_flag, [&] {
-		instance = std::make_unique<selaura>(bytes);
+		instance = std::unique_ptr<selaura>(new selaura(bytes));
 	});
 }
 

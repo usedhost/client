@@ -1,9 +1,9 @@
 #pragma once
 
 #if defined(__unix__) || defined(__APPLE__)
-#if !defined(__ANDROID__)
+//#if !defined(__ANDROID__)
 #define PLATFORM_LINUX
-#endif
+//#endif
 #endif
 
 #include <thread>
@@ -18,6 +18,8 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved);
 #endif
 
 #ifdef PLATFORM_LINUX
+#include <dlfcn.h>
+#include <link.h>
 
 struct MenuEntryABI {
     const char* name;
@@ -75,6 +77,8 @@ inline void* g_window;
 inline void* (*getPrimaryWindow)();
 inline bool (*isMouseLocked)(void* handle);
 inline void (*addKeyboardCallback)(void* handle, void* user, bool (*callback)(void* user, int keyCode, int action));
+inline bool (*addMouseButtonCallback)(void* handle, void* user, bool (*hook)(void* user, double x, double y, int button, int action));
+inline bool (*addMousePositionCallback)(void* handle, void* user, bool (*hook)(void* user, double x, double y, bool relative));
 inline void (*addMouseScrollCallback)(void* handle, void* user, bool (*callback)(void* user, double x, double y, double dx, double dy));
 inline void (*addWindowCreationCallback)(void* user, void (*onCreated)(void* user));
 inline void (*addMenu)(size_t length, MenuEntryABI* entries);

@@ -39,13 +39,13 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 #ifdef PLATFORM_LINUX
 extern "C" [[gnu::visibility("default")]] void mod_preinit() {
     // credits to: https://github.com/CrackedMatter/mcpelauncher-zoom/blob/main/src/main.cpp
-    auto gameWindowLib = dlopen("libmcpelauncher_gamewindow.so", 0);
+    auto gwLib = dlopen("libmcpelauncher_gamewindow.so", 0);
 
     getPrimaryWindow = reinterpret_cast<decltype(getPrimaryWindow)>(dlsym(gwLib, "game_window_get_primary_window"));
     isMouseLocked = reinterpret_cast<decltype(isMouseLocked)>(dlsym(gwLib, "game_window_is_mouse_locked"));
     addKeyboardCallback = reinterpret_cast<decltype(addKeyboardCallback)>(dlsym(gwLib, "game_window_add_keyboard_callback"));
     addMouseButtonCallback = reinterpret_cast<decltype(addMouseButtonCallback)>(dlsym(gwLib, "game_window_add_mouse_button_callback"));
-    addMousePositionCallback = reinterpret_cast<decltype(addMouseButtonCallback)>(dlsym(gwLib, "game_window_add_mouse_position_callback"));
+    addMousePositionCallback = reinterpret_cast<decltype(addMousePositionCallback)>(dlsym(gwLib, "game_window_add_mouse_position_callback"));
     addMouseScrollCallback = reinterpret_cast<decltype(addMouseScrollCallback)>(dlsym(gwLib, "game_window_add_mouse_scroll_callback"));
     addWindowCreationCallback = reinterpret_cast<decltype(addWindowCreationCallback)>(dlsym(gwLib, "game_window_add_window_creation_callback"));
 
@@ -79,8 +79,8 @@ extern "C" [[gnu::visibility("default")]] void mod_init() {
         return 0;
         }, dlopen("libminecraftpe.so", 0));
 
-    std::thread([=]() {
+    // std::thread([=]() {
         init(game_bytes);
-    }).detach();
+    // }).detach();
 }
 #endif
