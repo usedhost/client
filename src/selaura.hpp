@@ -11,6 +11,7 @@
 #include <optional>
 #include <string>
 #include <format>
+#include <mutex>
 
 #include <libhat/scanner.hpp>
 
@@ -43,14 +44,15 @@ public:
 
 private:
 	explicit selaura(std::span<std::byte> bytes);
-	static selaura*& instance_ptr();
 
 	std::span<std::byte> game_bytes;
-
 	std::unordered_map<std::type_index, std::unique_ptr<void, void(*)(void*)>> services;
 
 	template<typename T>
 	static void deleter(void* ptr) {
 		delete static_cast<T*>(ptr);
 	}
+
+	static std::unique_ptr<selaura> instance;
+	static std::once_flag init_flag;
 };

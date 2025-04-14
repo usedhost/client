@@ -1,7 +1,7 @@
 #include "main.hpp"
 
 void init(std::span<std::byte> bytes) {
-    selaura::get(bytes);
+    selaura::init(bytes);
 }
 
 #ifdef _WIN32
