@@ -10,8 +10,10 @@
 #include <string_view>
 #include <optional>
 #include <string>
-#include <format>
 #include <mutex>
+
+#define FMT_HEADER_ONLY
+#include <fmt/format.h>
 
 #include <libhat/scanner.hpp>
 
