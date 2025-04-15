@@ -79,8 +79,6 @@ extern "C" [[gnu::visibility("default")]] void mod_init() {
         return 0;
         }, dlopen("libminecraftpe.so", 0));
 
-    // std::thread([=]() {
-        init(game_bytes);
-    // }).detach();
+    init(game_bytes);
 }
 #endif
