@@ -4,9 +4,7 @@ std::unique_ptr<selaura> selaura::instance;
 std::once_flag selaura::init_flag;
 
 selaura::selaura(std::span<std::byte> bytes) {
-	this->game_bytes = bytes;
-
-	
+	this->game_bytes = bytes;	
 }
 
 void selaura::init(std::span<std::byte> bytes) {
@@ -15,10 +13,10 @@ void selaura::init(std::span<std::byte> bytes) {
 	});
 }
 
-selaura& selaura::get() {
+std::unique_ptr<selaura> selaura::get() {
 	if (!instance)
 		throw std::runtime_error("selaura not initialized");
-	return *instance;
+	return instance;
 }
 
 std::optional<uintptr_t> selaura::find_pattern(std::string_view signature) {

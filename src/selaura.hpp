@@ -18,7 +18,7 @@
 class selaura {
 public:
 	static void init(std::span<std::byte> bytes);
-	static selaura& get();
+	static std::unique_ptr<selaura> get();
 
 	static std::optional<uintptr_t> find_pattern(std::string_view pattern);
 
