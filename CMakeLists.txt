@@ -73,9 +73,21 @@ FetchContent_Declare(
     GIT_TAG        master
 )
 
+macro(SET_OPTION option value)
+    set(${option} ${value} CACHE INTERNAL "" FORCE)
+endmacro()
+SET_OPTION(DOBBY_DEBUG OFF)
+SET_OPTION(DOBBY_GENERATE_SHARED OFF)
+
+FetchContent_Declare(
+    dobby
+    GIT_REPOSITORY https://github.com/jmpews/Dobby.git
+    GIT_TAG b0176de
+)
+
 FetchContent_MakeAvailable(fmt entt typesafe bgfx libhat magic_enum)
 
-target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat)
+target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat dobby_static)
 
 if (!MSVC)
     find_library(log-lib log)

@@ -17,6 +17,8 @@
 
 class selaura {
 public:
+	explicit selaura(std::span<std::byte> bytes);
+
 	static void init(std::span<std::byte> bytes);
 	static selaura& get();
 
@@ -43,8 +45,6 @@ public:
 	std::span<std::byte> get_bytes() const { return game_bytes; }
 
 private:
-	explicit selaura(std::span<std::byte> bytes);
-
 	std::span<std::byte> game_bytes;
 	std::unordered_map<std::type_index, std::unique_ptr<void, void(*)(void*)>> services;
 
@@ -53,6 +53,6 @@ private:
 		delete static_cast<T*>(ptr);
 	}
 
-	static selaura& instance;
+	static std::unique_ptr<selaura> instance;
 	static std::once_flag init_flag;
 };
