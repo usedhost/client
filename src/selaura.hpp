@@ -16,6 +16,7 @@
 #include <fmt/format.h>
 
 #include <libhat/scanner.hpp>
+#include <dobby.h>
 
 class selaura {
 public:
