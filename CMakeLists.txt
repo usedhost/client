@@ -1,6 +1,8 @@
 include(FetchContent)
 set(CMAKE_CXX_STANDARD 20)
 cmake_minimum_required(VERSION 3.5.0)
+cmake_policy(SET CMP0169 OLD)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 project(Selaura)
 
@@ -39,6 +41,15 @@ target_include_directories(Selaura PRIVATE
     "include"
 )
 
+if(MSVC)
+    add_compile_options(/bigobj /utf-8 /O2 /Oi /Gy /Gw /GF /fp:fast /Gd /MT /Ob2)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MT")
+else()
+    add_compile_options(-fvisibility=hidden -fPIC -fno-stack-check)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -O3")
+endif()
+
+
 
 FetchContent_Declare(
     fmt
@@ -73,22 +84,15 @@ FetchContent_Declare(
     GIT_TAG        master
 )
 
-
-macro(SET_OPTION option value)
-    set(${option} ${value} CACHE INTERNAL "" FORCE)
-endmacro()
-SET_OPTION(DOBBY_DEBUG OFF)
-SET_OPTION(DOBBY_GENERATE_SHARED OFF)
-
 FetchContent_Declare(
-    Dobby
-    GIT_REPOSITORY https://github.com/jmpews/Dobby.git
-    GIT_TAG master
+    safetyhook
+    GIT_REPOSITORY https://github.com/cursey/safetyhook.git
+    GIT_TAG main
 )
 
-FetchContent_MakeAvailable(fmt entt typesafe bgfx libhat magic_enum Dobby)
+FetchContent_MakeAvailable(fmt entt typesafe bgfx libhat magic_enum safetyhook)
 
-target_link_libraries(Selaura PRIVATE dobby_static fmt::fmt EnTT::EnTT type_safe libhat)
+target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat safetyhook)
 
 if (!MSVC)
     find_library(log-lib log)

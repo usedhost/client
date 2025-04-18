@@ -12,11 +12,18 @@
 #include <string>
 #include <mutex>
 
+#ifdef _WIN32
+#include <winrt/base.h>
+#include <winrt/Windows.UI.ViewManagement.h>
+#include <winrt/Windows.ApplicationModel.Core.h>
+#include <winrt/Windows.UI.Core.h>
+#endif
+
 #define FMT_HEADER_ONLY
 #include <fmt/format.h>
 
 #include <libhat/scanner.hpp>
-#include <dobby.h>
+#include <safetyhook.hpp>
 
 class selaura {
 public:
@@ -25,7 +32,7 @@ public:
 	static void init(std::span<std::byte> bytes);
 	static selaura& get();
 
-	static std::optional<uintptr_t> find_pattern(std::string_view pattern);
+	std::optional<uintptr_t> find_pattern(std::string_view pattern);
 
 	template <typename T>
 	static T& get_service() {
