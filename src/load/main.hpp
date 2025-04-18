@@ -10,6 +10,7 @@
 #include <span>
 #include <cstddef>
 #include "../selaura.hpp"
+#include "../memory/memory_handler.hpp"
 
 #ifdef _WIN32
 #include <Windows.h>

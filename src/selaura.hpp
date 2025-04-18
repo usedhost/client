@@ -19,20 +19,15 @@
 #include <winrt/Windows.UI.Core.h>
 #endif
 
-#define FMT_HEADER_ONLY
-#include <fmt/format.h>
-
-#include <libhat/scanner.hpp>
+#include "memory/memory_handler.hpp"
 #include <safetyhook.hpp>
 
 class selaura {
 public:
-	explicit selaura(std::span<std::byte> bytes);
+	explicit selaura();
 
-	static void init(std::span<std::byte> bytes);
+	static void init();
 	static selaura& get();
-
-	std::optional<uintptr_t> find_pattern(std::string_view pattern);
 
 	template <typename T>
 	static T& get_service() {
