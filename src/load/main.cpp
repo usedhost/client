@@ -2,7 +2,7 @@
 
 void init(std::span<std::byte> bytes) {
     memory_handler::init(bytes);
-    selaura::init();
+    new (selauraBuffer) selaura();
 }
 
 #ifdef _WIN32
