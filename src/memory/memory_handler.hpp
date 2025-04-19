@@ -14,12 +14,41 @@
 #include <safetyhook.hpp>
 #include <libhat/scanner.hpp>
 
+struct hook_info {
+	std::string name;
+	uintptr_t address;
+	safetyhook::InlineHook hook;
+
+	std::function<void()> remover;
+};
+
 class memory_handler {
 public:
 	static void init(std::span<std::byte> mem);
 
 	static std::optional<uintptr_t> find_pattern(std::string_view pattern);
 	static std::optional<uintptr_t> find_patterns(const std::vector<std::string_view>& patterns);
+
+	static std::optional<hook_info*> get_hook(const std::string& name);
+	static bool remove_hook(const std::string& name);
+
+	template <typename HookFn>
+	static std::optional<hook_info*> add_hook(const std::string& name, std::optional<uintptr_t> pattern, HookFn&& fn) {
+		if (hooks.contains(name))
+			return std::nullopt;
+
+		if (!pattern.has_value())
+			return std::nullopt;
+
+		auto hook = safetyhook::create_inline(pattern.value(), std::forward<HookFn>(fn));
+		auto [it, _] = hooks.emplace(name, hook_info{
+			.name = name,
+			.address = pattern.value(),
+			.hook = std::move(hook),
+			});
+
+		return &it->second;
+	}
 
 	template<typename Fn, typename Inst, typename... Args>
 	static decltype(auto) call_member(Inst* instance, uintptr_t addr, Args&&... args) {
@@ -36,6 +65,7 @@ public:
 
 private:
 	static std::span<std::byte> mem;
+	static inline std::unordered_map<std::string, hook_info> hooks;
 
 	struct details {
 		template<typename>
