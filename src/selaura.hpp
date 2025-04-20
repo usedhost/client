@@ -23,16 +23,18 @@
 #define FMT_HEADER_ONLY
 #include <fmt/format.h>
 
+#include "event/event_handler.hpp"
 #include "memory/memory_handler.hpp"
 #include <safetyhook.hpp>
 
 class selaura {
 public:
 	explicit selaura();
-
 	static selaura& get();
+	
+	event_handler::dispatcher& get_dispatcher();
 private:
-
+	event_handler::dispatcher dispatcher;
 };
 
 extern char selauraBuffer[sizeof(selaura)];

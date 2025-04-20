@@ -41,7 +41,9 @@ bool memory_handler::remove_hook(const std::string& name) {
 	if (it == hooks.end())
 		return false;
 
-	it->second.hook.reset();
+	if (it->second.remover)
+		it->second.remover();
+
 	hooks.erase(it);
 	return true;
 }

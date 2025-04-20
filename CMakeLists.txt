@@ -30,7 +30,6 @@ else()
     endif()
 endif()
 
-
 file(GLOB_RECURSE SOURCE "src/*.cpp" "src/*.hpp")
 file(GLOB_RECURSE LIB "include/*.cpp" "include/*.h")
 
@@ -49,11 +48,9 @@ else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -O3")
 endif()
 
-
-
 FetchContent_Declare(
     fmt
-     GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+    GIT_REPOSITORY https://github.com/fmtlib/fmt.git
     GIT_TAG        master
 )
 FetchContent_Declare(
@@ -71,28 +68,44 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/bkaradzic/bgfx.git
     GIT_TAG        01dc8c59b4c70d1ad9ec3a33984cb98b2c07777a
 )
-
 FetchContent_Declare(
     libhat
     GIT_REPOSITORY https://github.com/BasedInc/libhat.git
     GIT_TAG        master
 )
-
 FetchContent_Declare(
     magic_enum
     GIT_REPOSITORY https://github.com/Neargye/magic_enum.git
     GIT_TAG        master
 )
 
-FetchContent_Declare(
-    safetyhook
-    GIT_REPOSITORY https://github.com/cursey/safetyhook.git
-    GIT_TAG main
-)
+if (MSVC)
+    FetchContent_Declare(
+        safetyhook
+        GIT_REPOSITORY https://github.com/cursey/safetyhook.git
+        GIT_TAG main
+    )
+else()
+    FetchContent_Declare(
+        Dobby
+        GIT_REPOSITORY https://github.com/selauraclient/Dobby.git
+        GIT_TAG master
+    )
+endif()
 
-FetchContent_MakeAvailable(fmt entt typesafe bgfx libhat magic_enum safetyhook)
+if (MSVC)
+    FetchContent_MakeAvailable(fmt entt typesafe bgfx libhat magic_enum safetyhook)
+else()
+    FetchContent_MakeAvailable(fmt entt typesafe bgfx libhat magic_enum Dobby)
+endif()
 
-target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat safetyhook)
+target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat magic_enum)
+
+if (MSVC)
+    target_link_libraries(Selaura PRIVATE safetyhook)
+else()
+    target_link_libraries(Selaura PRIVATE Dobby)
+endif()
 
 if (!MSVC)
     find_library(log-lib log)
