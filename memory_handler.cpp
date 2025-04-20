@@ -27,3 +27,23 @@ std::optional<uintptr_t> memory_handler::find_patterns(const std::vector<std::st
 	}
 	return std::nullopt;
 }
+
+std::optional<hook_info*> memory_handler::get_hook(const std::string& name) {
+	auto it = hooks.find(name);
+	if (it != hooks.end()) {
+		return &it->second;
+	}
+	return std::nullopt;
+}
+
+bool memory_handler::remove_hook(const std::string& name) {
+	auto it = hooks.find(name);
+	if (it == hooks.end())
+		return false;
+
+	if (it->second.remover)
+		it->second.remover();
+
+	hooks.erase(it);
+	return true;
+}

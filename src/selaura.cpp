@@ -13,10 +13,10 @@ struct Test {
 
 selaura::selaura() {
 	static auto sig = memory_handler::find_pattern({
-		"? ? ? ? ? ? ? 48 89 ? ? 57 48 81 EC ? ? ? ? 0F 29 ? ? 0F 29 ? ? 44 0F ? ? ? 44 0F ? ? ? 48 8B ? ? ? ? ? 48 33 ? 48 89 ? ? ? 41 0F"
+		"48 83 EC 28 80 B9 C8 18 00 00 00 48 8D 54 24 30 48 8B 01 48 8B 40 60 74 38 41 B8 1A"
 	});
-	memory_handler::add_hook("FOV", sig, +[](void* a1, float a2, void* a3, void* a4) -> float {
-		return 30;
+	hook = safetyhook::create_inline(sig.value(), +[](void* a1) -> float {
+		return 25;
 	});
 }
 
