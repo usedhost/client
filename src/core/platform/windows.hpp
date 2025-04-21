@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include <Psapi.h>
 
+#include <byte>
 #include <span>
 #include <string>
 #include <stdexcept>
