@@ -38,11 +38,12 @@ namespace selaura::detail {
 		return get_module_info().SizeOfImage;
 	}
 
-	static std::span<std::byte> get_game_memory() {
+	std::span<std::byte> get_game_memory() {
 		static std::span<std::byte> memory = {
 			selaura::detail::get_module_base(),
 			selaura::detail::get_module_size()
 		};
+		return memory;
 	};
 };
 

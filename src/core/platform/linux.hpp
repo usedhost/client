@@ -62,5 +62,14 @@ namespace selaura::detail {
 		get_module_info(base, size);
 		return size;
 	}
+
+	std::span<std::byte> get_game_memory() {
+		static std::span<std::byte> memory = {
+			selaura::detail::get_module_base(),
+			selaura::detail::get_module_size()
+		};
+		return memory;
+	};
+
 };
 #endif
