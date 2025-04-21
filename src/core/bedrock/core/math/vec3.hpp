@@ -5,5 +5,6 @@ namespace selaura::bedrock {
 	public:
 		float x;
 		float y;
+		float z;
 	};
 };
