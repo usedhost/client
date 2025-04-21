@@ -14,6 +14,7 @@
 
 namespace selaura::bedrock {
 	class Player : public Mob {
+		/*
 		Player(
 			class Level&,
 			class PacketSender& PacketSender,
@@ -29,5 +30,6 @@ namespace selaura::bedrock {
 			std::string const& platformId,
 			std::string const& platformOnlineId
 		);
+		*/
 	};
 };
