@@ -64,11 +64,6 @@ FetchContent_Declare(
     GIT_TAG        cdf334cd8e5fcb5e21ab470decdfcbd190ef7347
 )
 FetchContent_Declare(
-    bgfx
-    GIT_REPOSITORY https://github.com/bkaradzic/bgfx.git
-    GIT_TAG        01dc8c59b4c70d1ad9ec3a33984cb98b2c07777a
-)
-FetchContent_Declare(
     libhat
     GIT_REPOSITORY https://github.com/BasedInc/libhat.git
     GIT_TAG        master
@@ -94,9 +89,9 @@ else()
 endif()
 
 if (MSVC)
-    FetchContent_MakeAvailable(fmt entt typesafe bgfx libhat magic_enum safetyhook)
+    FetchContent_MakeAvailable(fmt entt typesafe libhat magic_enum safetyhook)
 else()
-    FetchContent_MakeAvailable(fmt entt typesafe bgfx libhat magic_enum Dobby)
+    FetchContent_MakeAvailable(fmt entt typesafe libhat magic_enum Dobby)
 endif()
 
 target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat magic_enum)
