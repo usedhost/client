@@ -5,21 +5,19 @@
 #include <Psapi.h>
 
 #include <span>
-#include <byte>
 #include <string>
 #include <stdexcept>
 
 namespace selaura::detail {
-	using game_memory = std::span<std::byte>;
-
-	HMODULE get_module_handle(std::string_view name) {
-		auto* module = GetModuleHandleA(name.data());
-		if (!module) throw std::runtimeerror("GetModuleHandleA failed.");
+	HMODULE get_module_handle(std::wstring_view name) {
+		std::wstring module_name(name);
+		auto* module = GetModuleHandleW(module_name.c_str());
+		if (!module) throw std::runtime_error("GetModuleHandleW failed.");
 		return module;
 	}
 
 	HMODULE get_module_handle() {
-		return get_module_handle("Minecraft.Windows.exe");
+		return get_module_handle(L"Minecraft.Windows.exe");
 	}
 
 	const MODULEINFO& get_module_info() {
@@ -39,6 +37,13 @@ namespace selaura::detail {
 	std::size_t get_module_size() {
 		return get_module_info().SizeOfImage;
 	}
+
+	static std::span<std::byte> get_game_memory() {
+		static std::span<std::byte> memory = {
+			selaura::detail::get_module_base(),
+			selaura::detail::get_module_size()
+		};
+	};
 };
 
 #endif

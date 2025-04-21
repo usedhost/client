@@ -1,10 +1,7 @@
 #include "main.hpp"
 
 void init() {
-	static std::span<std::byte> game_memory = {
-		selaura::detail::get_module_base(),
-		selaura::detail::get_module_size()
-	};
+	
 }
 
 #ifdef _WIN32
@@ -15,9 +12,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved) {
 		if (mc == nullptr) return FALSE;
 
 		DisableThreadLibraryCalls(mc);
-		std::thread([=]() {
-			init();
-		}).detach();
+		CloseHandle(CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)init, hModule, 0, nullptr));
 	}
 
 	return TRUE;
