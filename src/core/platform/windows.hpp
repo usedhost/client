@@ -7,6 +7,10 @@
 #include <span>
 #include <string>
 #include <stdexcept>
+#include <type_traits>
+
+#include <d3d11.h>
+#include <d3dcompiler.h>
 
 namespace selaura::detail {
 	HMODULE get_module_handle(std::wstring_view name) {
@@ -45,6 +49,20 @@ namespace selaura::detail {
 		};
 		return memory;
 	};
+
+	template <typename T, typename = std::enable_if_t<std::is_pointer_v<T>>>
+	inline constexpr void safe_release(T& ptr) {
+		if (ptr) {
+			if constexpr (std::is_base_of_v<IUnknown, typename std::remove_pointer_t<T>>) {
+				ptr->Release();
+			}
+			else {
+				delete ptr;
+			}
+			ptr = nullptr;
+		}
+	};
+
 };
 
 #endif

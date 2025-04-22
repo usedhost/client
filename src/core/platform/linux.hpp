@@ -71,5 +71,13 @@ namespace selaura::detail {
 		return memory;
 	};
 
+	template <typename T, typename = std::enable_if_t<std::is_pointer_v<T>>>
+	inline constexpr void safe_release(T& ptr) {
+		if (ptr) {
+			delete ptr;
+			ptr = nullptr;
+		}
+	}
+
 };
 #endif
