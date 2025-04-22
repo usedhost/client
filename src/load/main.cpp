@@ -1,9 +1,5 @@
 #include "main.hpp"
 
-void init() {
-	
-}
-
 #ifdef _WIN32
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved) {
 
@@ -12,7 +8,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved) {
 		if (mc == nullptr) return FALSE;
 
 		DisableThreadLibraryCalls(mc);
-		CloseHandle(CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)init, hModule, 0, nullptr));
+		CloseHandle(CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)selaura::init, hModule, 0, nullptr));
 	}
 
 	return TRUE;
@@ -25,6 +21,6 @@ extern "C" [[gnu::visibility("default")]] void mod_preinit() {
 }
 
 extern "C" [[gnu::visibility("default")]] void mod_init() {
-	init();
+	selaura::init();
 }
 #endif

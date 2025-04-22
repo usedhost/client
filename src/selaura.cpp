@@ -1,15 +1,8 @@
 #include "selaura.hpp"
 
-namespace selaura {
-	std::unique_ptr<instance> instance;
+std::unique_ptr<selaura::instance> selaura::inst;
 
-	bool init() {
-		instance = std::make_unique<instance>();
-		instance->start();
-		return true;
-	}
-
-	void shutdown() {
-		instance->shutdown();
-	}
+void selaura::init() {
+	inst = std::make_unique<selaura::instance>();
+	inst->start();
 }

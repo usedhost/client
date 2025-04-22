@@ -28,8 +28,8 @@ else()
         add_compile_definitions(BUILD_TYPE_DEBUG)
         add_compile_options(-O0 -g)
     endif()
-endif()
-
+endif() 
+ 
 file(GLOB_RECURSE SOURCE "src/*.cpp" "src/*.hpp")
 file(GLOB_RECURSE LIB "include/*.cpp" "include/*.h")
 

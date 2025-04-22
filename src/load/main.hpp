@@ -4,6 +4,8 @@
 
 #include "../selaura.hpp"
 
+void init();
+
 #ifdef _WIN32
 #include <Windows.h>
 

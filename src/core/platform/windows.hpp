@@ -3,7 +3,6 @@
 
 #include <Windows.h>
 #include <Psapi.h>
-
 #include <span>
 #include <string>
 #include <stdexcept>
@@ -13,56 +12,16 @@
 #include <d3dcompiler.h>
 
 namespace selaura::detail {
-	HMODULE get_module_handle(std::wstring_view name) {
-		std::wstring module_name(name);
-		auto* module = GetModuleHandleW(module_name.c_str());
-		if (!module) throw std::runtime_error("GetModuleHandleW failed.");
-		return module;
-	}
 
-	HMODULE get_module_handle() {
-		return get_module_handle(L"Minecraft.Windows.exe");
-	}
+    HMODULE get_module_handle(std::wstring_view name);
+    HMODULE get_module_handle();
+    const MODULEINFO& get_module_info();
+    std::byte* get_module_base();
+    std::size_t get_module_size();
+    std::span<std::byte> get_game_memory();
 
-	const MODULEINFO& get_module_info() {
-		static MODULEINFO mod_info = []() {
-			MODULEINFO mi{};
-			if (!GetModuleInformation(GetCurrentProcess(), get_module_handle(), &mi, sizeof(mi)))
-				throw std::runtime_error("GetModuleInformation failed.");
-			return mi;
-			}();
-		return mod_info;
-	}
+    template <typename T, typename = std::enable_if_t<std::is_pointer_v<T>>>
+    inline constexpr void safe_release(T& ptr);
 
-	std::byte* get_module_base() {
-		return reinterpret_cast<std::byte*>(get_module_info().lpBaseOfDll);
-	}
-
-	std::size_t get_module_size() {
-		return get_module_info().SizeOfImage;
-	}
-
-	std::span<std::byte> get_game_memory() {
-		static std::span<std::byte> memory = {
-			selaura::detail::get_module_base(),
-			selaura::detail::get_module_size()
-		};
-		return memory;
-	};
-
-	template <typename T, typename = std::enable_if_t<std::is_pointer_v<T>>>
-	inline constexpr void safe_release(T& ptr) {
-		if (ptr) {
-			if constexpr (std::is_base_of_v<IUnknown, typename std::remove_pointer_t<T>>) {
-				ptr->Release();
-			}
-			else {
-				delete ptr;
-			}
-			ptr = nullptr;
-		}
-	};
-
-};
-
+}
 #endif

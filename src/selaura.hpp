@@ -8,8 +8,7 @@
 #include <memory>
 
 namespace selaura {
-	extern std::unique_ptr<instance> instance;
+	extern std::unique_ptr<selaura::instance> inst;
 
-	bool init();
-	void shutdown();
+	void init();
 };
