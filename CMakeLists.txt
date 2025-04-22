@@ -1,5 +1,5 @@
 include(FetchContent)
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 cmake_minimum_required(VERSION 3.5.0)
 cmake_policy(SET CMP0169 OLD)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
