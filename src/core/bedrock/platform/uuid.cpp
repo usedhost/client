@@ -1,4 +1,6 @@
 #include "uuid.hpp"
+#include <iomanip>
+#include <sstream>
 
 namespace selaura::bedrock {
 	namespace mce {

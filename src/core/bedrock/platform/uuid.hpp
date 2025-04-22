@@ -2,6 +2,8 @@
 
 #include <cstdint>
 #include <string>
+#include <iomanip>
+#include <sstream>
 
 namespace selaura::bedrock {
 	namespace mce {

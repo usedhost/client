@@ -103,6 +103,6 @@ else()
 endif()
 
 if (!MSVC)
-    find_library(log-lib log)
+    find_library(log-lib log) 
     target_link_libraries(Selaura PRIVATE ${log-lib})
 endif()

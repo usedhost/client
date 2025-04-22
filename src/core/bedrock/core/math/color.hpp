@@ -1,5 +1,10 @@
 #pragma once
 
+#include <iomanip>
+#include <sstream>
+#include <string>
+#include <string_view>
+
 namespace selaura::bedrock {
 	namespace mce {
 		class Color {
