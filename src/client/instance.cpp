@@ -7,6 +7,8 @@ namespace selaura {
 	void instance::start() {
 		//this->dispatcher = std::make_unique<selaura::detail::dispatcher>();
 		
+		// use hat::process::get_module as its crossplatform now!
+
 		this->subscribe<test, &instance::func>();
 
 		test ev( 1 );

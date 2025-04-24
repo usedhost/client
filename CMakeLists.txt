@@ -73,26 +73,32 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/Neargye/magic_enum.git
     GIT_TAG        master
 )
+FetchContent_Declare(
+    imgui
+    GIT_REPOSITORY https://github.com/ocornut/imgui.git
+    GIT_TAG        features/shadows
+)
 
-if (MSVC)
-    FetchContent_Declare(
-        safetyhook
-        GIT_REPOSITORY https://github.com/cursey/safetyhook.git
-        GIT_TAG main
+FetchContent_GetProperties(imgui)
+
+if(NOT imgui_POPULATED)
+    FetchContent_Populate(imgui)
+    add_library(ImGui STATIC)
+    target_sources(ImGui PRIVATE
+        "${imgui_SOURCE_DIR}/imgui.cpp"
+        "${imgui_SOURCE_DIR}/imgui_demo.cpp"
+        "${imgui_SOURCE_DIR}/imgui_draw.cpp"
+        "${imgui_SOURCE_DIR}/imgui_tables.cpp"
+        "${imgui_SOURCE_DIR}/imgui_widgets.cpp"
+        "${imgui_SOURCE_DIR}/backends/imgui_impl_dx11.cpp"
+        "${imgui_SOURCE_DIR}/backends/imgui_impl_dx12.cpp"
+        "${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
     )
-else()
-    FetchContent_Declare(
-        Dobby
-        GIT_REPOSITORY https://github.com/selauraclient/Dobby.git
-        GIT_TAG master
-    )
+    target_include_directories(ImGui PUBLIC ${imgui_SOURCE_DIR})
+    target_link_libraries(ImGui PRIVATE d3d11 d3d12)
 endif()
 
-if (MSVC)
-    FetchContent_MakeAvailable(fmt entt typesafe libhat magic_enum safetyhook)
-else()
-    FetchContent_MakeAvailable(fmt entt typesafe libhat magic_enum Dobby)
-endif()
+FetchContent_MakeAvailable(fmt entt typesafe libhat magic_enum)
 
 target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat magic_enum)
 
