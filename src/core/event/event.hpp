@@ -22,11 +22,11 @@ namespace selaura::core {
 	class listener {
 	public:
 		template <class event, auto callback, typename Self> void subscribe(this Self& self) {
-			selaura::core::dispatcher<event>::sink.connect<callback>(self);
+			selaura::core::dispatcher<event>::sink.template connect<callback>(self);
 		}
 
 		template <class event, auto callback, typename Self> void unsubscribe(this Self& self) {
-			selaura::core::dispatcher<event>::sink.disconnect<callback>(self);
+			selaura::core::dispatcher<event>::sink.template disconnect<callback>(self);
 		}
 
 	};
