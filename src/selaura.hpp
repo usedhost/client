@@ -2,7 +2,6 @@
 
 #include "client/types.hpp"
 #include "client/instance.hpp"
-#include "core/platform/windows.hpp"
 
 #include <string>
 #include <memory>

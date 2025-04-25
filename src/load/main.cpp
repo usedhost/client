@@ -4,7 +4,7 @@
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved) {
 
 	if (dwReason == DLL_PROCESS_ATTACH) {
-		HMODULE mc = selaura::detail::get_module_handle();
+		HMODULE mc = GetModuleHandleA("Minecraft.Windows.exe");
 		if (mc == nullptr) return FALSE;
 
 		DisableThreadLibraryCalls(mc);

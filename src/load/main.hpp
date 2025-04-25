@@ -1,6 +1,4 @@
 #pragma once
-#include "../core/platform/windows.hpp"
-#include "../core/platform/linux.hpp"
 
 #include "../selaura.hpp"
 
