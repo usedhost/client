@@ -1,40 +1,13 @@
 #pragma once
 
-#include <thread>
-#include <span>
-#include <cstddef>
-#include <unordered_map>
-#include <typeindex>
-#include <memory>
-#include <stdexcept>
-#include <string_view>
-#include <optional>
-#include <new>
+#include "client/types.hpp"
+#include "client/instance.hpp"
+
 #include <string>
-#include <mutex>
+#include <memory>
 
-#ifdef _WIN32
-#include <winrt/base.h>
-#include <winrt/Windows.UI.ViewManagement.h>
-#include <winrt/Windows.ApplicationModel.Core.h>
-#include <winrt/Windows.UI.Core.h>
-#endif
+namespace selaura {
+	extern std::unique_ptr<selaura::instance> inst;
 
-#define FMT_HEADER_ONLY
-#include <fmt/format.h>
-
-#include "event/event_handler.hpp"
-#include "memory/memory_handler.hpp"
-#include <safetyhook.hpp>
-
-class selaura {
-public:
-	explicit selaura();
-	static selaura& get();
-	
-	event_handler::dispatcher& get_dispatcher();
-private:
-	event_handler::dispatcher dispatcher;
+	void init();
 };
-
-extern char selauraBuffer[sizeof(selaura)];

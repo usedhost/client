@@ -1,5 +1,5 @@
 include(FetchContent)
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 cmake_minimum_required(VERSION 3.5.0)
 cmake_policy(SET CMP0169 OLD)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -28,8 +28,8 @@ else()
         add_compile_definitions(BUILD_TYPE_DEBUG)
         add_compile_options(-O0 -g)
     endif()
-endif()
-
+endif() 
+ 
 file(GLOB_RECURSE SOURCE "src/*.cpp" "src/*.hpp")
 file(GLOB_RECURSE LIB "include/*.cpp" "include/*.h")
 
@@ -64,11 +64,6 @@ FetchContent_Declare(
     GIT_TAG        cdf334cd8e5fcb5e21ab470decdfcbd190ef7347
 )
 FetchContent_Declare(
-    bgfx
-    GIT_REPOSITORY https://github.com/bkaradzic/bgfx.git
-    GIT_TAG        01dc8c59b4c70d1ad9ec3a33984cb98b2c07777a
-)
-FetchContent_Declare(
     libhat
     GIT_REPOSITORY https://github.com/BasedInc/libhat.git
     GIT_TAG        master
@@ -78,36 +73,41 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/Neargye/magic_enum.git
     GIT_TAG        master
 )
+FetchContent_Declare(
+    LuaBridge
+    GIT_REPOSITORY https://github.com/kunitoki/LuaBridge3.git
+    GIT_TAG        master
+)
+FetchContent_Declare(
+    imgui
+    GIT_REPOSITORY https://github.com/ocornut/imgui.git
+    GIT_TAG        features/shadows
+)
 
-if (MSVC)
-    FetchContent_Declare(
-        safetyhook
-        GIT_REPOSITORY https://github.com/cursey/safetyhook.git
-        GIT_TAG main
+FetchContent_GetProperties(imgui)
+
+if(NOT imgui_POPULATED)
+    FetchContent_Populate(imgui)
+    add_library(ImGui STATIC)
+    target_sources(ImGui PRIVATE
+        "${imgui_SOURCE_DIR}/imgui.cpp"
+        "${imgui_SOURCE_DIR}/imgui_demo.cpp"
+        "${imgui_SOURCE_DIR}/imgui_draw.cpp"
+        "${imgui_SOURCE_DIR}/imgui_tables.cpp"
+        "${imgui_SOURCE_DIR}/imgui_widgets.cpp"
+        "${imgui_SOURCE_DIR}/backends/imgui_impl_dx11.cpp"
+        "${imgui_SOURCE_DIR}/backends/imgui_impl_dx12.cpp"
+        "${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
     )
-else()
-    FetchContent_Declare(
-        Dobby
-        GIT_REPOSITORY https://github.com/selauraclient/Dobby.git
-        GIT_TAG master
-    )
+    target_include_directories(ImGui PUBLIC ${imgui_SOURCE_DIR})
+    target_link_libraries(ImGui PRIVATE d3d11 d3d12)
 endif()
 
-if (MSVC)
-    FetchContent_MakeAvailable(fmt entt typesafe bgfx libhat magic_enum safetyhook)
-else()
-    FetchContent_MakeAvailable(fmt entt typesafe bgfx libhat magic_enum Dobby)
-endif()
+FetchContent_MakeAvailable(fmt entt typesafe libhat magic_enum LuaBridge)
 
-target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat magic_enum)
-
-if (MSVC)
-    target_link_libraries(Selaura PRIVATE safetyhook)
-else()
-    target_link_libraries(Selaura PRIVATE Dobby)
-endif()
+target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat magic_enum LuaBridge)
 
 if (!MSVC)
-    find_library(log-lib log)
+    find_library(log-lib log) 
     target_link_libraries(Selaura PRIVATE ${log-lib})
 endif()
