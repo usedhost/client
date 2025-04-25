@@ -38,6 +38,7 @@ add_library(Selaura SHARED "src/load/main.cpp" ${SOURCE} ${LIB})
 target_include_directories(Selaura PRIVATE
     "src"
     "include"
+    ${glm_SOURCE_DIR}
 )
 
 if(MSVC)
@@ -79,6 +80,12 @@ FetchContent_Declare(
     GIT_TAG        master
 )
 FetchContent_Declare(
+    glm
+    GIT_REPOSITORY https://github.com/g-truc/glm.git
+    GIT_TAG master
+)
+
+FetchContent_Declare(
     imgui
     GIT_REPOSITORY https://github.com/ocornut/imgui.git
     GIT_TAG        features/shadows
@@ -103,9 +110,9 @@ if(NOT imgui_POPULATED)
     target_link_libraries(ImGui PRIVATE d3d11 d3d12)
 endif()
 
-FetchContent_MakeAvailable(fmt entt typesafe libhat magic_enum LuaBridge)
+FetchContent_MakeAvailable(fmt entt typesafe libhat magic_enum LuaBridge glm)
 
-target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat magic_enum LuaBridge)
+target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat magic_enum LuaBridge glm)
 
 if (!MSVC)
     find_library(log-lib log) 
