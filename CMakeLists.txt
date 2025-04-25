@@ -102,19 +102,26 @@ if(NOT imgui_POPULATED)
         "${imgui_SOURCE_DIR}/imgui_draw.cpp"
         "${imgui_SOURCE_DIR}/imgui_tables.cpp"
         "${imgui_SOURCE_DIR}/imgui_widgets.cpp"
-        "${imgui_SOURCE_DIR}/backends/imgui_impl_dx11.cpp"
-        "${imgui_SOURCE_DIR}/backends/imgui_impl_dx12.cpp"
-        "${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
     )
+    if(MSVC)
+        target_sources(ImGui PRIVATE
+            "${imgui_SOURCE_DIR}/backends/imgui_impl_dx11.cpp"
+            "${imgui_SOURCE_DIR}/backends/imgui_impl_dx12.cpp"
+        )
+        target_link_libraries(ImGui PRIVATE d3d11 d3d12)
+    else()
+        target_sources(ImGui PRIVATE
+            "${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
+        )
+    endif()
     target_include_directories(ImGui PUBLIC ${imgui_SOURCE_DIR})
-    target_link_libraries(ImGui PRIVATE d3d11 d3d12)
 endif()
 
 FetchContent_MakeAvailable(fmt entt typesafe libhat magic_enum LuaBridge glm)
 
 target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat magic_enum LuaBridge glm)
 
-if (!MSVC)
-    find_library(log-lib log) 
-    target_link_libraries(Selaura PRIVATE ${log-lib})
+# ANDROID is true if using the Android NDK
+if (ANDROID)
+    target_link_libraries(Selaura PRIVATE log)
 endif()
