@@ -80,11 +80,15 @@ FetchContent_Declare(
     GIT_TAG        master
 )
 FetchContent_Declare(
+    cpp-i18n
+    GIT_REPOSITORY https://github.com/Sinan-Karakaya/cpp-i18n.git
+    GIT_TAG        main 
+)
+FetchContent_Declare(
     glm
     GIT_REPOSITORY https://github.com/g-truc/glm.git
     GIT_TAG master
 )
-
 FetchContent_Declare(
     imgui
     GIT_REPOSITORY https://github.com/ocornut/imgui.git
@@ -110,9 +114,10 @@ if(NOT imgui_POPULATED)
     target_link_libraries(ImGui PRIVATE d3d11 d3d12)
 endif()
 
-FetchContent_MakeAvailable(fmt entt typesafe libhat magic_enum LuaBridge glm)
+FetchContent_MakeAvailable(fmt entt typesafe libhat magic_enum LuaBridge glm cpp-i18n)
+target_include_directories(Selaura PRIVATE ${cpp-i18n_SOURCE_DIR}/include)
 
-target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat magic_enum LuaBridge glm)
+target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat magic_enum LuaBridge glm cpp-i18n)
 
 if (!MSVC)
     find_library(log-lib log) 

@@ -1,5 +1,7 @@
 #pragma once
 #include <memory>
+#include <cpp-i18n/Translator.hpp>
+
 #include "../core/event/event.hpp"
 #include "../core/io/logger.hpp"
 
@@ -15,6 +17,7 @@ namespace selaura {
 		void start();
 		void shutdown();
 	private:
+		i18n::Translator translator;
 		//std::unique_ptr<selaura::detail::logger> logger;
 	};
 };

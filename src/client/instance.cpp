@@ -8,6 +8,8 @@ namespace selaura {
 		//this->dispatcher = std::make_unique<selaura::detail::dispatcher>();
 		
 		// use hat::process::get_module as its crossplatform now!
+		i18n::LocaleConfig config;
+		this->translator = i18n::Translator(config);
 
 		this->subscribe<test, &instance::func>();
 
