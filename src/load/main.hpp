@@ -4,13 +4,13 @@
 
 void init();
 
-#ifdef _WIN32
+#ifdef SELAURA_WINDOWS
 #include <Windows.h>
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved);
 #endif
 
-#if defined(__unix__) || defined(__APPLE__)
+#ifdef SELAURA_LINUX
 #include <dlfcn.h>
 #include <link.h>
 

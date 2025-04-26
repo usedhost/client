@@ -1,6 +1,6 @@
 #include "main.hpp"
 
-#ifdef _WIN32
+#ifdef SELAURA_WINDOWS
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved) {
 
 	if (dwReason == DLL_PROCESS_ATTACH) {
@@ -15,7 +15,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved) {
 }
 #endif
 
-#if defined(__unix__) || defined(__APPLE__)
+#ifdef SELAURA_LINUX
 extern "C" [[gnu::visibility("default")]] void mod_preinit() {
     
 }

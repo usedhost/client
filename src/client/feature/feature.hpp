@@ -18,8 +18,7 @@ namespace selaura {
 
 	struct feature_setting {
 		std::string name;
-		std::any value;
-		feature_setting_type type;
+		feature_setting_type value;
 	};
 
 	template <hat::fixed_string name_str = "String Not Found", hat::fixed_string description_str = "Description Not Found">

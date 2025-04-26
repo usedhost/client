@@ -6,6 +6,14 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 project(Selaura)
 
+if (WIN32)
+    add_compile_definitions(SELAURA_WINDOWS)
+elseif(ANDROID)
+    add_compile_definitions(SELAURA_ANDROID)
+elseif(UNIX)
+    add_compile_definitions(SELAURA_LINUX)
+endif()
+
 if (MSVC)
     add_compile_options($<$<CONFIG:Release>:/Gw>)
     add_compile_options(/bigobj)
