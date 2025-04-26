@@ -2,19 +2,19 @@
 #include <memory>
 #include <vector>
 #include <string>
-#include <any>
+#include <variant>
 
 #include <glm/glm.hpp>
 #include <libhat/fixed_string.hpp>
 
 namespace selaura {
 
-	enum struct feature_setting_type {
-		SLIDER,
-		BOOLEAN,
-		ENUM,
-		COLOR
-	};
+	using feature_setting_type = std::variant<
+		float, // slider
+		bool, // toggle
+		int, // enum index
+		glm::vec4 // color
+	>;
 
 	struct feature_setting {
 		std::string name;
@@ -50,7 +50,7 @@ namespace selaura {
 			return settings.emplace_back(std::make_unique<setting_t>(std::forward<args_t>(args)...)).get();
 		}
 
-		const std::vector<std::unique_ptr<feature_setting>>& getSettings() const {
+		const std::vector<std::unique_ptr<feature_setting>>& get_settings() const {
 			return settings;
 		}
 
