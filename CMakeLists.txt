@@ -115,19 +115,31 @@ if(NOT imgui_POPULATED)
         "${imgui_SOURCE_DIR}/imgui_tables.cpp"
         "${imgui_SOURCE_DIR}/imgui_widgets.cpp"
     )
+
     if(MSVC)
         target_sources(ImGui PRIVATE
             "${imgui_SOURCE_DIR}/backends/imgui_impl_dx11.cpp"
             "${imgui_SOURCE_DIR}/backends/imgui_impl_dx12.cpp"
         )
         target_link_libraries(ImGui PRIVATE d3d11 d3d12)
+    elseif(ANDROID)
+        target_sources(ImGui PRIVATE
+            "${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
+            "${imgui_SOURCE_DIR}/backends/imgui_impl_android.cpp"
+        )
+        target_link_libraries(ImGui PRIVATE android)
     else()
         target_sources(ImGui PRIVATE
             "${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
         )
     endif()
-    target_include_directories(ImGui PUBLIC ${imgui_SOURCE_DIR})
+
+    target_include_directories(ImGui PUBLIC
+        ${imgui_SOURCE_DIR}
+        "${imgui_SOURCE_DIR}/backends"
+    )
 endif()
+
 
 FetchContent_MakeAvailable(fmt entt typesafe libhat magic_enum LuaBridge glm cpp-i18n)
 target_include_directories(Selaura PRIVATE ${cpp-i18n_SOURCE_DIR}/include)

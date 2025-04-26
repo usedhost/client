@@ -21,6 +21,18 @@ extern "C" [[gnu::visibility("default")]] void mod_preinit() {
 }
 
 extern "C" [[gnu::visibility("default")]] void mod_init() {
-	selaura::init();
+	std::thread([]() {
+		selaura::init();
+	}).detach();
+}
+#endif
+
+#ifdef SELAURA_ANDROID
+__attribute__((constructor))
+void lib_main() {
+	pthread_t thread;
+	if (pthread_create(&thread, nullptr, selaura::init, nullptr) == 0) {
+		pthread_detach(thread);
+	}
 }
 #endif
