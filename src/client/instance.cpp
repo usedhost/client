@@ -1,5 +1,7 @@
 #include "instance.hpp"
 
+#include <dobby.h>
+
 namespace selaura {
 	void instance::func(test& ev) {
 
