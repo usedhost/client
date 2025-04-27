@@ -1,7 +1,6 @@
 include(FetchContent)
 set(CMAKE_CXX_STANDARD 23)
 cmake_minimum_required(VERSION 3.5.0)
-cmake_policy(SET CMP0169 OLD)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 project(Selaura)
@@ -120,24 +119,36 @@ if(NOT imgui_POPULATED)
         "${imgui_SOURCE_DIR}/imgui_tables.cpp"
         "${imgui_SOURCE_DIR}/imgui_widgets.cpp"
     )
+
     if(MSVC)
         target_sources(ImGui PRIVATE
             "${imgui_SOURCE_DIR}/backends/imgui_impl_dx11.cpp"
             "${imgui_SOURCE_DIR}/backends/imgui_impl_dx12.cpp"
         )
         target_link_libraries(ImGui PRIVATE d3d11 d3d12)
+    elseif(ANDROID)
+        target_sources(ImGui PRIVATE
+            "${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
+            "${imgui_SOURCE_DIR}/backends/imgui_impl_android.cpp"
+        )
+        target_link_libraries(ImGui PRIVATE android)
     else()
         target_sources(ImGui PRIVATE
             "${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
         )
     endif()
-    target_include_directories(ImGui PUBLIC ${imgui_SOURCE_DIR})
+
+    target_include_directories(ImGui PUBLIC
+        ${imgui_SOURCE_DIR}
+        "${imgui_SOURCE_DIR}/backends"
+    )
 endif()
 
 SET(DOBBY_DEBUG OFF)
 SET(DOBBY_GENERATE_SHARED OFF)
 
 FetchContent_MakeAvailable(fmt entt typesafe libhat magic_enum LuaBridge glm cpp-i18n dobby)
+
 target_include_directories(Selaura PRIVATE ${cpp-i18n_SOURCE_DIR}/include)
 
 target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat magic_enum LuaBridge glm cpp-i18n dobby)
