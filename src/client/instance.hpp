@@ -5,6 +5,8 @@
 #include "../core/event/event.hpp"
 #include "../core/io/logger.hpp"
 
+#include "symbol/resolver.hpp"
+
 struct test {
 	int d;
 };

@@ -36,7 +36,7 @@ else()
         add_compile_options(-O0 -g)
     endif()
 endif() 
- 
+
 file(GLOB_RECURSE SOURCE "src/*.cpp" "src/*.hpp")
 file(GLOB_RECURSE LIB "include/*.cpp" "include/*.h")
 
@@ -101,11 +101,21 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/ocornut/imgui.git
     GIT_TAG        features/shadows
 )
-FetchContent_Declare(
-    dobby
-    GIT_REPOSITORY https://github.com/selauraclient/Dobby
-    GIT_TAG        master
-)
+
+if (MSVC)
+    FetchContent_Declare(
+        minhook
+        GIT_REPOSITORY https://github.com/TsudaKageyu/minhook.git
+        GIT_TAG        master
+    )
+else()
+    FetchContent_Declare(
+        dobby
+        GIT_REPOSITORY https://github.com/selauraclient/Dobby
+        GIT_TAG        master
+    )
+endif()
+
 
 FetchContent_GetProperties(imgui)
 
@@ -144,16 +154,24 @@ if(NOT imgui_POPULATED)
     )
 endif()
 
-SET(DOBBY_DEBUG OFF)
-SET(DOBBY_GENERATE_SHARED OFF)
+set(DOBBY_DEBUG OFF)
+set(DOBBY_GENERATE_SHARED OFF)
 
-FetchContent_MakeAvailable(fmt entt typesafe libhat magic_enum LuaBridge glm cpp-i18n dobby)
+FetchContent_MakeAvailable(fmt entt typesafe libhat magic_enum LuaBridge glm cpp-i18n)
+if (MSVC)
+    FetchContent_MakeAvailable(minhook)
+else()
+    FetchContent_MakeAvailable(dobby)
+endif()
 
 target_include_directories(Selaura PRIVATE ${cpp-i18n_SOURCE_DIR}/include)
 
-target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat magic_enum LuaBridge glm cpp-i18n dobby)
+if(MSVC)
+    target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat magic_enum LuaBridge glm cpp-i18n minhook)
+else()
+    target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat magic_enum LuaBridge glm cpp-i18n dobby)
+endif()
 
-# ANDROID is true if using the Android NDK
 if (ANDROID)
     target_link_libraries(Selaura PRIVATE log)
 endif()

@@ -6,6 +6,7 @@
 
 #include <glm/glm.hpp>
 #include <libhat/fixed_string.hpp>
+#include "../../core/event/event.hpp"
 
 namespace selaura {
 
@@ -29,7 +30,7 @@ namespace selaura {
 
 	#define DEFINE_FEATURE_TRAITS(name, description) using info = feature_traits<name, description>;
 
-	struct feature {
+	struct feature : public selaura::core::listener {
 		using info = feature_traits<>;
 		feature() = default;
 		virtual ~feature();
