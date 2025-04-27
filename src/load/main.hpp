@@ -18,8 +18,12 @@ extern "C" [[gnu::visibility("default")]] void mod_init();
 #endif
 
 #ifdef SELAURA_ANDROID
-#include <pthread.h>
+#include <jni.h>
+#include <dlfcn.h>
+#include <android/native_activity.h>
+#include <android_native_app_glue.h>
 
-__attribute__((constructor))
-void lib_main();
+extern "C" void android_main(struct android_app* app);
+extern "C" void ANativeActivity_onCreate(ANativeActivity* activity, void* savedState, size_t savedStateSize);
+JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved);
 #endif
