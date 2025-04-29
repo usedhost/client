@@ -12,7 +12,7 @@ namespace selaura::core {
 		template <typename T>
 		static void register_lib(lua_state* L) {
 			T lib;
-			lib.initialize(L);
+			lib.init(L);
 		}
 	};
 };
