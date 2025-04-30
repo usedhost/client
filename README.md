@@ -28,8 +28,6 @@ Selaura Client currently supports:
 - [Sinan-Karakaya/cpp-i18n](https://github.com/Sinan-Karakaya/cpp-i18n)
 - [g-truc/glm](https://github.com/g-truc/glm)
 - [ocornut/imgui](https://github.com/ocornut/imgui)
-  
-This website is built with [Astro.js](https://astro.build/), [TypeScript](https://www.typescriptlang.org/), and [Tailwind CSS](https://tailwindcss.com/).
 
 ## 📈 Star History
 [![Star History Chart](https://api.star-history.com/svg?repos=selauraclient/client&type=Date)](https://www.star-history.com/#selauraclient/client&Date)
