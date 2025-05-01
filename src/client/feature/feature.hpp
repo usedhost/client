@@ -33,7 +33,7 @@ namespace selaura {
 	struct feature : public selaura::core::listener {
 		using info = feature_traits<>;
 		feature() = default;
-		virtual ~feature();
+		virtual ~feature() noexcept;
 
 		virtual void on_disable();
 		virtual void on_enable();
