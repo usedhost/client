@@ -13,7 +13,7 @@
 namespace selaura::bedrock {
     class ComponentRenderBatch {};
     struct BedrockTextureData {
-        void* clientTexture; // mce::ClientTexture
+        mce::ClientTexture* clientTexture;
     };
     class ResourceLocation {
     public:
@@ -35,6 +35,9 @@ namespace selaura::bedrock {
     }
 
 	namespace mce {
+        class ClientTexture {
+            std::byte padding0[32];
+        };
 		class TextureGroup : public Bedrock::EnableNonOwnerReferences {
         public:
             std::byte padding48[352];
