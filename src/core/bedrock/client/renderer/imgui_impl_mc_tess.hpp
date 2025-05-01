@@ -1,7 +1,7 @@
 #pragma once
 #include "minecraft_ui_render_context.hpp"
 #include "tessellator.hpp"
-#include <imgui/imgui.hpp>
+#include <imgui.h>
 
 namespace selaura::core {
 	class imgui_tess {

@@ -116,44 +116,6 @@ else()
     )
 endif()
 
-
-FetchContent_GetProperties(imgui)
-
-if(NOT imgui_POPULATED)
-    FetchContent_Populate(imgui)
-    add_library(ImGui STATIC)
-    target_sources(ImGui PRIVATE
-        "${imgui_SOURCE_DIR}/imgui.cpp"
-        "${imgui_SOURCE_DIR}/imgui_demo.cpp"
-        "${imgui_SOURCE_DIR}/imgui_draw.cpp"
-        "${imgui_SOURCE_DIR}/imgui_tables.cpp"
-        "${imgui_SOURCE_DIR}/imgui_widgets.cpp"
-    )
-
-    if(MSVC)
-        target_sources(ImGui PRIVATE
-            "${imgui_SOURCE_DIR}/backends/imgui_impl_dx11.cpp"
-            "${imgui_SOURCE_DIR}/backends/imgui_impl_dx12.cpp"
-        )
-        target_link_libraries(ImGui PRIVATE d3d11 d3d12)
-    elseif(ANDROID)
-        target_sources(ImGui PRIVATE
-            "${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
-            "${imgui_SOURCE_DIR}/backends/imgui_impl_android.cpp"
-        )
-        target_link_libraries(ImGui PRIVATE android)
-    else()
-        target_sources(ImGui PRIVATE
-            "${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
-        )
-    endif()
-
-    target_include_directories(ImGui PUBLIC
-        ${imgui_SOURCE_DIR}
-        "${imgui_SOURCE_DIR}/backends"
-    )
-endif()
-
 set(DOBBY_DEBUG OFF)
 set(DOBBY_GENERATE_SHARED OFF)
 
@@ -164,7 +126,20 @@ else()
     FetchContent_MakeAvailable(dobby)
 endif()
 
-target_include_directories(Selaura PRIVATE ${cpp-i18n_SOURCE_DIR}/include)
+target_include_directories(Selaura PUBLIC ${cpp-i18n_SOURCE_DIR}/include)
+
+FetchContent_GetProperties(imgui)
+if(NOT imgui_POPULATED)
+    FetchContent_Populate(imgui)
+    add_library(ImGui STATIC
+        "${imgui_SOURCE_DIR}/imgui.cpp"
+        "${imgui_SOURCE_DIR}/imgui_demo.cpp"
+        "${imgui_SOURCE_DIR}/imgui_draw.cpp"
+        "${imgui_SOURCE_DIR}/imgui_tables.cpp"
+        "${imgui_SOURCE_DIR}/imgui_widgets.cpp"
+    )
+    target_include_directories(ImGui PUBLIC ${imgui_SOURCE_DIR})
+endif()
 
 if(MSVC)
     target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat magic_enum LuaBridge glm cpp-i18n minhook)

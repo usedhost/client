@@ -16,7 +16,9 @@ namespace selaura::bedrock {
 	void Tessellator::vertexUV(const Vec3& vec, float uvX, float uvY) {
 		this->vertexUV(vec.x, vec.y, vec.z, uvX, uvY);
 	}
-	mce::Mesh Tessellator::end(uint64_t a3, std::string_view debugName, int a5) {}
+	mce::Mesh Tessellator::end(uint64_t a3, std::string_view debugName, int a5) {
+        return {};
+    }
 	void Tessellator::setPostTransformOffset(float xo, float yo, float zo) {
 		this->postTransformOffset.x = xo;
 		this->postTransformOffset.y = yo;

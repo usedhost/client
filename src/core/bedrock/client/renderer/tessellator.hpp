@@ -1,11 +1,14 @@
 #pragma once
+#include "../../core/math/vec2.hpp"
 #include "../../core/math/vec3.hpp"
 #include <memory>
 #include <vector>
+#include <optional>
+#include <string_view>
 
 namespace selaura::bedrock {
     namespace mce {
-        class Mesh;
+        class Mesh {};
         class MeshData {
         public:
             std::byte padding0[8];

@@ -10,6 +10,11 @@
 #include <map>
 #include <string>
 
+namespace selaura::bedrock::mce {
+    class BedrockTexture;
+    class ClientTexture;
+}
+
 namespace selaura::bedrock {
     class ComponentRenderBatch {};
     struct BedrockTextureData {
@@ -34,11 +39,11 @@ namespace selaura::bedrock {
         class ImageBuffer {};
     }
 
-	namespace mce {
+    namespace mce {
         class ClientTexture {
             std::byte padding0[32];
         };
-		class TextureGroup : public Bedrock::EnableNonOwnerReferences {
+        class TextureGroup : public Bedrock::EnableNonOwnerReferences {
         public:
             std::byte padding48[352];
             std::map<ResourceLocation, BedrockTexture> mLoadedTextures;
@@ -52,8 +57,8 @@ namespace selaura::bedrock {
             std::shared_ptr<const BedrockTextureData> mClientTexture;
             std::shared_ptr<ResourceLocation> mResourceLocation;
         };
-	};
-	class UIScene {};
+    };
+    class UIScene {};
     class Font {};
     struct RectangleArea {
         float _x0;
@@ -79,16 +84,16 @@ namespace selaura::bedrock {
         int position;
         bool shouldRender;
     };
-	class MinecraftUIRenderContext {
-	public:
-		IClientInstance* clientInstance;
-		ScreenContext* screenContext;
-		std::byte padding24[64];
-		Bedrock::EnableNonOwnerReferences<mce::TextureGroup> textures;
-		std::byte padding80[248 - 104];
-		const void* currentScene; // const UIScene*
+    class MinecraftUIRenderContext {
+    public:
+        IClientInstance* clientInstance;
+        ScreenContext* screenContext;
+        std::byte padding24[64];
+        Bedrock::NonOwnerPointer<mce::TextureGroup> textures;
+        std::byte padding80[248 - 104];
+        const void* currentScene; // const UIScene*
 
-		MinecraftUIRenderContext(IClientInstance& client, ScreenContext& screenContext, const void* currentScene);
+        MinecraftUIRenderContext(IClientInstance& client, ScreenContext& screenContext, const void* currentScene);
 
         virtual ~MinecraftUIRenderContext();
         virtual float getLineLength(Font& font, const std::string& text, float fontSize, bool showColorSymbol);
@@ -122,5 +127,5 @@ namespace selaura::bedrock {
         virtual mce::TexturePtr getTexture(const ResourceLocation& resourceLocation, bool forceReload);
         virtual mce::TexturePtr getZippedTexture(/*const Core::Path*/ void* zippedFolderPath, const ResourceLocation& resourceLocation, bool forceReload);
         virtual void unloadTexture(ResourceLocation const&);
-	}
-};	
+    };
+}
