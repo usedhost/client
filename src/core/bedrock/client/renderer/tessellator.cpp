@@ -18,31 +18,31 @@ namespace selaura::bedrock {
 	}
 	mce::Mesh Tessellator::end(uint64_t a3, std::string_view debugName, int a5) {}
 	void Tessellator::setPostTransformOffset(float xo, float yo, float zo) {
-		this->PostTransformOffset.x = xo;
-		this->PostTransformOffset.y = yo;
-		this->PostTransformOffset.z = zo;
+		this->postTransformOffset.x = xo;
+		this->postTransformOffset.y = yo;
+		this->postTransformOffset.z = zo;
 	}
 
     void Tessellator::setPosTransformOffset(Vec3 v) {
-        this->PostTransformOffset = v;
+        this->postTransformOffset = v;
     }
 
     Vec3* Tessellator::getPostTransformOffset() {
-        return &this->PostTransformOffset;
+        return &this->postTransformOffset;
     }
 
     void Tessellator::addPostTransformOffset(float x, float y, float z) {
-        this->PostTransformOffset.x += x;
-        this->PostTransformOffset.y += y;
-        this->PostTransformOffset.z += z;
+        this->postTransformOffset.x += x;
+        this->postTransformOffset.y += y;
+        this->postTransformOffset.z += z;
     }
 
     void Tessellator::addPostTransformOffset(Vec3 v) {
-        this->PostTransformOffset = this->PostTransformOffset + v;
+        this->postTransformOffset = this->postTransformOffset + v;
     }
 
     void Tessellator::resetPostTransformScale() {
-        this->PostTransformScale = Vec3(1.0f, 1.0f, 1.0f);
+        this->postTransformScale = Vec3(1.0f, 1.0f, 1.0f);
     }
 
     void Tessellator::color(float r, float g, float b, float a) {

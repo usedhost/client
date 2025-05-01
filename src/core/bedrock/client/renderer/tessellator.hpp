@@ -6,6 +6,12 @@
 namespace selaura::bedrock {
     namespace mce {
         class Mesh;
+        class MeshData {
+        public:
+            std::byte padding0[8];
+            std::vector<Vec3> mPositions;
+            std::byte padding32[272 - 32];
+        };
 
         enum class PrimitiveMode : int {
             None = 0,
