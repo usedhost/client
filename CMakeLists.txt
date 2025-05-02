@@ -142,9 +142,9 @@ if(NOT imgui_POPULATED)
 endif()
 
 if(MSVC)
-    target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat magic_enum LuaBridge glm cpp-i18n minhook)
+    target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat ImGui magic_enum LuaBridge glm cpp-i18n minhook)
 else()
-    target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat magic_enum LuaBridge glm cpp-i18n dobby)
+    target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat ImGui magic_enum LuaBridge glm cpp-i18n dobby)
 endif()
 
 if (ANDROID)

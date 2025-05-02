@@ -3,6 +3,15 @@
 #include "tessellator.hpp"
 #include <imgui.h>
 
+namespace selaura::bedrock {
+	class Tessellator;
+	namespace mce {
+		class TextureGroup;
+		class ClientTexture;
+		class TexturePtr;
+	}
+}
+
 namespace selaura::core {
 	class imgui_tess {
 	public:
@@ -13,11 +22,11 @@ namespace selaura::core {
 		static void unload();
 		static void load_font_texture(selaura::bedrock::MinecraftUIRenderContext& ctx);
 	private:
-		static Tessellator* tessellator = nullptr;
-		static selaura::bedrock::mce::TextureGroup* textureGroup = nullptr;
-		static selaura::bedrock::mce::ClientTexture* clientTexture = nullptr;
+		static selaura::bedrock::Tessellator* tessellator;
+		static selaura::bedrock::mce::TextureGroup* textureGroup;
+		static selaura::bedrock::mce::ClientTexture* clientTexture;
 		static selaura::bedrock::mce::TexturePtr texturePointer;
-		static bool unloadedTextures = false;
-		static int frameCount = 0;
+		static bool unloadedTextures;
+		static int frameCount;
 	};
 };

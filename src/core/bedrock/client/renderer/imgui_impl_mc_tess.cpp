@@ -1,15 +1,22 @@
 #include "imgui_impl_mc_tess.hpp"
 
 namespace selaura::core {
+	selaura::bedrock::Tessellator* imgui_tess::tessellator;
+	selaura::bedrock::mce::TextureGroup* imgui_tess::textureGroup = nullptr;
+	selaura::bedrock::mce::ClientTexture* imgui_tess::clientTexture = nullptr;
+	selaura::bedrock::mce::TexturePtr imgui_tess::texturePointer;
+	bool imgui_tess::unloadedTextures = false;
+	int imgui_tess::frameCount = 0;
+
 	bool imgui_tess::init(selaura::bedrock::MinecraftUIRenderContext& ctx) {
-		this->tessellator = &ctx.screenContext->tessellator;
-		this->load_font_texture(ctx);
+		imgui_tess::tessellator = ctx.screenContext->tessellator;
+		imgui_tess::load_font_texture(ctx);
 
 		return true;
 	}
 
 	void imgui_tess::shutdown() {
-		this->tessellator = nullptr;
+		imgui_tess::tessellator = nullptr;
 	}
 
 	void imgui_tess::new_frame(selaura::bedrock::MinecraftUIRenderContext& ctx) {
@@ -22,11 +29,11 @@ namespace selaura::core {
 	}
 
 	void imgui_tess::render_draw_data(ImDrawData* drawData, selaura::bedrock::MinecraftUIRenderContext& ctx) {
-		this->frameCount += 1;
+		imgui_tess::frameCount += 1;
 	}
 
 	void imgui_tess::unload() {
-		this->unloadedTextures = true;
+		imgui_tess::unloadedTextures = true;
 	}
 
 	void imgui_tess::load_font_texture(selaura::bedrock::MinecraftUIRenderContext& ctx) {
