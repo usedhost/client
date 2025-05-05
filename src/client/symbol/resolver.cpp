@@ -1,6 +1,12 @@
 #include "resolver.hpp"
 
 namespace selaura::detail {
+    std::byte* process_module::get_module_base() {
+        return this->base;
+    }
+    std::size_t process_module::get_module_size() {
+        return this->size;
+    }
 	process_module get_module_handle(std::string_view name) {
 #ifdef SELAURA_WINDOWS
 		HMODULE hModule = GetModuleHandleW(std::wstring(name.begin(), name.end()).c_str());
@@ -44,4 +50,12 @@ namespace selaura::detail {
         };
 #endif
 	}
+
+    process_module get_module_handle() {
+#ifdef SELAURA_WINDOWS
+        return get_module_handle("Minecraft.Windows.exe");
+#else
+        return get_module_handle("libminecraftpe.so");
+#endif
+    }
 };

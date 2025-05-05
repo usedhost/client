@@ -35,4 +35,5 @@ namespace selaura::detail {
 	};
 
 	process_module get_module_handle(std::string_view name);
+	process_module get_module_handle();
 }
