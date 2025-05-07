@@ -6,7 +6,7 @@
 
 #include <glm/glm.hpp>
 #include <libhat/fixed_string.hpp>
-#include "../../core/event/event.hpp"
+#include "../event/event.hpp"
 
 namespace selaura {
 

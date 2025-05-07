@@ -2,8 +2,8 @@
 #include <memory>
 #include <cpp-i18n/Translator.hpp>
 
-#include "../core/event/event.hpp"
-#include "../core/io/logger.hpp"
+#include "event/event.hpp"
+#include "io/logger.hpp"
 
 #include "symbol/resolver.hpp"
 
