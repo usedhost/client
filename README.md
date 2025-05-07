@@ -33,4 +33,4 @@ Selaura Client currently supports:
 [![Star History Chart](https://api.star-history.com/svg?repos=selauraclient/client&type=Date)](https://www.star-history.com/#selauraclient/client&Date)
 
 ## 📄 License
-Selaura Client currently falls under the [BSD 3-Clause License](LICENSE). Feel free to use this code as a fork in your own project. Although not required, we would appreciate if you credited us as well. Thank you!
+Selaura Client currently falls under the [GPL-3.0 License](LICENSE). Feel free to use this code as a fork in your own project. Thank you!

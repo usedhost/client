@@ -7,19 +7,13 @@
 
 #include "symbol/resolver.hpp"
 
-struct test {
-	int d;
-};
-
 namespace selaura {
-	class instance : public selaura::core::listener {
+	class instance : public selaura::listener {
 	public:
-		void func(test& ev);
-
 		void start();
 		void shutdown();
 	private:
 		i18n::Translator translator;
-		//std::unique_ptr<selaura::detail::logger> logger;
+		std::unique_ptr<selaura::logger> logger;
 	};
 };

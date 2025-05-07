@@ -8,7 +8,7 @@
 #include <functional>
 #include <mutex>
 
-namespace selaura::core {
+namespace selaura {
 	template <class T>
 	class dispatcher {
 	public:

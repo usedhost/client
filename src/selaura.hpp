@@ -5,6 +5,7 @@
 
 #include <string>
 #include <memory>
+#include <mutex>
 
 namespace selaura {
 	extern std::unique_ptr<selaura::instance> inst;

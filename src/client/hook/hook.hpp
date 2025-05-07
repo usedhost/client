@@ -7,7 +7,7 @@
 #include <dobby.h>
 #endif
 
-namespace selaura::core {
+namespace selaura {
 
 	struct hook_t {
 		void* target;

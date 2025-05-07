@@ -1,5 +1,5 @@
 #pragma once
 
-namespace selaura::core {
+namespace selaura {
 	class logger {};
 };
