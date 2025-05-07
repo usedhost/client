@@ -11,7 +11,7 @@ namespace selaura {
 		T mod;
 		feature_storage<remainingT...> remaining;
 
-		constexpr void for_each(auto callback) {
+		void for_each(auto callback) {
 			callback(mod);
 			remaining.for_each(callback);
 		}
@@ -20,7 +20,7 @@ namespace selaura {
 	template <typename T>
 	struct feature_storage<T> {
 		T mod;
-		constexpr void for_each(auto callback) {
+		void for_each(auto callback) {
 			callback(mod);
 		}
 	};
@@ -28,20 +28,20 @@ namespace selaura {
 	struct feature_manager {
 		using features_type = feature_storage<>;
 		
-		constexpr void for_each(auto callback) {
+		void for_each(auto callback) {
 			features.for_each(callback);
 		}
 
-		constexpr void for_each(auto callback) const {
+		void for_each(auto callback) const {
 			features.for_each(callback);
 		}
 
 		template <typename T>
-		constexpr T* get() {
+		T* get() {
 			T* result = nullptr;
 			features.for_each([&]<typename features_type>(features_type& feature) {
 				if (result != nullptr) return;
-				if constexpr (std::is_same_v<T, features_type>) {
+				if (std::is_same_v<T, features_type>) {
 					result = &feature;
 				}
 			});
@@ -49,7 +49,7 @@ namespace selaura {
 			return result;
 		}
 
-		[[nodiscard]] constexpr auto* find(std::string_view name) {
+		[[nodiscard]] auto* find(std::string_view name) {
 			feature* result = nullptr;
 			features.for_each([&]<typename features_type>(features_type & feature) {
 				if (result != nullptr) return;
