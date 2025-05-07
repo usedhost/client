@@ -30,7 +30,7 @@ namespace selaura {
 
 	#define DEFINE_FEATURE_TRAITS(name, description) using info = feature_traits<name, description>;
 
-	struct feature : public selaura::core::listener {
+	struct feature : public selaura::listener {
 		using info = feature_traits<>;
 		feature() = default;
 		virtual ~feature() noexcept;
