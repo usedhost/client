@@ -30,11 +30,11 @@ namespace selaura::detail {
             throw std::runtime_error("dlopen failed.");
         }
 
-        process_module_detail detail;
+        process_module detail;
         detail.native = handle;
 
         dl_iterate_phdr([](dl_phdr_info* info, size_t, void* data) -> int {
-            auto* detail = reinterpret_cast<process_module_detail*>(data);
+            auto* detail = reinterpret_cast<process_module*>(data);
             if (info->dlpi_name && std::string_view(info->dlpi_name) == "libminecraftpe.so") {
                 detail->base = reinterpret_cast<std::byte*>(info->dlpi_addr);
                 detail->size = info->dlpi_phdr[0].p_memsz;

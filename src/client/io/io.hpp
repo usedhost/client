@@ -5,6 +5,10 @@
 #include <chrono>
 #include <format>
 
+#if !defined(SELAURA_WINDOWS)
+#include <link.h>
+#endif
+
 namespace selaura {
 	struct io {
 		std::filesystem::path data_folder;
@@ -52,8 +56,12 @@ namespace selaura {
 			if (!log_stream.is_open()) return;
 
 			using namespace std::chrono;
-			auto now = zoned_time{ current_zone(), system_clock::now() };
-			auto timestamp = std::format("{:%Y-%m-%d %H:%M:%S}", now);
+			auto now = system_clock::now();
+			auto time_t_now = system_clock::to_time_t(now);
+			auto local_tm = std::localtime(&time_t_now);
+
+			char timestamp[20];
+			std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", local_tm);
 
 			log_stream << std::format("[{}] [{}] {}\n", timestamp, level, msg);
 			log_stream.flush();
