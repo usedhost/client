@@ -16,9 +16,7 @@
 #include <Psapi.h>
 #include <string>
 #include <string_view>
-#endif
-
-#if SELAURA_LINUX
+#else
 #include <dlfcn.h>
 #include <link.h>
 #endif
