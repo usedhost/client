@@ -1,7 +1,6 @@
 #pragma once
-#include <entt/entt.hpp>
-#include <unordered_map>
-#include <string>
+#include <string_view>
+#include <type_traits>
 
 #include "feature.hpp"
 
