@@ -2,7 +2,6 @@
 
 namespace selaura {
 	void instance::start() {
-		this->io = std::make_unique<selaura::io>();
 		selaura::init_hooking();
 
 		/*
