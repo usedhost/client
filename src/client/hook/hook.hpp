@@ -7,7 +7,7 @@
 #include <dobby.h>
 #endif
 
-namespace selaura::core {
+namespace selaura {
 
 	struct hook_t {
 		void* target;
@@ -26,7 +26,7 @@ namespace selaura::core {
 #ifdef SELAURA_WINDOWS
 			return MH_DisableHook(target) == MH_OK;
 #else
-			return DobbyDestroy(target) == RT_SUCCESS;
+			return DobbyDestroy(target) == 0;
 #endif
 		}
 

@@ -4,7 +4,7 @@
 #include <concepts>
 #include <type_traits>
 
-namespace selaura::core {
+namespace selaura {
 	template <typename T>
 	concept StaticScriptLib = requires(lua_State * L) {
 		{ T::init(L) } -> std::same_as<void>;
