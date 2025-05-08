@@ -5,6 +5,7 @@
 #include "event/event.hpp"
 #include "io/io.hpp"
 #include "feature/feature_manager.hpp"
+#include "hook/hook.hpp"
 
 #include "symbol/resolver.hpp"
 

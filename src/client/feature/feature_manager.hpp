@@ -25,7 +25,7 @@ namespace selaura {
 	};
 
 	struct feature_manager {
-		using features_type = feature_storage<>;
+		using features_type = feature_storage<selaura::feature>;
 		
 		void for_each(auto callback) {
 			features.for_each(callback);

@@ -1,9 +1,8 @@
 #include "instance.hpp"
-#include "../core/hook/hook.hpp"
 
 namespace selaura {
 	void instance::start() {
-		this->logger = std::make_unique<selaura::logger>();
+		this->io = std::make_unique<selaura::io>();
 		selaura::init_hooking();
 
 		/*

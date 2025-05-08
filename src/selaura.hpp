@@ -9,7 +9,6 @@
 
 namespace selaura {
 	extern std::unique_ptr<selaura::instance> inst;
-	extern std::once_flag flag;
 
 	void init();
 };
