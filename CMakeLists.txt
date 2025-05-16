@@ -13,6 +13,19 @@ elseif(UNIX)
     add_compile_definitions(SELAURA_LINUX)
 endif()
 
+set(CLIENT_VERSION "1.00")
+
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(DEVELOPER_MODE "")
+elseif (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(DEVELOPER_MODE " Dev")
+endif()
+
+add_compile_definitions(
+        CLIENT_VERSION=\"${CLIENT_VERSION}\"
+        DEVELOPER_MODE=\"${DEVELOPER_MODE}\"
+)
+
 if (MSVC)
     add_compile_options($<$<CONFIG:Release>:/Gw>)
     add_compile_options(/bigobj)

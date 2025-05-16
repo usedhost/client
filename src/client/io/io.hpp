@@ -1,4 +1,6 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <filesystem>
 #include <fstream>
 #include <string>
@@ -10,17 +12,21 @@
 #endif
 
 namespace selaura {
-	struct io {
+	class io {
+	public:
 		std::filesystem::path data_folder;
 		std::filesystem::path log_file;
 		std::ofstream log_stream;
 
 		io() {
 #ifdef SELAURA_WINDOWS
-			const char* localAppData = std::getenv("LOCALAPPDATA");
+			char* localAppData = nullptr;
+			size_t size = 0;
+
+			_dupenv_s(&localAppData, &size, "APPDATA");
+
 			if (localAppData) {
-				data_folder = std::filesystem::path(localAppData) /
-					"Packages/Microsoft.MinecraftUWP_8wekyb3d8bbwe/RoamingState/Selaura";
+				data_folder = std::filesystem::path(localAppData + std::string("\\..\\Local\\Packages\\Microsoft.MinecraftUWP_8wekyb3d8bbwe\\RoamingState\\Selaura"));
 			}
 #elif defined(SELAURA_LINUX)
 			data_folder = "/data/data/com.mojang.minecraftpe/Selaura";
@@ -29,7 +35,7 @@ namespace selaura {
 #endif
 			log_file = data_folder / "logs.txt";
 			std::filesystem::create_directories(data_folder);
-			log_stream.open(log_file, std::ios::app);
+			log_stream.open(log_file, std::ios::trunc);
 		}
 
 		~io() {
