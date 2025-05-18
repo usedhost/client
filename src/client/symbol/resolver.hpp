@@ -6,6 +6,6 @@
 namespace selaura {
 	class resolver {
 	public:
-		std::optional<uintptr_t> signature(std::string_view sig);
+		static std::optional<uintptr_t> signature(std::string_view sig);
 	};
 };

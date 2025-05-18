@@ -14,21 +14,8 @@ namespace selaura {
 		void* detour;
 		void* original;
 
-		bool enable() {
-#ifdef SELAURA_WINDOWS
-			return MH_EnableHook(target) == MH_OK;
-#else
-			return true;
-#endif
-		}
-
-		bool disable() {
-#ifdef SELAURA_WINDOWS
-			return MH_DisableHook(target) == MH_OK;
-#else
-			return DobbyDestroy(target) == 0;
-#endif
-		}
+		bool enable();
+		bool disable();
 
 		template <typename T>
 		T get_original() const {
@@ -36,26 +23,7 @@ namespace selaura {
 		}
 	};
 
-	inline bool init_hooking() {
-#ifdef SELAURA_WINDOWS
-		return MH_Initialize() == MH_OK;
-#else
-		return true;
-#endif
-	}
-
-	inline void shutdown_hooking() {
-#ifdef SELAURA_WINDOWS
-		MH_Uninitialize();
-#endif
-	}
-
-	inline hook_t hook(void* target, void* detour, void** original_out) {
-#ifdef SELAURA_WINDOWS
-		MH_CreateHook(target, detour, original_out);
-#else
-		DobbyHook(target, detour, original_out);
-#endif
-		return { target, detour, *original_out };
-	}
+	bool init_hooking();
+	void shutdown_hooking();
+	hook_t hook(void* target, void* detour);
 }

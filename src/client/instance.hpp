@@ -7,7 +7,7 @@
 #include "event/event.hpp"
 #include "io/io.hpp"
 #include "feature/feature_manager.hpp"
-#include "hook/hook.hpp"
+#include "hook/hook_manager.hpp"
 
 #include "symbol/resolver.hpp"
 
@@ -28,5 +28,6 @@ namespace selaura {
 		std::unique_ptr<selaura::resolver> resolver;
 		std::unique_ptr<selaura::io> io;
 		std::unique_ptr<selaura::feature_manager> feature_manager;
+		std::unique_ptr<selaura::hook_manager> hook_manager;
 	};
 };
