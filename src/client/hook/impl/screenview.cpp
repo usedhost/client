@@ -26,7 +26,7 @@ void screenview_hooks::setupandrender(void* a1, selaura::bedrock::MinecraftUIRen
      
     */
 
-	setupandrender_hook.get_original<decltype(&setupandrender)>()(a1, mcuirc);
+	//setupandrender_hook.get_original<decltype(&setupandrender)>()(a1, mcuirc);
 }
 
 void screenview_hooks::enable() {
