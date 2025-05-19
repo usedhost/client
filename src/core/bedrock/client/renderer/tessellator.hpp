@@ -1,14 +1,27 @@
 #pragma once
 #include "../../core/math/vec2.hpp"
 #include "../../core/math/vec3.hpp"
+#include "../../../../client/symbol/resolver.hpp"
 #include <memory>
 #include <vector>
 #include <optional>
+#include <bit>
 #include <string_view>
 
 namespace selaura::bedrock {
     namespace mce {
-        class Mesh {};
+        class TexturePtr;
+        class MeshContext {};
+        class MaterialPtr {};
+        class Mesh {
+        public:
+            void renderMesh(mce::MeshContext& mctx, const mce::MaterialPtr& mPtr, const mce::TexturePtr& texture) {
+                using func_t = void(*)(Mesh*, mce::MeshContext&, const mce::MaterialPtr&, const mce::TexturePtr&);
+                static uintptr_t val = selaura::resolver::signature("40 53 56 57 48 81 EC ? ? ? ? 48 8B D9 C6 44 24").value();
+                static auto func = reinterpret_cast<func_t>(val);
+                func(this, mctx, mPtr, texture);
+            }
+        };
         class MeshData {
         public:
             std::byte padding0[8];
@@ -57,7 +70,7 @@ namespace selaura::bedrock {
         std::byte padding556[5];
         bool buildFaceData;
     public:
-        void begin(mce::PrimitiveMode mode, int maxVertices);
+        void begin(mce::PrimitiveMode mode = mce::PrimitiveMode::TriangleList, int maxVertices = 0);
         void beginOverride();
 
         void vertex(float x, float y, float z);
@@ -68,7 +81,7 @@ namespace selaura::bedrock {
         void vertexUV(const Vec3&, float uvX, float uvY);
 
         void color(float r, float g, float b, float a);
-        void color(uint32_t packed);
+        void color(unsigned int rgba);
 
         void setPostTransformOffset(float xo, float yo, float zo);
         void setPosTransformOffset(Vec3 v);

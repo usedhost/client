@@ -1,30 +1,22 @@
 #pragma once
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <filesystem>
 #include <fstream>
-#include <string>
-#include <chrono>
 #include <format>
-
-#if !defined(SELAURA_WINDOWS)
-#include <link.h>
-#endif
+#include <chrono>
+#include <ctime>
 
 namespace selaura {
 	class io {
 	public:
-		std::filesystem::path data_folder;
-		std::filesystem::path log_file;
-		std::ofstream log_stream;
+		static std::filesystem::path data_folder;
+		static std::filesystem::path log_file;
+		static std::ofstream log_stream;
 
-		io() {
+		static void init() {
 #ifdef SELAURA_WINDOWS
 			char* localAppData = nullptr;
 			size_t size = 0;
-
 			_dupenv_s(&localAppData, &size, "APPDATA");
-
 			if (localAppData) {
 				data_folder = std::filesystem::path(localAppData + std::string("\\..\\Local\\Packages\\Microsoft.MinecraftUWP_8wekyb3d8bbwe\\RoamingState\\Selaura"));
 			}
@@ -38,32 +30,31 @@ namespace selaura {
 			log_stream.open(log_file, std::ios::trunc);
 		}
 
-		~io() {
+		static void shutdown() {
 			if (log_stream.is_open()) log_stream.close();
 		}
 
 		template<typename... Args>
-		void info(std::format_string<Args...> fmt, Args&&... args) {
+		static void info(std::format_string<Args...> fmt, Args&&... args) {
 			log("INFO", std::format(fmt, std::forward<Args>(args)...));
 		}
 
 		template<typename... Args>
-		void warn(std::format_string<Args...> fmt, Args&&... args) {
+		static void warn(std::format_string<Args...> fmt, Args&&... args) {
 			log("WARN", std::format(fmt, std::forward<Args>(args)...));
 		}
 
 		template<typename... Args>
-		void error(std::format_string<Args...> fmt, Args&&... args) {
+		static void error(std::format_string<Args...> fmt, Args&&... args) {
 			log("ERROR", std::format(fmt, std::forward<Args>(args)...));
 		}
 
 	private:
-		void log(const std::string& level, const std::string& msg) {
+		static void log(const std::string& level, const std::string& msg) {
 			if (!log_stream.is_open()) return;
 
-			using namespace std::chrono;
-			auto now = system_clock::now();
-			auto time_t_now = system_clock::to_time_t(now);
+			auto now = std::chrono::system_clock::now();
+			auto time_t_now = std::chrono::system_clock::to_time_t(now);
 			auto local_tm = std::localtime(&time_t_now);
 
 			char timestamp[20];

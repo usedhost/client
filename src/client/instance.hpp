@@ -9,7 +9,7 @@
 #include "feature/feature_manager.hpp"
 #include "hook/hook_manager.hpp"
 
-#include "symbol/resolver.hpp"
+#include "symbol/map.hpp"
 
 #ifdef SELAURA_WINDOWS
 #include <winrt/base.h>
@@ -23,6 +23,8 @@ namespace selaura {
 	public:
 		void start();
 		void shutdown();
+
+		static instance& get();
 	private:
 		i18n::Translator translator;
 		std::unique_ptr<selaura::resolver> resolver;

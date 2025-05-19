@@ -5,6 +5,7 @@
 #include "../../core/utility/enable_non_owner_references.hpp"
 #include "../../core/math/color.hpp"
 #include "../../core/math/vec2.hpp"
+#include <libhat/access.hpp>
 
 #include <memory>
 #include <map>
@@ -95,6 +96,10 @@ namespace selaura::bedrock {
 
         MinecraftUIRenderContext(IClientInstance& client, ScreenContext& screenContext, const void* currentScene);
 
+        ScreenContext* getScreenContext() {
+            return hat::member_at<ScreenContext*>(this, 0x10);
+        };
+
         virtual ~MinecraftUIRenderContext();
         virtual float getLineLength(Font& font, const std::string& text, float fontSize, bool showColorSymbol);
         virtual float getTextAlpha();
@@ -115,10 +120,25 @@ namespace selaura::bedrock {
         virtual void fillRectangleStencil(const RectangleArea& rect);
         virtual void enableScissorTest(const RectangleArea& rect);
         virtual void disableScissorTest();
-        virtual void setClippingRectangle(const RectangleArea& rect);
+        virtual void setClippingRectangle(const RectangleArea& rect) {
+            using func_t = void(__fastcall*)(MinecraftUIRenderContext*, const RectangleArea&);
+            auto vtable = *(void***)this;
+            static auto func = reinterpret_cast<func_t>(vtable[0x14]);
+            func(this, rect);
+        };
         virtual void setFullClippingRectangle();
-        virtual void saveCurrentClippingRectangle();
-        virtual void restoreSavedClippingRectangle();
+        virtual void saveCurrentClippingRectangle() {
+            using func_t = void(__fastcall*)(MinecraftUIRenderContext*);
+            auto vtable = *(void***)this;
+            static auto func = reinterpret_cast<func_t>(vtable[0x16]);
+            func(this);
+        };
+        virtual void restoreSavedClippingRectangle() {
+            using func_t = void(__fastcall*)(MinecraftUIRenderContext*);
+            auto vtable = *(void***)this;
+            static auto func = reinterpret_cast<func_t>(vtable[0x17]);
+            func(this);
+        };
         virtual RectangleArea getFullClippingRectangle();
         virtual bool updateCustom(void* customRenderer);
         virtual void renderCustom(void* customRenderer, int pass, RectangleArea& renderAABB);

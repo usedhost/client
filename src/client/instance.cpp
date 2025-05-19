@@ -1,12 +1,17 @@
 #include "instance.hpp"
 
 namespace selaura {
+	instance& instance::get() {
+		static selaura::instance inst;
+		return inst;
+	}
+
 	void instance::start() {
 		auto startTime = std::chrono::high_resolution_clock::now();
+		selaura::io::init();
 
-		this->io = std::make_unique<selaura::io>();
+		selaura::detail::register_memory();
 		selaura::init_hooking();
-	
 		this->hook_manager->for_each([&](auto& hook) {
 			hook.enable();
 		});
@@ -20,7 +25,7 @@ namespace selaura {
 		auto endTime = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<float> duration = endTime - startTime;
 
-		this->io->info("Successfully injected [{:.2f}s]", duration.count());
+		selaura::io::info("Successfully injected [{:.2f}s]", duration.count());
 
 		/*
 		this->subscribe<test, &instance::func>();

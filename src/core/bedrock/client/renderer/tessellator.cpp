@@ -1,8 +1,17 @@
 #include "tessellator.hpp"
+#include "../../../../client/symbol/resolver.hpp"
 
 namespace selaura::bedrock {
-	void Tessellator::begin(mce::PrimitiveMode mode, int maxVertices) {}
-	void Tessellator::vertex(float x, float y, float z) {}
+	void Tessellator::begin(mce::PrimitiveMode mode, int maxVertices) {
+        using func_t = void(__fastcall*)(Tessellator*, mce::PrimitiveMode, int, bool);
+        static auto func = reinterpret_cast<func_t>(selaura::resolver::signature("40 53 55 48 83 EC 28 80 B9").value());
+        func(this, mode, maxVertices, false);
+    }
+	void Tessellator::vertex(float x, float y, float z) {
+        using func_t = void(__fastcall*)(Tessellator*, float, float, float);
+        static auto func = reinterpret_cast<func_t>(selaura::resolver::signature("40 57 48 81 EC ? ? ? ? 0F 29 7C ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24 ? 8B 81").value());
+        func(this, x, y, z);
+    }
 	void Tessellator::vertex(const Vec3& vec) {
 		this->vertex(vec.x, vec.y, vec.z);
 	}
@@ -12,12 +21,18 @@ namespace selaura::bedrock {
 	void Tessellator::vertex(const Vec2& vec) {
 		this->vertex(vec.x, vec.y, 0);
 	}
-	void Tessellator::vertexUV(float x, float y, float z, float uvX, float uvY) {}
+	void Tessellator::vertexUV(float x, float y, float z, float uvX, float uvY) {
+        using func_t = void(__fastcall*)(Tessellator*, float, float, float, float, float);
+        static auto func = reinterpret_cast<func_t>(selaura::resolver::signature("48 83 EC ? 80 B9 ? ? ? ? ? 0F 57 E4").value());
+        func(this, x, y, z, uvX, uvY);
+    }
 	void Tessellator::vertexUV(const Vec3& vec, float uvX, float uvY) {
 		this->vertexUV(vec.x, vec.y, vec.z, uvX, uvY);
 	}
 	mce::Mesh Tessellator::end(uint64_t a3, std::string_view debugName, int a5) {
-        return {};
+        using func_t = mce::Mesh(__fastcall*)(Tessellator*, uint64_t, std::string_view, int);
+        static auto func = reinterpret_cast<func_t>(selaura::resolver::signature("48 8B C4 48 89 58 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D A8 ? ? ? ? 48 81 EC ? ? ? ? 0F 29 70 ? 0F 29 78 ? 44 0F 29 40 ? 44 0F 29 48 ? 44 0F 29 90 ? ? ? ? 44 0F 29 98 ? ? ? ? 44 0F 29 A0 ? ? ? ? 44 0F 29 A8 ? ? ? ? 44 0F 29 B0 ? ? ? ? 44 0F 29 B8 ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 4D 8B F9").value());
+        return func(this, a3, debugName, a5);
     }
 	void Tessellator::setPostTransformOffset(float xo, float yo, float zo) {
 		this->postTransformOffset.x = xo;
@@ -48,29 +63,17 @@ namespace selaura::bedrock {
     }
 
     void Tessellator::color(float r, float g, float b, float a) {
-        struct PackedColors {
-            union {
-                struct {
-                    char r;
-                    char g;
-                    char b;
-                    char a;
-                };
-                unsigned int intValue;
-            };
-        };
-
-        PackedColors result{};
-        result.r = static_cast<char>(r * 255.0f);
-        result.g = static_cast<char>(g * 255.0f);
-        result.b = static_cast<char>(b * 255.0f);
-        result.a = static_cast<char>(a * 255.0f);
-
-        nextColor = result.intValue;
+        using func_t = void(__fastcall*)(Tessellator*, float, float, float, float);
+        static auto func = reinterpret_cast<func_t>(selaura::resolver::signature("80 B9 ? ? ? ? ? 4C 8B C1 75").value());
+        func(this, r, g, b, a);
     }
 
-    void Tessellator::color(uint32_t packed) {
-        nextColor = packed;
+    void Tessellator::color(unsigned int rgba) {
+        float r = ((rgba >> 24) & 0xFF) / 255.0f;
+        float g = ((rgba >> 16) & 0xFF) / 255.0f;
+        float b = ((rgba >> 8) & 0xFF) / 255.0f;
+        float a = (rgba & 0xFF) / 255.0f;
+        this->color(r, g, b, a);
     }
 
     void Tessellator::beginOverride() {
@@ -78,7 +81,7 @@ namespace selaura::bedrock {
         voidBeginEnd = true;
     }
 
-    void Tessellator::clear() {}
+    //void Tessellator::clear() {}
 
     mce::Mesh Tessellator::endOverride(uint64_t a3, std::string_view debugName, int a5) {
         voidBeginEnd = false;

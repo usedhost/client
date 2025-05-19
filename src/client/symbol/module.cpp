@@ -39,7 +39,7 @@ namespace selaura::detail {
             auto* detail = reinterpret_cast<process_module*>(data);
             if (info->dlpi_name && std::string_view(info->dlpi_name).contains("libminecraftpe.so")) {
                 detail->base = reinterpret_cast<std::byte*>(info->dlpi_addr);
-                detail->size = info->dlpi_phdr[0].p_memsz;
+                detail->size = info->dlpi_phdr[1].p_memsz;
                 return 1;
             }
             return 0;
