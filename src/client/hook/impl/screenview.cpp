@@ -31,8 +31,6 @@ void screenview_hooks::setupandrender(void* a1, selaura::bedrock::MinecraftUIRen
 
 void screenview_hooks::enable() {
     auto sig = GET_SIGNATURE("ScreenView::SetupandRender");
-    if (sig.has_value()) selaura::io::info("has value!");
     setupandrender_hook = selaura::hook((void*)sig.value(), (void*)setupandrender);
-
 	setupandrender_hook.enable();
 }
