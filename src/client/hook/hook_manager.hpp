@@ -3,8 +3,7 @@
 #include <type_traits>
 #include <tuple>
 
-#include "impl/screenview.hpp"
-#include "impl/splash_text.hpp"
+#include "impl/visual_hooks.hpp"
 
 namespace selaura {
 	template <typename T, typename... remainingT>
@@ -28,8 +27,7 @@ namespace selaura {
 
 	struct hook_manager {
 		using hooks_type = hook_storage<
-			screenview_hooks,
-			splashtext_hooks
+			visual_hooks
 		>;
 
 		void for_each(auto callback) {

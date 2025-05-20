@@ -121,20 +121,20 @@ namespace selaura::bedrock {
         virtual void enableScissorTest(const RectangleArea& rect);
         virtual void disableScissorTest();
         virtual void setClippingRectangle(const RectangleArea& rect) {
-            using func_t = void(__fastcall*)(MinecraftUIRenderContext*, const RectangleArea&);
+            using func_t = void(*)(MinecraftUIRenderContext*, const RectangleArea&);
             auto vtable = *(void***)this;
             static auto func = reinterpret_cast<func_t>(vtable[0x14]);
             func(this, rect);
         };
         virtual void setFullClippingRectangle();
         virtual void saveCurrentClippingRectangle() {
-            using func_t = void(__fastcall*)(MinecraftUIRenderContext*);
+            using func_t = void(*)(MinecraftUIRenderContext*);
             auto vtable = *(void***)this;
             static auto func = reinterpret_cast<func_t>(vtable[0x16]);
             func(this);
         };
         virtual void restoreSavedClippingRectangle() {
-            using func_t = void(__fastcall*)(MinecraftUIRenderContext*);
+            using func_t = void(*)(MinecraftUIRenderContext*);
             auto vtable = *(void***)this;
             static auto func = reinterpret_cast<func_t>(vtable[0x17]);
             func(this);

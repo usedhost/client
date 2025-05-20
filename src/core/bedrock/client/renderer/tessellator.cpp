@@ -3,12 +3,12 @@
 
 namespace selaura::bedrock {
 	void Tessellator::begin(mce::PrimitiveMode mode, int maxVertices) {
-        using func_t = void(__fastcall*)(Tessellator*, mce::PrimitiveMode, int, bool);
+        using func_t = void(*)(Tessellator*, mce::PrimitiveMode, int, bool);
         static auto func = reinterpret_cast<func_t>(selaura::resolver::signature("40 53 55 48 83 EC 28 80 B9").value());
         func(this, mode, maxVertices, false);
     }
 	void Tessellator::vertex(float x, float y, float z) {
-        using func_t = void(__fastcall*)(Tessellator*, float, float, float);
+        using func_t = void(*)(Tessellator*, float, float, float);
         static auto func = reinterpret_cast<func_t>(selaura::resolver::signature("40 57 48 81 EC ? ? ? ? 0F 29 7C ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24 ? 8B 81").value());
         func(this, x, y, z);
     }
@@ -22,7 +22,7 @@ namespace selaura::bedrock {
 		this->vertex(vec.x, vec.y, 0);
 	}
 	void Tessellator::vertexUV(float x, float y, float z, float uvX, float uvY) {
-        using func_t = void(__fastcall*)(Tessellator*, float, float, float, float, float);
+        using func_t = void(*)(Tessellator*, float, float, float, float, float);
         static auto func = reinterpret_cast<func_t>(selaura::resolver::signature("48 83 EC ? 80 B9 ? ? ? ? ? 0F 57 E4").value());
         func(this, x, y, z, uvX, uvY);
     }
@@ -30,7 +30,7 @@ namespace selaura::bedrock {
 		this->vertexUV(vec.x, vec.y, vec.z, uvX, uvY);
 	}
 	mce::Mesh Tessellator::end(uint64_t a3, std::string_view debugName, int a5) {
-        using func_t = mce::Mesh(__fastcall*)(Tessellator*, uint64_t, std::string_view, int);
+        using func_t = mce::Mesh(*)(Tessellator*, uint64_t, std::string_view, int);
         static auto func = reinterpret_cast<func_t>(selaura::resolver::signature("48 8B C4 48 89 58 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D A8 ? ? ? ? 48 81 EC ? ? ? ? 0F 29 70 ? 0F 29 78 ? 44 0F 29 40 ? 44 0F 29 48 ? 44 0F 29 90 ? ? ? ? 44 0F 29 98 ? ? ? ? 44 0F 29 A0 ? ? ? ? 44 0F 29 A8 ? ? ? ? 44 0F 29 B0 ? ? ? ? 44 0F 29 B8 ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 4D 8B F9").value());
         return func(this, a3, debugName, a5);
     }
@@ -63,7 +63,7 @@ namespace selaura::bedrock {
     }
 
     void Tessellator::color(float r, float g, float b, float a) {
-        using func_t = void(__fastcall*)(Tessellator*, float, float, float, float);
+        using func_t = void(*)(Tessellator*, float, float, float, float);
         static auto func = reinterpret_cast<func_t>(selaura::resolver::signature("80 B9 ? ? ? ? ? 4C 8B C1 75").value());
         func(this, r, g, b, a);
     }
