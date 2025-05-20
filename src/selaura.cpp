@@ -1,9 +1,8 @@
 #include "selaura.hpp"
 
 static std::once_flag flag;
+HMODULE selaura::hmodule = nullptr;
 
 void selaura::init() {
-	std::call_once(flag, []() {
-		selaura::instance::get().start();
-	});
+	selaura::instance::get().start();
 }

@@ -27,6 +27,9 @@ namespace selaura {
 
 		selaura::io::info("Successfully injected [{:.2f}s]", duration.count());
 
+		Sleep(5000);
+		shutdown();
+
 		/*
 		this->subscribe<test, &instance::func>();
 
@@ -54,6 +57,10 @@ namespace selaura {
 		std::chrono::duration<float> duration = endTime - startTime;
 
 		selaura::io::info("Successfully uninjected [{:.2f}s]", duration.count());
+
+#ifdef SELAURA_WINDOWS
+		//FreeLibraryAndExitThread(selaura::hmodule, 0);
+#endif
 
 	}
 };

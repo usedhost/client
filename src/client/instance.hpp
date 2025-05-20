@@ -4,6 +4,8 @@
 #include <chrono>
 #include <cpp-i18n/Translator.hpp>
 
+#include "../selaura.hpp"
+
 #include "event/event.hpp"
 #include "io/io.hpp"
 #include "feature/feature_manager.hpp"
