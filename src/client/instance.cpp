@@ -34,4 +34,26 @@ namespace selaura {
 		selaura::dispatcher<test>::dispatch(ev);
 		*/
 	}
+
+	void instance::shutdown() {
+		auto startTime = std::chrono::high_resolution_clock::now();
+		selaura::io::info("Attempting to uninject");
+
+		this->hook_manager->for_each([&](auto& hook) {
+			hook.disable();
+		});
+
+#ifdef SELAURA_WINDOWS
+		winrt::Windows::ApplicationModel::Core::CoreApplication::MainView().CoreWindow().Dispatcher().RunAsync(winrt::Windows::UI::Core::CoreDispatcherPriority::Normal, []() {
+			winrt::Windows::UI::ViewManagement::ApplicationView::GetForCurrentView().Title(winrt::to_hstring(""));
+		});
+#endif
+		selaura::shutdown_hooking();
+
+		auto endTime = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<float> duration = endTime - startTime;
+
+		selaura::io::info("Successfully uninjected [{:.2f}s]", duration.count());
+
+	}
 };

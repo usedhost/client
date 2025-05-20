@@ -17,4 +17,5 @@ private:
 	static std::vector<std::string>* splashtextrenderer_loadsplashes(void* a1, void* a2, void* a3, void* a4);
 public:
 	void enable();
+	void disable();
 };

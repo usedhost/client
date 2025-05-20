@@ -27,3 +27,8 @@ void visual_hooks::enable() {
     splashtext_hook = selaura::hook((void*)sig2.value(), (void*)splashtextrenderer_loadsplashes);
     splashtext_hook.enable();
 }
+
+void visual_hooks::disable() {
+    setupandrender_hook.disable();
+    splashtext_hook.disable();
+}
