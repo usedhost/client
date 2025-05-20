@@ -1,8 +1,10 @@
 #pragma once
 #include <string_view>
 #include <type_traits>
+#include <tuple>
 
 #include "impl/screenview.hpp"
+#include "impl/splash_text.hpp"
 
 namespace selaura {
 	template <typename T, typename... remainingT>
@@ -26,7 +28,8 @@ namespace selaura {
 
 	struct hook_manager {
 		using hooks_type = hook_storage<
-			screenview_hooks
+			screenview_hooks,
+			splashtext_hooks
 		>;
 
 		void for_each(auto callback) {
