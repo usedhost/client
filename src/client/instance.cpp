@@ -27,9 +27,6 @@ namespace selaura {
 
 		selaura::io::info("Successfully injected [{:.2f}s]", duration.count());
 
-		Sleep(5000);
-		shutdown();
-
 		/*
 		this->subscribe<test, &instance::func>();
 
