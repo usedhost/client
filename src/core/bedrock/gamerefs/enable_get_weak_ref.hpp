@@ -1,4 +1,6 @@
 #pragma once
 
-template<typename T>
-class EnableGetWeakRef {};
+namespace bedrock {
+	template<typename T>
+	class EnableGetWeakRef {};
+}

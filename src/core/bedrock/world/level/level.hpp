@@ -2,7 +2,7 @@
 
 #include "level_interface.hpp"
 
-namespace selaura::bedrock {
+namespace bedrock {
 	class Level : public ILevel {
 		
 	};

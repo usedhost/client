@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <string>
 
-namespace selaura::bedrock {
+namespace bedrock {
     class NetworkIdentifier {
     public:
         enum class Type : std::uint32_t {

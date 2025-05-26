@@ -1,6 +1,6 @@
 #pragma once
 
-namespace selaura::bedrock {
+namespace bedrock {
 	enum class GameType {
         Undefined = -1,
         Survival = 0,

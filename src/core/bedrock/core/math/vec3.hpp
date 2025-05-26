@@ -1,6 +1,6 @@
 #pragma once
 
-namespace selaura::bedrock {
+namespace bedrock {
 	class Vec3 {
 	public:
 		float x;

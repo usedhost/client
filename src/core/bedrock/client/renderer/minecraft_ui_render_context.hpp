@@ -11,12 +11,12 @@
 #include <map>
 #include <string>
 
-namespace selaura::bedrock::mce {
+namespace bedrock::mce {
     class BedrockTexture;
     class ClientTexture;
 }
 
-namespace selaura::bedrock {
+namespace bedrock {
     class ComponentRenderBatch {};
     struct BedrockTextureData {
         mce::ClientTexture* clientTexture;

@@ -5,7 +5,7 @@
 #include <string>
 #include <string_view>
 
-namespace selaura::bedrock {
+namespace bedrock {
 	namespace mce {
 		class Color {
 			[[nodiscard]] std::string toHexString() const;

@@ -1,7 +1,7 @@
 #include "tessellator.hpp"
 #include "../../../../client/symbol/resolver.hpp"
 
-namespace selaura::bedrock {
+namespace bedrock {
 	void Tessellator::begin(mce::PrimitiveMode mode, int maxVertices) {
         using func_t = void(*)(Tessellator*, mce::PrimitiveMode, int, bool);
         static auto func = reinterpret_cast<func_t>(selaura::resolver::signature("40 53 55 48 83 EC 28 80 B9").value());

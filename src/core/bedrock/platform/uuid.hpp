@@ -5,7 +5,7 @@
 #include <iomanip>
 #include <sstream>
 
-namespace selaura::bedrock {
+namespace bedrock {
 	namespace mce {
         class UUID {
         public:

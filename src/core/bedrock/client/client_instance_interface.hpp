@@ -7,7 +7,7 @@
 #include <string>
 #include <chrono>
 
-namespace selaura::bedrock {
+namespace bedrock {
 	class IClientInstance : public Bedrock::EnableNonOwnerReferences {
 	public:
 		

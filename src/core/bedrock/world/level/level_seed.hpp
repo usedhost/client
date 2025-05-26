@@ -1,6 +1,6 @@
 #pragma once
 
-namespace selaura::bedrock {
+namespace bedrock {
 	class LevelSeed64 {
 		using ValueType = uint64_t;
 	public:

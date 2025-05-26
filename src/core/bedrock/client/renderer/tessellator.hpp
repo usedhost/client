@@ -8,7 +8,7 @@
 #include <bit>
 #include <string_view>
 
-namespace selaura::bedrock {
+namespace bedrock {
     namespace mce {
         class TexturePtr;
         class MeshContext {};

@@ -3,7 +3,7 @@
 #include <memory>
 #include <stdexcept>
 
-namespace selaura::bedrock {
+namespace bedrock {
     namespace Bedrock {
         class EnableNonOwnerReferences {
         public:

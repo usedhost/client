@@ -5,7 +5,7 @@
 #include <string>
 #include <string_view>
 
-namespace selaura::bedrock {
+namespace bedrock {
     std::string mce::Color::toHexString() const
     {
         std::stringstream stream;

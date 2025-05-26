@@ -2,7 +2,7 @@
 
 #include "level_seed.hpp"
 
-namespace selaura::bedrock {
+namespace bedrock {
     class LevelSettings {
     public:
         [[nodiscard]] LevelSeed64 getSeed() const

@@ -7,7 +7,7 @@
 
 #include "world/actor/actor.hpp"
 
-namespace selaura::bedrock {
+namespace bedrock {
 	using ActorList = std::vector<class Actor*>;
 
 	enum class SubClientId : std::uint8_t {

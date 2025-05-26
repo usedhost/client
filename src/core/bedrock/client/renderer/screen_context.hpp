@@ -2,7 +2,7 @@
 #include "tessellator.hpp"
 #include <libhat/access.hpp>
 
-namespace selaura::bedrock {
+namespace bedrock {
 	class ScreenContext /* : public UIScreenContext, public mce::MeshContent*/ {
 	public:
 		std::byte padding0[160];

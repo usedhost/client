@@ -12,7 +12,7 @@
 #include <string>
 #include <memory>
 
-namespace selaura::bedrock {
+namespace bedrock {
 	class Player : public Mob {
 		/*
 		Player(

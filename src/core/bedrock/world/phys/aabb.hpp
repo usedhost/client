@@ -2,7 +2,7 @@
 
 #include "../../core/math/vec3.hpp"
 
-namespace selaura::bedrock {
+namespace bedrock {
 	class AABB {
 		Vec3 min;
 		Vec3 max;

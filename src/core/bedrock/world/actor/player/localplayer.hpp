@@ -2,6 +2,6 @@
 
 #include "player.hpp"
 
-namespace selaura::bedrock {
+namespace bedrock {
 	class LocalPlayer : public Player {};
 }

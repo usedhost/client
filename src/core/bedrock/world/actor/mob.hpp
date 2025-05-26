@@ -1,6 +1,6 @@
 #pragma once
 #include "actor.hpp"
 
-namespace selaura::bedrock {
+namespace bedrock {
 	class Mob : public Actor {};
 };
