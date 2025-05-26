@@ -1,15 +1,18 @@
 #include "main.hpp"
 
+void init() {
+	auto instance = std::make_shared<selaura::instance>();
+	if (instance->start()) instance->init();
+}
+
 #ifdef SELAURA_WINDOWS
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved) {
-	selaura::hmodule = hModule;
-
 	if (dwReason == DLL_PROCESS_ATTACH) {
 		HMODULE mc = GetModuleHandleA("Minecraft.Windows.exe");
 		if (mc == nullptr) return FALSE;
 
 		DisableThreadLibraryCalls(mc);
-		CloseHandle(CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)selaura::init, hModule, 0, nullptr));
+		CloseHandle(CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)init, hModule, 0, nullptr));
 	}
 
 	return TRUE;
@@ -23,7 +26,7 @@ extern "C" [[gnu::visibility("default")]] void mod_preinit() {
 
 extern "C" [[gnu::visibility("default")]] void mod_init() {
 	std::thread([]() {
-		selaura::init();
+		init();
 	}).detach();
 }
 #endif
@@ -46,7 +49,7 @@ JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 	ANativeActivity_onCreate_minecraft = (void (*)(ANativeActivity*, void*, size_t)) dlsym(handle, "ANativeActivity_onCreate");
 
 	std::thread([]() {
-		selaura::init();
+		init();
 	}).detach();
 
 	return JNI_VERSION_1_6;

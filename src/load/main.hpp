@@ -1,7 +1,9 @@
 #pragma once
 
-#include "../selaura.hpp"
+#include "client/instance.hpp"
 #include <thread>
+
+void init();
 
 #ifdef SELAURA_WINDOWS
 #include <Windows.h>

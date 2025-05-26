@@ -13,7 +13,7 @@ elseif(UNIX)
     add_compile_definitions(SELAURA_LINUX)
 endif()
 
-set(CLIENT_VERSION "0.10")
+set(CLIENT_VERSION "0.11")
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
     set(DEVELOPER_MODE "")

@@ -4,8 +4,6 @@
 #include <chrono>
 #include <cpp-i18n/Translator.hpp>
 
-#include "../selaura.hpp"
-
 #include "event/event.hpp"
 #include "io/io.hpp"
 #include "feature/feature_manager.hpp"
@@ -21,12 +19,13 @@
 #endif
 
 namespace selaura {
-	class instance : public selaura::listener {
+	class instance : public selaura::listener, public std::enable_shared_from_this<instance> {
 	public:
-		void start();
+		bool start();
+		void init();
 		void shutdown();
 
-		static instance& get();
+		static std::shared_ptr<selaura::instance> get();
 	private:
 		i18n::Translator translator;
 		std::unique_ptr<selaura::resolver> resolver;

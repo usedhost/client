@@ -1,12 +1,22 @@
 #include "instance.hpp"
 
 namespace selaura {
-	instance& instance::get() {
-		static selaura::instance inst;
-		return inst;
+	std::shared_ptr<selaura::instance> inst;
+
+	std::shared_ptr<selaura::instance> instance::get() {
+		return selaura::inst;
 	}
 
-	void instance::start() {
+	bool instance::start() {
+		if (auto self = shared_from_this(); self) {
+			selaura::inst = self;
+		}
+		else {
+			throw std::runtime_error("selaura::instance must be managed by an std::shared_ptr");
+		}
+	}
+
+	void instance::init() {
 		auto startTime = std::chrono::high_resolution_clock::now();
 		selaura::io::init();
 

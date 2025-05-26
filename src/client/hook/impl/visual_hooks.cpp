@@ -6,6 +6,7 @@ selaura::hook_t visual_hooks::splashtext_hook;
 void visual_hooks::screenview_setupandrender(void* a1, bedrock::MinecraftUIRenderContext* mcuirc) {
 	setupandrender_hook.get_original<decltype(&screenview_setupandrender)>()(a1, mcuirc);
 }
+
 std::vector<std::string>* visual_hooks::splashtextrenderer_loadsplashes(void* a1, void* a2, void* a3, void* a4) {
     auto original_func = splashtext_hook.get_original<decltype(&splashtextrenderer_loadsplashes)>();
     std::vector<std::string>* result = original_func(a1, a2, a3, a4);
