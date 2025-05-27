@@ -2,7 +2,6 @@
 #include <memory>
 #include <format>
 #include <chrono>
-#include <cpp-i18n/Translator.hpp>
 
 #include "event/event.hpp"
 #include "io/io.hpp"
@@ -27,7 +26,6 @@ namespace selaura {
 
 		static std::shared_ptr<selaura::instance> get();
 	private:
-		i18n::Translator translator;
 		std::unique_ptr<selaura::resolver> resolver;
 		std::unique_ptr<selaura::io> io;
 		std::unique_ptr<selaura::feature_manager> feature_manager;

@@ -8,11 +8,11 @@
 namespace selaura {
 	class io {
 	public:
-		static std::filesystem::path data_folder;
-		static std::filesystem::path log_file;
-		static std::ofstream log_stream;
+		std::filesystem::path data_folder;
+		std::filesystem::path log_file;
+		std::ofstream log_stream;
 
-		static void init() {
+		void init() {
 #ifdef SELAURA_WINDOWS
 			char* localAppData = nullptr;
 			size_t size = 0;
@@ -30,27 +30,27 @@ namespace selaura {
 			log_stream.open(log_file, std::ios::trunc);
 		}
 
-		static void shutdown() {
+		void shutdown() {
 			if (log_stream.is_open()) log_stream.close();
 		}
 
 		template<typename... Args>
-		static void info(std::format_string<Args...> fmt, Args&&... args) {
+		void info(std::format_string<Args...> fmt, Args&&... args) {
 			log("INFO", std::format(fmt, std::forward<Args>(args)...));
 		}
 
 		template<typename... Args>
-		static void warn(std::format_string<Args...> fmt, Args&&... args) {
+		void warn(std::format_string<Args...> fmt, Args&&... args) {
 			log("WARN", std::format(fmt, std::forward<Args>(args)...));
 		}
 
 		template<typename... Args>
-		static void error(std::format_string<Args...> fmt, Args&&... args) {
+		void error(std::format_string<Args...> fmt, Args&&... args) {
 			log("ERROR", std::format(fmt, std::forward<Args>(args)...));
 		}
 
 	private:
-		static void log(const std::string& level, const std::string& msg) {
+		void log(const std::string& level, const std::string& msg) {
 			if (!log_stream.is_open()) return;
 
 			auto now = std::chrono::system_clock::now();

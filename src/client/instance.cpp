@@ -20,7 +20,9 @@ namespace selaura {
 
 	void instance::init() {
 		auto startTime = std::chrono::high_resolution_clock::now();
-		selaura::io::init();
+		io = std::make_unique<selaura::io>();
+
+		io->init();
 
 		selaura::detail::register_memory();
 		selaura::init_hooking();
@@ -37,7 +39,7 @@ namespace selaura {
 		auto endTime = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<float> duration = endTime - startTime;
 
-		selaura::io::info("Successfully injected [{:.2f}s]", duration.count());
+		io->info("Successfully injected [{:.2f}s]", duration.count());
 
 		/*
 		this->subscribe<test, &instance::func>();
@@ -49,7 +51,7 @@ namespace selaura {
 
 	void instance::shutdown() {
 		auto startTime = std::chrono::high_resolution_clock::now();
-		selaura::io::info("Attempting to uninject");
+		io->info("Attempting to uninject");
 
 		this->hook_manager->for_each([&](auto& hook) {
 			hook.disable();
@@ -65,11 +67,6 @@ namespace selaura {
 		auto endTime = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<float> duration = endTime - startTime;
 
-		selaura::io::info("Successfully uninjected [{:.2f}s]", duration.count());
-
-#ifdef SELAURA_WINDOWS
-		//FreeLibraryAndExitThread(selaura::hmodule, 0);
-#endif
-
+		io->info("Successfully uninjected [{:.2f}s]", duration.count());
 	}
 };
