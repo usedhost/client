@@ -14,6 +14,8 @@ namespace selaura {
 		else {
 			throw std::runtime_error("selaura::instance must be managed by an std::shared_ptr");
 		}
+
+		return true;
 	}
 
 	void instance::init() {
