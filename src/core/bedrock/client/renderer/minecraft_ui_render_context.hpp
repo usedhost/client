@@ -86,70 +86,13 @@ namespace bedrock {
         bool shouldRender;
     };
     class MinecraftUIRenderContext {
+    private:
+        char pad0[0x8];
     public:
         ClientInstance* clientInstance;
+    private:
+        char pad1[0x8];
+    public:
         ScreenContext* screenContext;
-        std::byte padding24[64];
-        Bedrock::NonOwnerPointer<mce::TextureGroup> textures;
-        std::byte padding80[248 - 104];
-        const void* currentScene; // const UIScene*
-
-        MinecraftUIRenderContext(IClientInstance& client, ScreenContext& screenContext, const void* currentScene);
-
-        ClientInstance* getClientInstance() {
-            return hat::member_at<ClientInstance*>(this, 0x8);
-        };
-
-        ScreenContext* getScreenContext() {
-            return hat::member_at<ScreenContext*>(this, 0x10);
-        };
-
-        virtual ~MinecraftUIRenderContext();
-        virtual float getLineLength(Font& font, const std::string& text, float fontSize, bool showColorSymbol);
-        virtual float getTextAlpha();
-        virtual void setTextAlpha(float alpha);
-        virtual void drawDebugText(const RectangleArea* rect, const std::string* text, const mce::Color* color, float alpha, TextAlignment alignment, const TextMeasureData* textData, const CaretMeasureData* caretData);
-        virtual void drawText(Font& font, const RectangleArea& rect, const std::string& text, const mce::Color& color, float alpha, TextAlignment alignment, const TextMeasureData& textData, const CaretMeasureData& caretData);
-        virtual void flushText(float deltaTime);
-        virtual void drawImage(const mce::TexturePtr& texture, const Vec2& position, const Vec2& size, Vec2& uv, Vec2& uvSize, int degree);
-        virtual void drawNineslice(const mce::TexturePtr* texture, void* nineslice);
-        virtual void flushImages(const mce::Color& color, float alpha, void* materialNameHash);
-        virtual void beginSharedMeshBatch(ComponentRenderBatch& renderBatch);
-        virtual void endSharedMeshBatch(ComponentRenderBatch& renderBatch);
-        virtual void drawRectangle(const RectangleArea& rect, const mce::Color& color, float alpha, int thickness);
-        virtual void fillRectangle(const RectangleArea& rect, const mce::Color& color, float alpha);
-        virtual void increaseStencilRef();
-        virtual void decreaseStencilRef();
-        virtual void resetStencilRef();
-        virtual void fillRectangleStencil(const RectangleArea& rect);
-        virtual void enableScissorTest(const RectangleArea& rect);
-        virtual void disableScissorTest();
-        virtual void setClippingRectangle(const RectangleArea& rect) {
-            using func_t = void(*)(MinecraftUIRenderContext*, const RectangleArea&);
-            auto vtable = *(void***)this;
-            static auto func = reinterpret_cast<func_t>(vtable[0x14]);
-            func(this, rect);
-        };
-        virtual void setFullClippingRectangle();
-        virtual void saveCurrentClippingRectangle() {
-            using func_t = void(*)(MinecraftUIRenderContext*);
-            auto vtable = *(void***)this;
-            static auto func = reinterpret_cast<func_t>(vtable[0x16]);
-            func(this);
-        };
-        virtual void restoreSavedClippingRectangle() {
-            using func_t = void(*)(MinecraftUIRenderContext*);
-            auto vtable = *(void***)this;
-            static auto func = reinterpret_cast<func_t>(vtable[0x17]);
-            func(this);
-        };
-        virtual RectangleArea getFullClippingRectangle();
-        virtual bool updateCustom(void* customRenderer);
-        virtual void renderCustom(void* customRenderer, int pass, RectangleArea& renderAABB);
-        virtual void cleanup();
-        virtual void removePersistentMeshes();
-        virtual mce::TexturePtr getTexture(const ResourceLocation& resourceLocation, bool forceReload);
-        virtual mce::TexturePtr getZippedTexture(/*const Core::Path*/ void* zippedFolderPath, const ResourceLocation& resourceLocation, bool forceReload);
-        virtual void unloadTexture(ResourceLocation const&);
     };
 }

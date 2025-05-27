@@ -4,8 +4,8 @@ selaura::hook_t visual_hooks::setupandrender_hook;
 selaura::hook_t visual_hooks::splashtext_hook;
 
 void visual_hooks::screenview_setupandrender(void* a1, bedrock::MinecraftUIRenderContext* mcuirc) {
-    auto ci = mcuirc->getClientInstance();
-    auto guiData = ci->getGuiData();
+    auto ci = mcuirc->clientInstance;
+    auto guiData = ci->guiData;
 
     auto screenSize = guiData->mScreenSize;
     static bedrock::Vec2 safeZone = { 0.f, 0.f };
