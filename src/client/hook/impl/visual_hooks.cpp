@@ -4,6 +4,19 @@ selaura::hook_t visual_hooks::setupandrender_hook;
 selaura::hook_t visual_hooks::splashtext_hook;
 
 void visual_hooks::screenview_setupandrender(void* a1, bedrock::MinecraftUIRenderContext* mcuirc) {
+    auto ci = mcuirc->getClientInstance();
+    auto guiData = ci->getGuiData();
+
+    auto screenSize = guiData->mScreenSize;
+    static bedrock::Vec2 safeZone = { 0.f, 0.f };
+    ci->_updateScreenSizeVariables(&screenSize, &safeZone, 2);
+
+    static bool once = false;
+    if (!once) {
+        guiData->displayClientMessage("Selaura on Top!");
+        once = true;
+    }
+
 	setupandrender_hook.get_original<decltype(&screenview_setupandrender)>()(a1, mcuirc);
 }
 

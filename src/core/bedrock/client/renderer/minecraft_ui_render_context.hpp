@@ -87,7 +87,7 @@ namespace bedrock {
     };
     class MinecraftUIRenderContext {
     public:
-        IClientInstance* clientInstance;
+        ClientInstance* clientInstance;
         ScreenContext* screenContext;
         std::byte padding24[64];
         Bedrock::NonOwnerPointer<mce::TextureGroup> textures;
@@ -95,6 +95,10 @@ namespace bedrock {
         const void* currentScene; // const UIScene*
 
         MinecraftUIRenderContext(IClientInstance& client, ScreenContext& screenContext, const void* currentScene);
+
+        ClientInstance* getClientInstance() {
+            return hat::member_at<ClientInstance*>(this, 0x8);
+        };
 
         ScreenContext* getScreenContext() {
             return hat::member_at<ScreenContext*>(this, 0x10);
