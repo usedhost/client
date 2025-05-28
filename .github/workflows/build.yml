@@ -1,0 +1,102 @@
+name: CMake Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CDN_REPO: https://x-access-token:${{ secrets.CDN_TOKEN }}@github.com/selauraclient/cdn.git
+  COMMIT_EMAIL: "github-actions@users.noreply.github.com"
+  COMMIT_NAME: "GitHub Actions"
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure CMake (Windows)
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build (Windows)
+        run: cmake --build build --config Release
+
+      - name: Upload to CDN (Windows)
+        run: |
+          git config --global user.email "$COMMIT_EMAIL"
+          git config --global user.name "$COMMIT_NAME"
+          git clone $CDN_REPO cdn
+          mkdir -p cdn/windows
+          cp -r build/Release/* cdn/windows/
+          cd cdn
+          git add .
+          git commit -m "Upload Windows build from ${{ github.sha }}"
+          git push
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential cmake
+
+      - name: Configure CMake (Linux)
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build (Linux)
+        run: cmake --build build --config Release
+
+      - name: Upload to CDN (Linux)
+        run: |
+          git config --global user.email "$COMMIT_EMAIL"
+          git config --global user.name "$COMMIT_NAME"
+          git clone $CDN_REPO cdn
+          mkdir -p cdn/linux
+          cp -r build/* cdn/linux/
+          cd cdn
+          git add .
+          git commit -m "Upload Linux build from ${{ github.sha }}"
+          git push
+
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Download and set up Android NDK
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r26d
+          add-to-path: true
+
+      - name: Configure CMake (Android)
+        run: |
+          cmake -S . -B build-android \
+            -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
+            -DANDROID_ABI=arm64-v8a \
+            -DANDROID_PLATFORM=android-21 \
+            -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build (Android)
+        run: cmake --build build-android --config Release
+
+      - name: Upload to CDN (Android)
+        run: |
+          git config --global user.email "$COMMIT_EMAIL"
+          git config --global user.name "$COMMIT_NAME"
+          git clone $CDN_REPO cdn
+          mkdir -p cdn/android
+          cp -r build-android/* cdn/android/
+          cd cdn
+          git add .
+          git commit -m "Upload Android build from ${{ github.sha }}"
+          git push
