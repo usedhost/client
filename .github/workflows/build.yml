@@ -1,10 +1,11 @@
-name: CMake Build
+name: Build & Push Selaura Client
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
+  workflow_dispatch:
 
 env:
   CDN_REPO: https://x-access-token:${{ secrets.CDN_TOKEN }}@github.com/selauraclient/cdn.git
