@@ -25,10 +25,11 @@ jobs:
         run: cmake --build build --config Release
 
       - name: Upload Windows Release Binaries
+        shell: cmd
         run: |
-          git config --global user.email "%COMMIT_EMAIL%"
-          git config --global user.name "%COMMIT_NAME%"
-          git clone %CDN_REPO% cdn
+          git config --global user.email "github-actions@users.noreply.github.com"
+          git config --global user.name "GitHub Actions"
+          git clone https://x-access-token:${{ secrets.CDN_TOKEN }}@github.com/selauraclient/cdn.git cdn
           mkdir cdn\windows
           copy build\Release\*.exe cdn\windows\ >nul 2>&1
           copy build\Release\*.dll cdn\windows\ >nul 2>&1
@@ -70,16 +71,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
       - name: Download and set up Android NDK
         uses: nttld/setup-ndk@v1
         with:
-          ndk-version: r26d
+          ndk-version: r25c
           add-to-path: true
 
       - name: Configure CMake (Android)
