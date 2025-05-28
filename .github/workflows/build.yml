@@ -29,7 +29,7 @@ jobs:
           git config --global user.email "%COMMIT_EMAIL%"
           git config --global user.name "%COMMIT_NAME%"
           git clone %CDN_REPO% cdn
-          if not exist cdn\windows mkdir cdn\windows
+          mkdir cdn\windows
           copy build\Release\*.exe cdn\windows\ >nul 2>&1
           copy build\Release\*.dll cdn\windows\ >nul 2>&1
           cd cdn
