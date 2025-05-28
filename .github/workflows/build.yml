@@ -30,11 +30,13 @@ jobs:
           git config --global user.name "$COMMIT_NAME"
           git clone $CDN_REPO cdn
           mkdir -p cdn/windows
-          cp build/Release/*.{exe,dll} cdn/windows/ || true
+          cp build/Release/*.exe cdn/windows/ 2>$null || true
+          cp build/Release/*.dll cdn/windows/ 2>$null || true
           cd cdn
           git add .
           git commit -m "Upload Windows release binaries from ${{ github.sha }}" || echo "No changes to commit"
           git push
+
 
   build-linux:
     runs-on: ubuntu-latest
@@ -56,7 +58,7 @@ jobs:
           git config --global user.name "$COMMIT_NAME"
           git clone $CDN_REPO cdn
           mkdir -p cdn/linux
-          find build -type f \( -name "*.so" -o -name "*.a" -o -executable \) -exec cp {} cdn/linux/ \;
+          find build -type f -name "libSelaura.so" -exec cp {} cdn/linux/ \;
           cd cdn
           git add .
           git commit -m "Upload Linux release binaries from ${{ github.sha }}" || echo "No changes to commit"
@@ -96,7 +98,7 @@ jobs:
           git config --global user.name "$COMMIT_NAME"
           git clone $CDN_REPO cdn
           mkdir -p cdn/android
-          find build-android -type f \( -name "*.so" -o -name "*.a" \) -exec cp {} cdn/android/ \;
+          find build-android -type f -name "libSelaura.so" -exec cp {} cdn/android/ \;
           cd cdn
           git add .
           git commit -m "Upload Android release binaries from ${{ github.sha }}" || echo "No changes to commit"
