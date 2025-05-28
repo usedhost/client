@@ -2,10 +2,9 @@ name: CMake Build
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "master" ]
-  workflow_dispatch:
+    branches: [ main ]
 
 env:
   CDN_REPO: https://x-access-token:${{ secrets.CDN_TOKEN }}@github.com/selauraclient/cdn.git
@@ -24,16 +23,16 @@ jobs:
       - name: Build (Windows)
         run: cmake --build build --config Release
 
-      - name: Upload to CDN (Windows)
+      - name: Upload Windows Release Binaries
         run: |
           git config --global user.email "$COMMIT_EMAIL"
           git config --global user.name "$COMMIT_NAME"
           git clone $CDN_REPO cdn
           mkdir -p cdn/windows
-          cp -r build/Release/* cdn/windows/
+          cp build/Release/*.{exe,dll} cdn/windows/ || true
           cd cdn
           git add .
-          git commit -m "Upload Windows build from ${{ github.sha }}"
+          git commit -m "Upload Windows release binaries from ${{ github.sha }}" || echo "No changes to commit"
           git push
 
   build-linux:
@@ -50,16 +49,16 @@ jobs:
       - name: Build (Linux)
         run: cmake --build build --config Release
 
-      - name: Upload to CDN (Linux)
+      - name: Upload Linux Release Binaries
         run: |
           git config --global user.email "$COMMIT_EMAIL"
           git config --global user.name "$COMMIT_NAME"
           git clone $CDN_REPO cdn
           mkdir -p cdn/linux
-          cp -r build/* cdn/linux/
+          find build -type f \( -name "*.so" -o -name "*.a" -o -executable \) -exec cp {} cdn/linux/ \;
           cd cdn
           git add .
-          git commit -m "Upload Linux build from ${{ github.sha }}"
+          git commit -m "Upload Linux release binaries from ${{ github.sha }}" || echo "No changes to commit"
           git push
 
   build-android:
@@ -90,14 +89,14 @@ jobs:
       - name: Build (Android)
         run: cmake --build build-android --config Release
 
-      - name: Upload to CDN (Android)
+      - name: Upload Android Release Binaries
         run: |
           git config --global user.email "$COMMIT_EMAIL"
           git config --global user.name "$COMMIT_NAME"
           git clone $CDN_REPO cdn
           mkdir -p cdn/android
-          cp -r build-android/* cdn/android/
+          find build-android -type f \( -name "*.so" -o -name "*.a" \) -exec cp {} cdn/android/ \;
           cd cdn
           git add .
-          git commit -m "Upload Android build from ${{ github.sha }}"
+          git commit -m "Upload Android release binaries from ${{ github.sha }}" || echo "No changes to commit"
           git push
