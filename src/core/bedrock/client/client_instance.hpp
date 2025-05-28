@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../../client/symbol/resolver.hpp"
+#include "../../../client/symbol/resolver.hpp"
 #include "../core/math/vec2.hpp"
 #include <libhat/access.hpp>
 #include "gui_data.hpp"
