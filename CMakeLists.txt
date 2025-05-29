@@ -161,7 +161,7 @@ endif()
 if(MSVC)
     target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat ImGui magic_enum LuaBridge glm cpp-i18n minhook)
 else()
-    target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat ImGui magic_enum LuaBridge glm cpp-i18n dobby)
+    target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat ImGui magic_enum LuaBridge glm cpp-i18n dobby_static)
 endif()
 
 if (ANDROID)
