@@ -13,7 +13,7 @@ void visual_hooks::screenview_setupandrender(void* a1, bedrock::MinecraftUIRende
 
     static bool once = false;
     if (!once) {
-        guiData->displayClientMessage("Selaura on Top!");
+        //guiData->displayClientMessage("Selaura on Top!");
         once = true;
     }
 
@@ -33,9 +33,9 @@ std::vector<std::string>* visual_hooks::splashtextrenderer_loadsplashes(void* a1
 }
 
 void visual_hooks::enable() {
-    auto sig = GET_SIGNATURE("ScreenView::SetupandRender");
-    setupandrender_hook = selaura::hook((void*)sig.value(), (void*)screenview_setupandrender);
-	setupandrender_hook.enable();
+    //auto sig = GET_SIGNATURE("ScreenView::SetupandRender");
+    //auto hook_test = selaura::hook((void*)sig.value(), (void*)screenview_setupandrender);
+    //hook_test.enable();
 
     auto sig2 = GET_SIGNATURE("SplashTextRenderer::_loadSplashes");
     splashtext_hook = selaura::hook((void*)sig2.value(), (void*)splashtextrenderer_loadsplashes);
