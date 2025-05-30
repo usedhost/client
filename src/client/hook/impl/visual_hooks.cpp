@@ -43,6 +43,6 @@ void visual_hooks::enable() {
 }
 
 void visual_hooks::disable() {
-    setupandrender_hook.disable();
+    //setupandrender_hook.disable();
     splashtext_hook.disable();
 }
