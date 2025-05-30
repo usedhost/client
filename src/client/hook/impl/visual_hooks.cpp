@@ -9,7 +9,7 @@ void visual_hooks::screenview_setupandrender(void* a1, bedrock::MinecraftUIRende
 
     auto screenSize = guiData->mScreenSize;
     static bedrock::Vec2 safeZone = { 0.f, 0.f };
-    ci->_updateScreenSizeVariables(&screenSize, &safeZone, 2);
+    //ci->_updateScreenSizeVariables(&screenSize, &safeZone, 2);
 
     static bool once = false;
     if (!once) {
