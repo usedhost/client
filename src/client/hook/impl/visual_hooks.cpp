@@ -37,9 +37,9 @@ void visual_hooks::enable() {
     //auto hook_test = selaura::hook((void*)sig.value(), (void*)screenview_setupandrender);
     //hook_test.enable();
 
-    auto sig2 = GET_SIGNATURE("SplashTextRenderer::_loadSplashes");
+    /*auto sig2 = GET_SIGNATURE("SplashTextRenderer::_loadSplashes");
     splashtext_hook = selaura::hook((void*)sig2.value(), (void*)splashtextrenderer_loadsplashes);
-    splashtext_hook.enable();
+    splashtext_hook.enable();*/
 }
 
 void visual_hooks::disable() {
