@@ -33,7 +33,7 @@ namespace selaura {
 
         template <typename callback_t>
         void pass_callback(void* addr, callback_t callback, typename std::enable_if<std::is_function_v<std::remove_pointer_t<callback_t>>>::type* = 0) {
-            return resolve_callback(addr, callback);
+            return resolve_callback(addr, callback, &decltype(callback)::operator());
         }
 
         template <typename callback_t>
