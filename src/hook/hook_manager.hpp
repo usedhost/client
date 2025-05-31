@@ -50,7 +50,7 @@ namespace selaura {
                 return cb(std::bit_cast<void*>(ofunc), args...);
             };
 
-            hook(addr, static_cast<return_t(THISCALL*)(args_t...)>(invoker), (void**)&ofunc);
+            hook(addr, reinterpret_cast<void*>(invoker), (void**)&ofunc);
         }
 
         void hook(void* target, void* trampoline, void** out) {
