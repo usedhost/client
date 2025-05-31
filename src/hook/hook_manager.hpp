@@ -12,6 +12,9 @@
 #include <type_traits>
 
 namespace selaura {
+
+    struct hook_group;
+
     struct hook_manager {
         hook_manager() = default;
         void init();
@@ -20,7 +23,14 @@ namespace selaura {
         void register_hook(symbol_t& symbol, auto callback) {
             pass_callback(symbol.resolve(), callback);
         }
+
+        template <typename hookgroup_t, typename... args_t>
+        void register_hookgroup(args_t... args) {
+            hookGroups.emplace_back(std::make_unique<hookgroup_t>(*this, std::forward<args_t>(args)...));
+        }
     private:
+        std::vector<std::unique_ptr<hook_group>> hookGroups{};
+
         template <typename callback_t>
         void pass_callback(void* addr, callback_t callback, typename std::enable_if<std::is_function_v<std::remove_pointer_t<callback_t>>>::type* = 0) {
             return resolve_callback(addr, callback);
@@ -51,5 +61,9 @@ namespace selaura {
             DobbyHook(target, trampoline, out);
 #endif
         }
+    };
+
+    struct hook_group {
+        explicit hook_group(hook_manager& mgr);
     };
 }
