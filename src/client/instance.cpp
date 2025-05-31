@@ -40,7 +40,7 @@ namespace selaura {
 		std::chrono::duration<float> duration = endTime - startTime;
 
 		io->info("Successfully injected [{:.2f}s]", duration.count());
-
+// refresh
 		/*
 		this->subscribe<test, &instance::func>();
 
