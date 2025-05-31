@@ -33,7 +33,8 @@ namespace selaura {
 
         template <typename callback_t>
         void pass_callback(void* addr, callback_t callback, typename std::enable_if<std::is_function_v<std::remove_pointer_t<callback_t>>>::type* = 0) {
-            return resolve_callback(addr, callback, &decltype(callback)::operator());
+            uintptr_t ofunc = 0;
+            return resolve_callback(addr, callback, reinterpret_cast<void**>(&ofunc));
         }
 
         template <typename callback_t>
@@ -48,10 +49,16 @@ namespace selaura {
 
             static auto invoker = [](args_t... args) -> return_t {
                 return cb(std::bit_cast<void*>(ofunc), args...);
-            };
+                };
 
-            hook(addr, reinterpret_cast<void*>(invoker), (void**)&ofunc);
+            hook(addr, static_cast<return_t(THISCALL*)(args_t...)>(invoker), (void**)&ofunc);
         }
+
+        template <typename return_t, typename... args_t>
+        void resolve_callback(void* addr, return_t(*callback)(void*, args_t...), void** out) {
+            hook(addr, reinterpret_cast<void*>(callback), out);
+        }
+
 
         void hook(void* target, void* trampoline, void** out) {
 #ifdef SELAURA_WINDOWS
