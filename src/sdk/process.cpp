@@ -36,7 +36,7 @@ namespace selaura {
         detail.native = handle;
 
         dl_iterate_phdr([](dl_phdr_info* info, size_t, void* data) -> int {
-            auto* detail = reinterpret_cast<process_module*>(data);
+            auto* detail = reinterpret_cast<process*>(data);
             if (info->dlpi_name && std::string_view(info->dlpi_name).contains("libminecraftpe.so")) {
                 detail->base = reinterpret_cast<std::byte*>(info->dlpi_addr);
                 detail->size = info->dlpi_phdr[1].p_memsz;
