@@ -1,6 +1,6 @@
 #pragma once
 
-#include "client/instance.hpp"
+#include "../instance.hpp"
 #include <thread>
 
 void init();
