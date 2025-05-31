@@ -15,13 +15,12 @@
 #include <winrt/Windows.UI.Core.h>
 #endif
 
-#include "sdk/symbol.hpp"
+#include "sdk/signatures.hpp"
 #include "hook/hook_manager.hpp"
 
 namespace selaura {
 	struct instance : public std::enable_shared_from_this<instance> {
 		using components_t = std::tuple<
-			symbol,
 			hook_manager
 		>;
 

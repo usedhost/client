@@ -58,7 +58,6 @@ namespace selaura {
 			winrt::Windows::UI::ViewManagement::ApplicationView::GetForCurrentView().Title(winrt::to_hstring(""));
 		});
 #endif
-		//selaura::shutdown_hooking();
 
 		auto endTime = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<float> duration = endTime - startTime;
