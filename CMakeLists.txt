@@ -13,7 +13,7 @@ elseif(UNIX)
     add_compile_definitions(SELAURA_LINUX)
 endif()
 
-set(CLIENT_VERSION "0.11")
+set(CLIENT_VERSION "0.20")
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
     set(DEVELOPER_MODE "")
@@ -118,6 +118,11 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/ocornut/imgui.git
     GIT_TAG        features/shadows
 )
+FetchContent_Declare(
+    spdlog
+    GIT_REPOSITORY https://github.com/gabime/spdlog.git
+    GIT_TAG        v1.x
+)
 
 if (MSVC)
     FetchContent_Declare(
@@ -136,7 +141,7 @@ endif()
 set(DOBBY_DEBUG OFF)
 set(DOBBY_GENERATE_SHARED OFF)
 
-FetchContent_MakeAvailable(fmt entt typesafe libhat magic_enum LuaBridge glm cpp-i18n)
+FetchContent_MakeAvailable(fmt entt typesafe libhat magic_enum LuaBridge glm cpp-i18n spdlog)
 if (MSVC)
     FetchContent_MakeAvailable(minhook)
 else()
@@ -159,9 +164,9 @@ if(NOT imgui_POPULATED)
 endif()
 
 if(MSVC)
-    target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat ImGui magic_enum LuaBridge glm cpp-i18n minhook)
+    target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat ImGui magic_enum LuaBridge glm cpp-i18n spdlog minhook)
 else()
-    target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat ImGui magic_enum LuaBridge glm cpp-i18n dobby_static)
+    target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat ImGui magic_enum LuaBridge glm cpp-i18n spdlog dobby_static)
 endif()
 
 if (ANDROID)
