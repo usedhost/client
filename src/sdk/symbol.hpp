@@ -14,7 +14,7 @@ namespace selaura {
 	enum class platform {
 		windows,
 		android,
-		linux
+		linux_platform
 	};
 
 #if defined(SELAURA_WINDOWS)
@@ -22,7 +22,7 @@ namespace selaura {
 #elif defined(SELAURA_ANDROID)
 	constexpr platform current_platform = platform::android;
 #elif defined(SELAURA_LINUX)
-	constexpr platform current_platform = platform::linux;
+	constexpr platform current_platform = platform::linux_platform;
 #else
 #error Unknown platform
 #endif

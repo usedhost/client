@@ -5,9 +5,15 @@
 
 #include "mc/MinecraftGame.hpp"
 
+#ifdef SELAURA_WINDOW
+#define THISCALL __thiscall
+#else
+#define THISCALL
+#endif
+
 namespace selaura::signatures {
 
-    using splashtextrenderer_loadsplashes_t = std::vector<std::string>* (__thiscall*)(void*, void*, void*, void*);
+    using splashtextrenderer_loadsplashes_t = std::vector<std::string>* (THISCALL*)(void*, void*, void*, void*);
     inline signature_symbol<splashtextrenderer_loadsplashes_t> splashtextrenderer_loadsplashes{
         "SplashTextRenderer::_loadSplashes",
         {

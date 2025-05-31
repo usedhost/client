@@ -90,7 +90,7 @@ namespace selaura {
                         }
                     }
                 }
-                if (it->callback.target<void>() == listener.target<void>()) {
+                if (it->callback.template target<void>() == listener.template target<void>()) {
                     entries.erase(it);
                     return;
                 }
