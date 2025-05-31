@@ -1,6 +1,7 @@
 #include "hook_manager.hpp"
 #include <spdlog/spdlog.h>
 
+#include "impl/internal_hooks.hpp"
 #include "impl/visual_hooks.hpp"
 
 namespace selaura {
@@ -11,6 +12,7 @@ namespace selaura {
         MH_Initialize();
 #endif
 
+        register_hookgroup<internal_hooks>();
         register_hookgroup<visual_hooks>();
         
     }

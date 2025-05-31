@@ -16,7 +16,10 @@
 #endif
 
 #include "sdk/signatures.hpp"
+#include "event/event_manager.hpp"
 #include "hook/hook_manager.hpp"
+
+#include "sdk/mc/MinecraftGame.hpp"
 
 namespace selaura {
 	struct instance : public std::enable_shared_from_this<instance> {

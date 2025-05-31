@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 
+#include "mc/MinecraftGame.hpp"
+
 namespace selaura::signatures {
 
     using splashtextrenderer_loadsplashes_t = std::vector<std::string>* (__thiscall*)(void*, void*, void*, void*);
@@ -14,4 +16,12 @@ namespace selaura::signatures {
         }
     };
 
+    using minecraftgame_update_t = void(*)(MinecraftGame*);
+    inline signature_symbol<minecraftgame_update_t> minecraftgame_update{
+        "MinecraftGame::update",
+        {
+            { selaura::platform::windows, { "48 8B C4 48 89 58 10 48 89 70 18 48 89 78 20 55 41 54 41 55 41 56 41 57 48 8D A8 18 F7" } },
+            { selaura::platform::android, { "todo: find this" } }
+        }
+    };
 }

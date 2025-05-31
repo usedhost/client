@@ -32,7 +32,9 @@ namespace selaura {
 		spdlog::set_default_logger(logger);
 
 		get<hook_manager>().init();
-		
+		event_manager::get()->subscribe<minecraftgame_update_event>([](minecraftgame_update_event& ev) {
+			//spdlog::info("hi!!");
+		});
 
 #ifdef SELAURA_WINDOWS
 		winrt::Windows::ApplicationModel::Core::CoreApplication::MainView().CoreWindow().Dispatcher().RunAsync(winrt::Windows::UI::Core::CoreDispatcherPriority::Normal, []() {
