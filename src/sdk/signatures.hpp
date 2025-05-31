@@ -21,7 +21,7 @@ namespace selaura::signatures {
         "MinecraftGame::update",
         {
             { selaura::platform::windows, { "48 8B C4 48 89 58 10 48 89 70 18 48 89 78 20 55 41 54 41 55 41 56 41 57 48 8D A8 18 F7" } },
-            { selaura::platform::android, { "todo: find this" } }
+            { selaura::platform::android, { "E8 0F 19 FC FD 7B 01 A9 FD 43 00 91 FC 6F 02 A9 FA 67 03 A9 F8 5F 04 A9 F6 57 05 A9 F4 4F 06 A9 FF C3 0B D1 5A D0 3B D5 F3" } }
         }
     };
 }
