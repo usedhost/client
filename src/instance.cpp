@@ -30,6 +30,8 @@ namespace selaura {
 		logger->flush_on(spdlog::level::debug);
 
 		spdlog::set_default_logger(logger);
+
+		get<hook_manager>().init();
 		
 
 #ifdef SELAURA_WINDOWS

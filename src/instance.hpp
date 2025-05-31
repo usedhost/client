@@ -39,4 +39,4 @@ namespace selaura {
 		components_t components{};
 		std::filesystem::path data_folder;
 	};
-};
+}

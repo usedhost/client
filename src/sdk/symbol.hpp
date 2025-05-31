@@ -47,47 +47,50 @@ namespace selaura {
 		return reinterpret_cast<uintptr_t>(result.get());
 	}
 
-	struct symbol_entry {
-		struct base_symbol {
-			virtual void* resolve() const = 0;
-			virtual ~base_symbol() = default;
-		};
+	template <typename T>
+	struct base_symbol {
+		virtual void* resolve() const = 0;
+		virtual ~base_symbol() = default;
 
-		struct signature_symbol : base_symbol {
-			std::string_view name;
-			std::string_view pattern;
-			std::ptrdiff_t offset;
-			platform target;
-			mutable void* cached = nullptr;
+		using type = T;
+	};
 
-			signature_symbol(std::string_view nm, std::string_view pat, platform plat, std::ptrdiff_t off = 0)
-				: name(nm), pattern(pat), offset(off), target(plat) {
-			}
+	template <typename T>
+	struct signature_symbol : base_symbol<T> {
+		std::string_view name;
+		std::string_view pattern;
+		std::ptrdiff_t offset;
+		platform target;
+		mutable void* cached = nullptr;
 
-			void* resolve() const override {
-				if (target != current_platform)
-					spdlog::error("Symbol not for this platform");
+		signature_symbol(std::string_view nm, std::string_view pat, platform plat, std::ptrdiff_t off = 0)
+			: name(nm), pattern(pat), offset(off), target(plat) {
+		}
 
-				if (!cached) {
-					auto base = find_pattern(pattern);
-					if (!base.has_value()) {
-						spdlog::error("Signature not valid! {:s}", name);
-						return nullptr;
-					}
-					cached = reinterpret_cast<void*>(*base + offset);
+		void* resolve() const override {
+			if (target != current_platform)
+				spdlog::error("Symbol not for this platform");
+
+			if (!cached) {
+				auto base = find_pattern(pattern);
+				if (!base.has_value()) {
+					spdlog::error("Signature not valid! {:s}", name);
+					return nullptr;
 				}
-				return cached;
+				cached = reinterpret_cast<void*>(*base + offset);
 			}
-		};
+			return cached;
+		}
+	};
 
-		struct direct_symbol : base_symbol {
-			void* direct_address;
+	template <typename T>
+	struct direct_symbol : base_symbol<T> {
+		void* direct_address;
 
-			direct_symbol(void* addr) : direct_address(addr) {}
+		direct_symbol(void* addr) : direct_address(addr) {}
 
-			void* resolve() const override {
-				return direct_address;
-			}
-		};
+		void* resolve() const override {
+			return direct_address;
+		}
 	};
 }
