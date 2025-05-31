@@ -43,19 +43,8 @@ namespace selaura {
 		auto endTime = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<float> duration = endTime - startTime;
 
-<<<<<<< HEAD:src/instance.cpp
 		spdlog::info("Successfully injected [{:.2f}s]", duration.count());
 
-=======
-		io->info("Successfully injected [{:.2f}s]", duration.count());
-// refresh more
-		/*
-		this->subscribe<test, &instance::func>();
-
-		test ev( 1 );
-		selaura::dispatcher<test>::dispatch(ev);
-		*/
->>>>>>> 73d4408c2ba458c359e5865e47276d3c2e2518ea:src/client/instance.cpp
 	}
 
 	void instance::shutdown() {
