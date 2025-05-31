@@ -1,6 +1,5 @@
 #pragma once
 
-#include <libhat/Signature.hpp>
 #include <optional>
 #include <string_view>
 #include <stdexcept>
@@ -86,6 +85,20 @@ namespace selaura {
 				cached = reinterpret_cast<void*>(*base + it->second.offset);
 			}
 			return cached;
+		}
+	};
+
+	template <typename T>
+	struct offset_symbol : selaura::base_symbol<T> {
+		std::string_view name;
+		std::ptrdiff_t offset;
+
+		offset_symbol(std::string_view nm, std::ptrdiff_t off)
+			: name(nm), offset(off) {
+		}
+
+		void* resolve() const override {
+			return this->offset;
 		}
 	};
 
