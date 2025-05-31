@@ -57,31 +57,38 @@ namespace selaura {
 
 	template <typename T>
 	struct signature_symbol : base_symbol<T> {
+		struct signature_info {
+			std::string_view pattern;
+			std::ptrdiff_t offset = 0;
+		};
+
 		std::string_view name;
-		std::string_view pattern;
-		std::ptrdiff_t offset;
-		platform target;
+		std::unordered_map<platform, signature_info> platform_signatures;
 		mutable void* cached = nullptr;
 
-		signature_symbol(std::string_view nm, std::string_view pat, platform plat, std::ptrdiff_t off = 0)
-			: name(nm), pattern(pat), offset(off), target(plat) {
+		signature_symbol(std::string_view nm, std::unordered_map<platform, signature_info> list)
+			: name(nm), platform_signatures(list) {
 		}
 
 		void* resolve() const override {
-			if (target != current_platform)
-				spdlog::error("Symbol not for this platform");
+			auto it = platform_signatures.find(current_platform);
+			if (it == platform_signatures.end()) {
+				spdlog::error("No symbol for current platform: {}", name);
+				return nullptr;
+			}
 
 			if (!cached) {
-				auto base = find_pattern(pattern);
+				auto base = find_pattern(it->second.pattern);
 				if (!base.has_value()) {
-					spdlog::error("Signature not valid! {:s}", name);
+					spdlog::error("Signature not valid! {}", name);
 					return nullptr;
 				}
-				cached = reinterpret_cast<void*>(*base + offset);
+				cached = reinterpret_cast<void*>(*base + it->second.offset);
 			}
 			return cached;
 		}
 	};
+
 
 	template <typename T>
 	struct direct_symbol : base_symbol<T> {
