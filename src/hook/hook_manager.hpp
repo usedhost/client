@@ -42,7 +42,7 @@ namespace selaura {
         }
 
         template <typename lambda_t, typename return_t, typename... args_t>
-        void resolve_callback(void* addr, auto callback, return_t(__thiscall lambda_t::*)(void*, args_t...) const) {
+        void resolve_callback(void* addr, auto callback, return_t(THISCALL lambda_t::*)(void*, args_t...) const) {
             static uintptr_t ofunc = 0;
             static auto cb = callback;
 
@@ -50,7 +50,7 @@ namespace selaura {
                 return cb(std::bit_cast<void*>(ofunc), args...);
             };
 
-            hook(addr, static_cast<return_t(__thiscall*)(args_t...)>(invoker), (void**)&ofunc);
+            hook(addr, static_cast<return_t(THISCALL*)(args_t...)>(invoker), (void**)&ofunc);
         }
 
         void hook(void* target, void* trampoline, void** out) {
