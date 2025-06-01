@@ -3,7 +3,7 @@
 void* splashtextrenderer_loadsplashes_ofunc;
 
 std::vector<std::string>* splashtextrenderer_loadsplashes_hook(void* a1, void* a2, void* a3, void* a4) {
-    auto func = static_cast<decltype(&splashtextrenderer_loadsplashes_hook)>(splashtextrenderer_loadsplashes_ofunc);
+    auto func = reinterpret_cast<decltype(&splashtextrenderer_loadsplashes_hook)>(splashtextrenderer_loadsplashes_ofunc);
     std::vector<std::string>* result = func(a1, a2, a3, a4);
 
     if (result) {

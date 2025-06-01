@@ -4,7 +4,7 @@ void* minecraftgame_update_ofunc;
 
 void minecraftgame_update_hook(::MinecraftGame* _thisptr) {
     spdlog::info("{}", reinterpret_cast<void*>(_thisptr));
-    auto func = static_cast<decltype(&minecraftgame_update_hook)>(minecraftgame_update_ofunc);
+    auto func = reinterpret_cast<decltype(&minecraftgame_update_hook)>(minecraftgame_update_ofunc);
     func(_thisptr);
 }
 
