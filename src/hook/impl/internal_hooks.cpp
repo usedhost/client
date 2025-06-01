@@ -10,6 +10,6 @@ void minecraftgame_update_hook(::MinecraftGame* _thisptr) {
 
 namespace selaura {
     internal_hooks::internal_hooks(hook_manager& mgr) : hook_group(mgr) {
-        mgr.register_hook(signatures::minecraftgame_update.resolve(), minecraftgame_update_hook, &minecraftgame_update_ofunc);
+        mgr.register_hook(signatures::minecraftgame_update.resolve(), reinterpret_cast<void*>(minecraftgame_update_hook), &minecraftgame_update_ofunc);
     };
 }

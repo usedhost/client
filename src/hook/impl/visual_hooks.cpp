@@ -16,6 +16,6 @@ std::vector<std::string>* splashtextrenderer_loadsplashes_hook(void* a1, void* a
 
 namespace selaura {
 	visual_hooks::visual_hooks(hook_manager& mgr) : hook_group(mgr) {
-        mgr.register_hook(signatures::splashtextrenderer_loadsplashes.resolve(), splashtextrenderer_loadsplashes_hook, &splashtextrenderer_loadsplashes_ofunc);
+        mgr.register_hook(signatures::splashtextrenderer_loadsplashes.resolve(), reinterpret_cast<void*>(splashtextrenderer_loadsplashes_hook), &splashtextrenderer_loadsplashes_ofunc);
 	};
 }
