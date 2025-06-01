@@ -18,7 +18,7 @@ namespace selaura::signatures {
         "SplashTextRenderer::_loadSplashes",
         {
             { selaura::platform::windows, { "48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 49 8B D9 49 8B F8 4C 89 44 24" } },
-            { selaura::platform::android, { "FD 7B BA A9 FC 6F 01 A9 FD 03 00 91 FA 67 02 A9 F8 5F 03 A9 F6 57 04 A9 F4 4F 05 A9 FF C3 06 D1 E1 13" } }
+            { selaura::platform::android, { "? ? ? A9 ? ? ? A9 FD 03 00 91 ? ? ? A9 ? ? ? A9 ? ? ? A9 ? ? ? A9 ? ? ? D1 ? ? ? F9 F6 03 02 AA" } }
         }
     };
 
@@ -27,7 +27,7 @@ namespace selaura::signatures {
         "MinecraftGame::update",
         {
             { selaura::platform::windows, { "48 8B C4 48 89 58 10 48 89 70 18 48 89 78 20 55 41 54 41 55 41 56 41 57 48 8D A8 18 F7" } },
-            { selaura::platform::android, { "E8 0F 19 FC FD 7B 01 A9 FD 43 00 91 FC 6F 02 A9 FA 67 03 A9 F8 5F 04 A9 F6 57 05 A9 F4 4F 06 A9 FF C3 0B D1 5A D0 3B D5 F3" } }
+            { selaura::platform::android, { "? ? ? FC ? ? ? A9 ? ? ? 91 ? ? ? A9 ? ? ? A9 ? ? ? A9 ? ? ? A9 ? ? ? A9 ? ? ? D1 ? ? ? D5 F3 03 00 AA ? ? ? F9 ? ? ? F8 ? ? ? F9 ? ? ? 95" } }
         }
     };
 }
