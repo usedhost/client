@@ -1,14 +1,15 @@
 #include "internal_hooks.hpp"
 
+void* minecraftgame_update_ofunc;
+
+void minecraftgame_update_hook(::MinecraftGame* _thisptr) {
+    spdlog::info("{}", reinterpret_cast<void*>(_thisptr));
+    auto func = static_cast<decltype(&minecraftgame_update_hook)>(minecraftgame_update_ofunc);
+    func(_thisptr);
+}
+
 namespace selaura {
     internal_hooks::internal_hooks(hook_manager& mgr) : hook_group(mgr) {
-        mgr.register_hook(selaura::signatures::minecraftgame_update, [](void* ofunc, ::MinecraftGame* _thisptr) {
-            using ofunc_t = selaura::signatures::minecraftgame_update_t;
-            std::bit_cast<ofunc_t>(ofunc)(_thisptr);
-
-
-            minecraftgame_update_event ev{};
-            event_manager::get()->dispatch(ev);
-        });
+        mgr.register_hook(signatures::minecraftgame_update.resolve(), minecraftgame_update_hook, &minecraftgame_update_ofunc);
     };
 }

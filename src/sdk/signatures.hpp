@@ -22,7 +22,7 @@ namespace selaura::signatures {
         }
     };
 
-    using minecraftgame_update_t = void(*)(MinecraftGame*);
+    using minecraftgame_update_t = void(THISCALL*)(::MinecraftGame*);
     inline signature_symbol<minecraftgame_update_t> minecraftgame_update{
         "MinecraftGame::update",
         {

@@ -8,66 +8,57 @@
 #include <dobby.h>
 #endif
 
-#include <functional>
+#include <vector>
+#include <memory>
 #include <type_traits>
 
 namespace selaura {
 
     struct hook_group;
 
+    struct hook_t {
+        hook_t(uintptr_t address, void* detour, void* ptr) {
+            this->address = address;
+            this->detour = detour;
+            this->ptr = ptr;
+        }
+        ~hook_t() = default;
+
+		uintptr_t address;
+        void* detour;
+        void* ptr;
+
+        template <typename fn_t>
+        inline fn_t ofunc() {
+			return static_cast<fn_t>(this->ptr);
+        }
+    };
+
     struct hook_manager {
         hook_manager() = default;
         void init();
 
-        template <typename symbol_t>
-        void register_hook(symbol_t& symbol, auto callback) {
-            pass_callback(symbol.resolve(), callback);
+        std::shared_ptr<hook_t> register_hook(void* target, void* trampoline, void* out) {
+#ifdef SELAURA_WINDOWS
+            MH_CreateHook(target, trampoline, reinterpret_cast<void**>(out));
+            MH_EnableHook(target);
+#else
+            DobbyHook(target, trampoline, reinterpret_cast<void**>(out));
+#endif
+            return std::make_shared<hook_t>(
+                reinterpret_cast<uintptr_t>(target),
+                trampoline,
+                out
+            );
         }
 
         template <typename hookgroup_t, typename... args_t>
         void register_hookgroup(args_t... args) {
             hookGroups.emplace_back(std::make_unique<hookgroup_t>(*this, std::forward<args_t>(args)...));
         }
+
     private:
         std::vector<std::unique_ptr<hook_group>> hookGroups{};
-
-        template <typename callback_t>
-        void pass_callback(void* addr, callback_t callback, typename std::enable_if<std::is_function_v<std::remove_pointer_t<callback_t>>>::type* = 0) {
-            uintptr_t ofunc = 0;
-            return resolve_callback(addr, callback, reinterpret_cast<void**>(&ofunc));
-        }
-
-        template <typename callback_t>
-        void pass_callback(void* addr, callback_t callback, typename std::enable_if<not std::is_function_v<std::remove_pointer_t<callback_t>>>::type* = 0) {
-            return resolve_callback(addr, callback, &callback_t::operator());
-        }
-
-        template <typename lambda_t, typename return_t, typename... args_t>
-        void resolve_callback(void* addr, auto callback, return_t(THISCALL lambda_t::*)(void*, args_t...) const) {
-            static uintptr_t ofunc = 0;
-            static auto cb = callback;
-
-            static auto invoker = [](args_t... args) -> return_t {
-                return cb(std::bit_cast<void*>(ofunc), args...);
-                };
-
-            hook(addr, reinterpret_cast<void*>(+invoker), (void**)&ofunc);
-        }
-
-        template <typename return_t, typename... args_t>
-        void resolve_callback(void* addr, return_t(*callback)(void*, args_t...), void** out) {
-            hook(addr, reinterpret_cast<void*>(callback), out);
-        }
-
-
-        void hook(void* target, void* trampoline, void** out) {
-#ifdef SELAURA_WINDOWS
-            MH_CreateHook(target, trampoline, out);
-            MH_EnableHook(target);
-#else
-            DobbyHook(target, trampoline, out);
-#endif
-        }
     };
 
     struct hook_group {
