@@ -1,7 +1,8 @@
 #pragma once
 #include "../hook_manager.hpp"
+#include "../../sdk/mc/SplashTextRenderer.hpp"
 
-std::vector<std::string>* splashtextrenderer_loadsplashes_hook(void* a1, void* a2, void* a3, void* a4);
+std::vector<std::string> __cdecl splashtextrenderer_loadsplashes_hook(void* a1, void* a2);
 
 namespace selaura {
 	struct visual_hooks : public hook_group {

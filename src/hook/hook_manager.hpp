@@ -38,6 +38,18 @@ namespace selaura {
         hook_manager() = default;
         void init();
 
+        template <typename Ret, typename Class, typename... Args>
+        void* get_member_func_addr(Ret(Class::* method)(Args...)) {
+            union {
+                Ret(Class::* mfp)(Args...);
+                struct {
+                    void* addr;
+                } s;
+            } caster;
+            caster.mfp = method;
+            return caster.s.addr;
+        }
+
         std::shared_ptr<hook_t> register_hook(void* target, void* trampoline, void* out) {
 #ifdef SELAURA_WINDOWS
             MH_CreateHook(target, trampoline, reinterpret_cast<void**>(out));
