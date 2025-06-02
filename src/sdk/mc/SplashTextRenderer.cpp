@@ -1,6 +1,12 @@
 #include "SplashTextRenderer.hpp"
 
-std::vector<std::string> SplashTextRenderer::_loadSplashes(void* a1, void* a2) {
-    const static std::string splash_text = "\u00a76Selaura Client \u00a76on top!\u00a7r";
-    return { splash_text };
+#include "../../instance.hpp"
+#include "../../hook/hook_manager.hpp"
+
+std::vector<std::string> __cdecl SplashTextRenderer::_loadSplashes(void* a1, void* a2) {
+    auto inst = selaura::instance::get();
+    auto hk = inst->get<selaura::hook_manager>();
+
+    auto original = hk.get_original<&SplashTextRenderer::_loadSplashes>();
+    return (this->*original)(a1, a2);
 }

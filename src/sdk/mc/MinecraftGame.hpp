@@ -1,3 +1,5 @@
 #pragma once
 
-struct MinecraftGame {};
+struct MinecraftGame {
+    void __cdecl update();
+};

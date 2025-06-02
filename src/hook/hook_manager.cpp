@@ -1,8 +1,7 @@
 #include "hook_manager.hpp"
 #include <spdlog/spdlog.h>
 
-#include "impl/internal_hooks.hpp"
-#include "impl/visual_hooks.hpp"
+#include "impl/hook_registry.hpp"
 
 namespace selaura {
     hook_group::hook_group(hook_manager& mgr) {};
@@ -12,8 +11,7 @@ namespace selaura {
         MH_Initialize();
 #endif
 
-        register_hookgroup<internal_hooks>();
-        register_hookgroup<visual_hooks>();
+        register_hookgroup<hook_registry>();
         
     }
 }
