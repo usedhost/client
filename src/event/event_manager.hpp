@@ -8,7 +8,7 @@
 #include "impl/event_types.hpp"
 
 namespace selaura {
-    struct event_manager : public std::enable_shared_from_this<event_manager> {
+    struct event_manager {
     public:
         using subscription_token = std::uint64_t;
 
@@ -114,8 +114,6 @@ namespace selaura {
                 }
             }
         }
-
-        static std::shared_ptr<event_manager> get();
     private:
         template<typename T>
         listener_container<T>& get_listener_container() {

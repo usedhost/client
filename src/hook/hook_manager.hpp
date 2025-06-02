@@ -13,6 +13,8 @@
 #include <vector>
 #include <unordered_map>
 #include <type_traits>
+#include <cstddef>
+#include <functional>
 #include <cassert>
 
 namespace selaura {
@@ -115,7 +117,7 @@ namespace selaura {
 
         template <auto fn>
         static constexpr size_t get_hash() {
-            return reinterpret_cast<size_t>(&fn);
+            return typeid(std::integral_constant<decltype(fn), fn>).hash_code();
         }
 
         template <typename>

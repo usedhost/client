@@ -32,7 +32,7 @@ namespace selaura {
 		spdlog::set_default_logger(logger);
 
 		get<hook_manager>().init();
-		event_manager::get()->subscribe<minecraftgame_update_event>([](minecraftgame_update_event& ev) {
+		get<event_manager>().subscribe<minecraftgame_update_event>([](minecraftgame_update_event& ev) {
 			//spdlog::info("hi!!");
 		});
 

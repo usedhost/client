@@ -24,7 +24,8 @@
 namespace selaura {
 	struct instance : public std::enable_shared_from_this<instance> {
 		using components_t = std::tuple<
-			selaura::hook_manager
+			event_manager,
+			hook_manager
 		>;
 
 		bool start();
