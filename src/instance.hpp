@@ -18,6 +18,7 @@
 #include "sdk/signatures.hpp"
 #include "event/event_manager.hpp"
 #include "hook/hook_manager.hpp"
+#include "feature/feature_manager.hpp"
 
 #include "sdk/mc/MinecraftGame.hpp"
 
@@ -25,7 +26,8 @@ namespace selaura {
 	struct instance : public std::enable_shared_from_this<instance> {
 		using components_t = std::tuple<
 			event_manager,
-			hook_manager
+			hook_manager,
+			feature_manager
 		>;
 
 		bool start();
