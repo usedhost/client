@@ -10,7 +10,7 @@ void __cdecl ScreenView::SetupAndRender(MinecraftUIRenderContext* ctx) {
     auto evm = inst->get<selaura::event_manager>();
 
     // imgui test here
-	auto renderer = inst->get<selaura::renderer>();
+	/*auto renderer = inst->get<selaura::renderer>();
     
     static bool once = false;
     if (!once) {
@@ -29,6 +29,7 @@ void __cdecl ScreenView::SetupAndRender(MinecraftUIRenderContext* ctx) {
 
 	renderer.render_draw_data(ImGui::GetDrawData(), *ctx);
 
+    */
     // imgui test end
 
     selaura::setupandrender_event ev{ ctx };
