@@ -18,6 +18,7 @@
 #include "sdk/signatures.hpp"
 #include "event/event_manager.hpp"
 #include "hook/hook_manager.hpp"
+#include "renderer/renderer.hpp"
 #include "feature/feature_manager.hpp"
 
 #include "sdk/mc/MinecraftGame.hpp"
@@ -27,6 +28,7 @@ namespace selaura {
 		using components_t = std::tuple<
 			event_manager,
 			hook_manager,
+			renderer,
 			feature_manager
 		>;
 

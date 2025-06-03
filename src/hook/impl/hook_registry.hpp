@@ -1,6 +1,7 @@
 #pragma once
 #include "../../sdk/mc/MinecraftGame.hpp"
 #include "../../sdk/mc/SplashTextRenderer.hpp"
+#include "../../sdk/mc/ScreenView.hpp"
 #include "../hook_manager.hpp"
 
 namespace selaura {
