@@ -35,6 +35,7 @@ namespace selaura {
 		get<event_manager>().subscribe<minecraftgame_update_event>([](minecraftgame_update_event& ev) {
 			//spdlog::info("hi!!");
 		});
+		get<script_manager>().init();
 
 #ifdef SELAURA_WINDOWS
 		winrt::Windows::ApplicationModel::Core::CoreApplication::MainView().CoreWindow().Dispatcher().RunAsync(winrt::Windows::UI::Core::CoreDispatcherPriority::Normal, []() {
