@@ -3,17 +3,17 @@
 
 void Tessellator::begin(mce::PrimitiveMode vertexFormat, const int maxVertices, const bool buildFaceData) {
     static auto func = reinterpret_cast<selaura::signatures::tessellator_begin_t>(selaura::signatures::tessellator_begin.resolve());
-    func(vertexFormat, maxVertices, buildFaceData);
+    func(this, vertexFormat, maxVertices, buildFaceData);
 }
 
 void Tessellator::vertexUV(float x, float y, float z, float u, float v) {
     static auto func = reinterpret_cast<selaura::signatures::tessellator_vertexuv_t>(selaura::signatures::tessellator_vertexuv.resolve());
-    func(x, y, z, u, v);
+    func(this, x, y, z, u, v);
 }
 
 void Tessellator::color(float r, float g, float b, float a) {
     static auto func = reinterpret_cast<selaura::signatures::tessellator_color_t>(selaura::signatures::tessellator_color.resolve());
-    func(r, g, b, a);
+    func(this, r, g, b, a);
 }
 
 void Tessellator::color(unsigned int col) {

@@ -46,6 +46,23 @@ namespace selaura {
 		return reinterpret_cast<uintptr_t>(result.get());
 	}
 
+	template <typename TRet, typename... TArgs>
+	inline TRet call_virtual(void* thisptr, size_t index, TArgs... argList) {
+		using TFunc = TRet(__fastcall*)(void*, TArgs...);
+		TFunc* vtable = *reinterpret_cast<TFunc**>(thisptr);
+		return vtable[index](thisptr, argList...);
+	}
+
+	inline uintptr_t offset_from_sig(uintptr_t sig, int offset) {
+		if (sig == 0) return 0;
+		return sig + offset + 4 + *reinterpret_cast<int*>(sig + offset);
+	}
+
+	template<typename Ret>
+	inline Ret offset_from_sig(const uintptr_t sig, const int offset) {
+		return reinterpret_cast<Ret>(offset_from_sig(sig, offset));
+	}
+
 	template <typename T>
 	struct base_symbol {
 		virtual void* resolve() const = 0;

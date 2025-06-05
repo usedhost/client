@@ -10,6 +10,5 @@ namespace selaura {
 		void new_frame(MinecraftUIRenderContext& ctx);
 		void render_draw_data(ImDrawData* data, MinecraftUIRenderContext& ctx);
 	private:
-		Tessellator* tessellator;
 	};
 };

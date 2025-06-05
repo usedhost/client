@@ -4,6 +4,7 @@
 #include <string>
 
 #include "mc/MinecraftGame.hpp"
+#include "mc/Tessellator.hpp"
 #include "mc/mce.hpp"
 
 #ifdef SELAURA_WINDOW
@@ -41,7 +42,7 @@ namespace selaura::signatures {
         }
 	};
 
-    using tessellator_begin_t = void(THISCALL*)(mce::PrimitiveMode, const int, const bool);
+    using tessellator_begin_t = void(THISCALL*)(Tessellator*, mce::PrimitiveMode, const int, const bool);
     inline signature_symbol<tessellator_begin_t> tessellator_begin{
         "Tessellator::begin",
         {
@@ -50,16 +51,16 @@ namespace selaura::signatures {
         }
     };
 
-    using tessellator_vertexuv_t = void(THISCALL*)(float, float, float, float, float);
+    using tessellator_vertexuv_t = void(THISCALL*)(Tessellator*, float, float, float, float, float);
     inline signature_symbol<tessellator_vertexuv_t> tessellator_vertexuv{
-        "Tessellator::vertex",
+        "Tessellator::vertexUV",
         {
             { selaura::platform::windows, { "48 83 EC ? 80 B9 ? ? ? ? ? 0F 57 E4" } },
             { selaura::platform::android, { "todo: find this" } }
         }
     };
 
-    using tessellator_color_t = void(THISCALL*)(float, float, float, float);
+    using tessellator_color_t = void(THISCALL*)(Tessellator*, float, float, float, float);
     inline signature_symbol<tessellator_color_t> tessellator_color{
         "Tessellator::color",
         {
@@ -68,11 +69,20 @@ namespace selaura::signatures {
         }
     };
 
-    using meshhelpers_rendermeshimmediately_t = void(THISCALL*)(void*, void*, void*);
+    using meshhelpers_rendermeshimmediately_t = void(THISCALL*)(void*, void*, void*, char*);
     inline signature_symbol<meshhelpers_rendermeshimmediately_t> meshhelpers_rendermeshimmediately{
         "MeshHelpers::renderMeshImmediately",
         {
-            { selaura::platform::windows, { "40 55 53 56 57 41 54 41 55 41 56 41 57 48 8D AC 24 98 FC FF FF 48 81 EC 68 04 00 00 49" } },
+            { selaura::platform::windows, { "E8 ? ? ? ? 41 C6 44 24 38 01 F3 0F 10 1D" } },
+            { selaura::platform::android, { "todo: find this" } }
+        }
+    };
+
+    using mce_rendermaterialgroup_ui_t = mce::MaterialPtr*(THISCALL*)(void*);
+    inline signature_symbol<mce_rendermaterialgroup_ui_t> mce_rendermaterialgroup_ui{
+        "mce::RenderMaterialGroup::ui",
+        {
+            { selaura::platform::windows, { "48 8B 05 ? ? ? ? 48 8D 55 90 48 8D 0D ? ? ? ? 48 8B 40 08 FF 15 ? ? ? ? 48 8B D8" } },
             { selaura::platform::android, { "todo: find this" } }
         }
     };

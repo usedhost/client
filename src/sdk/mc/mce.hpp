@@ -2,6 +2,8 @@
 #include <cstdint>
 #include <variant>
 
+#include "HashedString.hpp"
+
 namespace mce {
     enum class PrimitiveMode : uint8_t {
         None,
@@ -10,6 +12,10 @@ namespace mce {
         TriangleStrip,
         LineList,
         LineStrip
+    };
+
+    struct MaterialPtr {
+        static mce::MaterialPtr* createMaterial(const HashedString& name);
     };
 };
 

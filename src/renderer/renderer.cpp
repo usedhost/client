@@ -2,15 +2,8 @@
 
 namespace selaura {
 	bool renderer::initialize_imgui(MinecraftUIRenderContext& ctx) {
-		this->tessellator = ctx.getScreenContext()->getTessellator();
-
-		IMGUI_CHECKVERSION();
-		ImGui::CreateContext();
-		ImGuiIO& io = ImGui::GetIO();
-
-		ImGui::StyleColorsDark();
-		ImGui::GetStyle().AntiAliasedLines = false;
-		ImGui::GetStyle().AntiAliasedFill = false;
+		ImGui::GetStyle().AntiAliasedLines = true;
+		ImGui::GetStyle().AntiAliasedFill = true;
 
 		return true;
 	}
@@ -24,6 +17,8 @@ namespace selaura {
 
 	void renderer::render_draw_data(ImDrawData* data, MinecraftUIRenderContext& ctx) {
 		float scale = 1.0f; // todo: get actual scale from guidata
+		static ScreenContext* screen_context = ctx.getScreenContext();
+		static Tessellator* tess = screen_context->getTessellator();
 
 		for (int n = 0; n < data->CmdListsCount; n++) {
 			ImDrawList* cmd_list = data->CmdLists[n];
@@ -33,25 +28,26 @@ namespace selaura {
 				const ImDrawVert* vtx_buffer = cmd_list->VtxBuffer.Data;
 				const ImDrawIdx* idx_buffer = cmd_list->IdxBuffer.Data;
 
-				this->tessellator->begin(mce::PrimitiveMode::TriangleList, 0);
+				tess->begin(mce::PrimitiveMode::TriangleList, 0);
 
 				for (unsigned int i = 0; i < cmd.ElemCount; i += 3) {
 					const ImDrawVert& v0 = vtx_buffer[idx_buffer[i + 2]];
 					const ImDrawVert& v1 = vtx_buffer[idx_buffer[i + 1]];
 					const ImDrawVert& v2 = vtx_buffer[idx_buffer[i + 0]];
 
-					this->tessellator->color(v0.col);
-					this->tessellator->vertexUV(v0.pos.x / scale, v0.pos.y / scale, 0.0f, v0.uv.x, v0.uv.y);
+					tess->color(v0.col);
+					tess->vertexUV(v0.pos.x / scale, v0.pos.y / scale, 0.0f, v0.uv.x, v0.uv.y);
 
-					this->tessellator->color(v1.col);
-					this->tessellator->vertexUV(v1.pos.x / scale, v1.pos.y / scale, 0.0f, v1.uv.x, v1.uv.y);
+					tess->color(v1.col);
+					tess->vertexUV(v1.pos.x / scale, v1.pos.y / scale, 0.0f, v1.uv.x, v1.uv.y);
 
-					this->tessellator->color(v2.col);
-					this->tessellator->vertexUV(v2.pos.x / scale, v2.pos.y / scale, 0.0f, v2.uv.x, v2.uv.y);
+					tess->color(v2.col);
+					tess->vertexUV(v2.pos.x / scale, v2.pos.y / scale, 0.0f, v2.uv.x, v2.uv.y);
 				}
 
-				//char pad[0x58]{};
-				//MeshHelpers::renderMeshImmediately(ctx.getScreenContext(), this->tessellator, pad);
+				
+				mce::MaterialPtr* material = mce::MaterialPtr::createMaterial(HashedString("ui_fill_color"));
+				MeshHelpers::renderMeshImmediately(screen_context, tess, material);
 			}
 		}
 	}

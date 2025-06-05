@@ -63,7 +63,7 @@ target_include_directories(Selaura PRIVATE
 )
 
 if(MSVC)
-    add_compile_options(/bigobj /utf-8 /O2 /Oi /Gy /Gw /GF /fp:fast /Gd /MT /Ob2)
+    add_compile_options(/bigobj /utf-8 /Oi /Gy /Gw /GF /fp:fast /Gd /MT /Ob2)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MT")
     set(CMAKE_SHARED_LINKER_FLAGS_DEBUG "${CMAKE_SHARED_LINKER_FLAGS_DEBUG} /DEBUG")
     set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG} /DEBUG")
