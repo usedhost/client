@@ -3,6 +3,7 @@
 #include "../sdk/mc/MinecraftUIRenderContext.hpp"
 #include "../sdk/mc/Tessellator.hpp"
 #include "../sdk/mc/mce.hpp"
+#include <spdlog/spdlog.h>
 
 namespace selaura {
 	struct renderer {

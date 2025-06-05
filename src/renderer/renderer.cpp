@@ -11,8 +11,11 @@ namespace selaura {
 	void renderer::new_frame(MinecraftUIRenderContext& ctx) {
 		auto& io = ImGui::GetIO();
 
-		io.DisplaySize.x = 500.0f;
-		io.DisplaySize.y = 888.8f;
+		static Vec2<float> screenSize = ctx.getClientInstance()->getGuiData()->getScreenSize();
+		io.DisplaySize.x = screenSize.x;
+		io.DisplaySize.y = screenSize.y;
+
+		spdlog::info("x: {} y: {}", screenSize.x, screenSize.y);
 	}
 
 	void renderer::render_draw_data(ImDrawData* data, MinecraftUIRenderContext& ctx) {

@@ -1,3 +1,6 @@
 #pragma once
+#include "GuiData.hpp"
 
-struct ClientInstance { };
+struct ClientInstance {
+	GuiData* getGuiData();
+};

@@ -30,8 +30,7 @@ void __cdecl ScreenView::SetupAndRender(MinecraftUIRenderContext* ctx) {
 	ImGui::NewFrame();
 
     ImDrawList* draw_list = ImGui::GetBackgroundDrawList();
-    draw_list->AddCircleFilled(ImVec2(100, 100), 50.f, IM_COL32(255, 0, 0, 255));
-    //draw_list->AddRectFilled(ImVec2(100, 100), ImVec2(200, 200), IM_COL32(255, 0, 0, 255), 0.0f);
+    draw_list->AddRectFilled(ImVec2(300, 300), ImVec2(800, 800), IM_COL32(255, 0, 0, 50), 30.0f);
 
 	ImGui::EndFrame();
 	ImGui::Render();
