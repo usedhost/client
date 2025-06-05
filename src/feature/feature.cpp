@@ -2,8 +2,7 @@
 
 namespace selaura {
 	feature::~feature() noexcept {
-		set_enabled(false);
-		on_disable();
+		this->enabled = false;
 	}
 
 	void feature::set_enabled(bool enabled) {

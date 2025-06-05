@@ -22,7 +22,7 @@
 #include "feature/feature_manager.hpp"
 #include "scripting/script_manager.hpp"
 
-#include "sdk/mc/MinecraftGame.hpp"
+#include "sdk/mc/game/MinecraftGame.hpp"
 
 namespace selaura {
 	struct instance : public std::enable_shared_from_this<instance> {

@@ -1,5 +1,5 @@
 #pragma once
-#include "GuiData.hpp"
+#include "../gui/gui/GuiData.hpp"
 
 struct ClientInstance {
 	GuiData* getGuiData();

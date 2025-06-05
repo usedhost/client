@@ -1,5 +1,5 @@
 #pragma once
-#include "mce.hpp"
+#include "helpers/MeshHelpers.hpp"
 
 struct Tessellator {
 	void begin(mce::PrimitiveMode vertexFormat, const int maxVertices, const bool buildFaceData = false);

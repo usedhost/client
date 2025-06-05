@@ -1,8 +1,8 @@
 #pragma once
 #include <imgui.h>
-#include "../sdk/mc/MinecraftUIRenderContext.hpp"
-#include "../sdk/mc/Tessellator.hpp"
-#include "../sdk/mc/mce.hpp"
+#include "../sdk/mc/renderer/screen/MinecraftUIRenderContext.hpp"
+#include "../sdk/mc/renderer/Tessellator.hpp"
+#include "../sdk/mc/renderer/helpers/MeshHelpers.hpp"
 #include <spdlog/spdlog.h>
 
 #include <glm/glm.hpp>

@@ -1,7 +1,7 @@
 #include "MinecraftGame.hpp"
 
-#include "../../instance.hpp"
-#include "../../hook/hook_manager.hpp"
+#include "../../../instance.hpp"
+#include "../../../hook/hook_manager.hpp"
 
 void __cdecl MinecraftGame::update() {
     auto inst = selaura::instance::get();

@@ -11,35 +11,25 @@ namespace selaura {
 	}
 
 	void renderer::load_fonts(MinecraftUIRenderContext& ctx) {
-		mce::TexturePtr* texturePtr = nullptr;
-		mce::TextureGroup* textureGroup = nullptr;
 		auto& io = ImGui::GetIO();
 
 		unsigned char* pixels;
 		int width, height, bytesPerPixel;
 		io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height, &bytesPerPixel);
-
-		mce::Blob blob(pixels, width * height * bytesPerPixel);
-		cg::ImageDescription description(width, height, mce::TextureFormat::R8G8B8A8_UNORM, cg::ColorSpace::sRGB, cg::ImageType::Texture2D, 1);
-		cg::ImageBuffer imageBuffer(std::move(blob), std::move(description));
-
-		ResourceLocation resource("imgui_font");
-		//textureGroup->uploadTexture(resource, imageBuffer);
-
 	}
 
 	void renderer::new_frame(MinecraftUIRenderContext& ctx) {
 		auto& io = ImGui::GetIO();
 
-		Vec2<float> screenSize = ctx.getClientInstance()->getGuiData()->getScreenSize();
+		Vec2 screenSize = ctx.getClientInstance()->getGuiData()->getScreenSize();
 		io.DisplaySize.x = screenSize.x;
 		io.DisplaySize.y = screenSize.y;
 	}
 
 	void renderer::render_draw_data(ImDrawData* data, MinecraftUIRenderContext& ctx) {
 		float scale = ctx.getClientInstance()->getGuiData()->getGuiScale();
-		static ScreenContext* screen_context = ctx.getScreenContext();
-		static Tessellator* tess = screen_context->getTessellator();
+		ScreenContext* screen_context = ctx.getScreenContext();
+		Tessellator* tess = screen_context->getTessellator();
 
 		for (int n = 0; n < data->CmdListsCount; n++) {
 			ImDrawList* cmd_list = data->CmdLists[n];

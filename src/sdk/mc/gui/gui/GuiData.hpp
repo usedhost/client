@@ -1,8 +1,8 @@
 #pragma once
 #include <libhat/access.hpp>
-#include "math.hpp"
+#include "../../world/phys/Vec2.hpp"
 
 struct GuiData {
-	Vec2<float> getScreenSize();
+	Vec2 getScreenSize();
 	float getGuiScale();
 };

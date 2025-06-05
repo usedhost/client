@@ -3,9 +3,9 @@
 #include <vector>
 #include <string>
 
-#include "mc/MinecraftGame.hpp"
-#include "mc/Tessellator.hpp"
-#include "mc/mce.hpp"
+#include "mc/game/MinecraftGame.hpp"
+#include "mc/renderer/Tessellator.hpp"
+#include "mc/renderer/helpers/MeshHelpers.hpp"
 
 #ifdef SELAURA_WINDOW
 #define THISCALL __thiscall
@@ -68,15 +68,6 @@ namespace selaura::signatures {
             { selaura::platform::android, { "todo: find this" } }
         }
     };
-
-    using mce_texturegroup_uploadtexture_t = mce::BedrockTexture&(THISCALL*)(const ResourceLocation, cg::ImageBuffer);
-    inline signature_symbol<mce_texturegroup_uploadtexture_t> mce_texturegroup_uploadtexture{
-        "mce::TextureGroup::uploadTexture",
-        {
-            { selaura::platform::windows, { "48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 45 ? 4D 8B F8 4C 8B EA 4C 8B E1" } },
-            { selaura::platform::android, { "todo: find this" } }
-        }
-	};
 
     using meshhelpers_rendermeshimmediately_t = void(THISCALL*)(void*, void*, void*, char*);
     inline signature_symbol<meshhelpers_rendermeshimmediately_t> meshhelpers_rendermeshimmediately{
