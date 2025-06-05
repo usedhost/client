@@ -209,7 +209,7 @@ namespace cg {
             : mStorage(other.mStorage), mImageDescription(other.mImageDescription) {
         }
 
-        __declspec(noinline) bool isValid() const {
+        bool isValid() const {
             size_t blobSize = mStorage.size();
             mce::TextureFormat format = mImageDescription.mTextureFormat;
 
