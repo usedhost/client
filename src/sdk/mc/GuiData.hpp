@@ -4,4 +4,5 @@
 
 struct GuiData {
 	Vec2<float> getScreenSize();
+	float getGuiScale();
 };

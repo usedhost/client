@@ -50,6 +50,10 @@ public:
 
 	HashedString() = default;
 
+	int64_t getHash() {
+		return this->hash;
+	}
+
 	bool operator==(uint64_t right) {
 		return right == hash;
 	}
