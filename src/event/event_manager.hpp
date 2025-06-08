@@ -114,6 +114,31 @@ namespace selaura {
                 }
             }
         }
+
+        template <typename T>
+        subscription_token subscribe(void (*listener)(T&)) {
+            auto& container = get_listener_container<T>();
+            subscription_token token = container.nextToken++;
+            typename listener_container<T>::listener_entry entry;
+            entry.token = token;
+            entry.callback = listener;
+            entry.instance = nullptr;
+            entry.memberFunction = reinterpret_cast<void*>(listener);
+            container.listeners.push_back(std::move(entry));
+            return token;
+        }
+
+        template <typename T>
+        void unsubscribe(void (*listener)(T&)) {
+            auto& entries = get_listener_container<T>().listeners;
+            void* targetFunc = reinterpret_cast<void*>(listener);
+            for (auto it = entries.begin(); it != entries.end(); ++it) {
+                if (it->memberFunction == targetFunc && it->instance == nullptr) {
+                    entries.erase(it);
+                    return;
+                }
+            }
+        }
     private:
         template<typename T>
         listener_container<T>& get_listener_container() {

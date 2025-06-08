@@ -20,6 +20,7 @@
 #include "hook/hook_manager.hpp"
 #include "renderer/renderer.hpp"
 #include "feature/feature_manager.hpp"
+#include "screen/screen_manager.hpp"
 #include "scripting/script_manager.hpp"
 
 #include "sdk/mc/game/MinecraftGame.hpp"
@@ -31,6 +32,7 @@ namespace selaura {
 			hook_manager,
 			renderer,
 			feature_manager,
+			screen_manager,
 			script_manager
 		>;
 
