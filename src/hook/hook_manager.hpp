@@ -46,6 +46,22 @@ namespace selaura {
         }
 
         template <auto detour>
+        void register_hook_manual(void* target) {
+            using fn_t = decltype(detour);
+
+            const auto hash = get_hash<detour>();
+            if (hooks_.count(hash)) return;
+
+            void* detour_ptr = resolve_func_ptr(detour);
+            fn_t original_fn = nullptr;
+
+            hook_platform_install(target, detour_ptr, reinterpret_cast<void**>(&original_fn));
+
+            hooks_.emplace(hash, std::make_shared<typed_hook<fn_t>>(original_fn));
+            hook_entries_.emplace_back(target, detour_ptr);
+        }
+
+        template <auto detour>
         auto get_original() const {
             using fn_t = decltype(detour);
             const auto hash = get_hash<detour>();

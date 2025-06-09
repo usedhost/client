@@ -35,6 +35,7 @@ namespace selaura {
 		get<event_manager>().subscribe<minecraftgame_update_event>([](minecraftgame_update_event& ev) {
 			//spdlog::info("hi!!");
 		});
+		get<input_manager>().init();
 		get<script_manager>().init();
 		get<screen_manager>().init();
 

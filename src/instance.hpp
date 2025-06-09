@@ -19,6 +19,7 @@
 #include "event/event_manager.hpp"
 #include "hook/hook_manager.hpp"
 #include "renderer/renderer.hpp"
+#include "input/input_manager.hpp"
 #include "feature/feature_manager.hpp"
 #include "screen/screen_manager.hpp"
 #include "scripting/script_manager.hpp"
@@ -31,6 +32,7 @@ namespace selaura {
 			event_manager,
 			hook_manager,
 			renderer,
+			input_manager,
 			feature_manager,
 			screen_manager,
 			script_manager
