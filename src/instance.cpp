@@ -36,6 +36,7 @@ namespace selaura {
 			//spdlog::info("hi!!");
 		});
 		get<script_manager>().init();
+		get<screen_manager>().init();
 
 #ifdef SELAURA_WINDOWS
 		winrt::Windows::ApplicationModel::Core::CoreApplication::MainView().CoreWindow().Dispatcher().RunAsync(winrt::Windows::UI::Core::CoreDispatcherPriority::Normal, []() {

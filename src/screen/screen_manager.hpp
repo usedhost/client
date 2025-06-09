@@ -1,69 +1,50 @@
 #pragma once
+#include <vector>
+#include <memory>
 #include <string_view>
 #include <type_traits>
+#include <algorithm>
 
+#include "screen.hpp"
 #include "impl/click_gui.hpp"
 
 namespace selaura {
-    template <typename T, typename... remainingT>
-    struct screen_storage {
-        T mod;
-        screen_storage<remainingT...> remaining;
-
-        void for_each(auto callback) {
-            callback(mod);
-            remaining.for_each(callback);
-        }
-    };
-
-    template <typename T>
-    struct screen_storage<T> {
-        T mod;
-        void for_each(auto callback) {
-            callback(mod);
-        }
-    };
-
     struct screen_manager {
         screen_manager() = default;
 
-        using screens_type = screen_storage<
-            selaura::click_gui
-        >;
-
-        void for_each(auto callback) {
-            screens.for_each(callback);
+        void init() {
+            add_screen<selaura::click_gui>();
         }
 
-        void for_each(auto callback) const {
-            screens.for_each(callback);
+        template <typename T, typename... Args>
+        T* add_screen(Args&&... args) {
+            static_assert(std::is_base_of_v<screen, T>, "T must derive from screen");
+            auto ptr = std::make_unique<T>(std::forward<Args>(args)...);
+            T* raw_ptr = ptr.get();
+            screens.emplace_back(std::move(ptr));
+            return raw_ptr;
+        }
+
+        void for_each(auto&& callback) {
+            for (auto& scr : screens)
+                callback(*scr);
+        }
+
+        void for_each(auto&& callback) const {
+            for (const auto& scr : screens)
+                callback(*scr);
         }
 
         template <typename T>
         T* get() {
-            T* result = nullptr;
-            screens.for_each([&]<typename screens_type>(screens_type & screen) {
-                if (result != nullptr) return;
-                if (std::is_same_v<T, screens_type>) {
-                    result = &screen;
-                }
-            });
-
-            return result;
+            for (auto& scr : screens) {
+                if (auto* casted = dynamic_cast<T*>(scr.get()))
+                    return casted;
+            }
+            return nullptr;
         }
 
-        [[nodiscard]] auto* find(std::string_view name) {
-            screen* result = nullptr;
-            screens.for_each([&]<typename screens_type>(screens_type & screen) {
-                if (result != nullptr) return;
-                if (screens_type::info::name == name) {
-                    result = &screen;
-                }
-            });
-
-            return result;
-        }
     private:
-        screens_type screens;
+        std::vector<std::unique_ptr<screen>> screens;
     };
-};
+}
