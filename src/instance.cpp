@@ -32,12 +32,18 @@ namespace selaura {
 		spdlog::set_default_logger(logger);
 
 		get<hook_manager>().init();
-		get<event_manager>().subscribe<minecraftgame_update_event>([](minecraftgame_update_event& ev) {
-			//spdlog::info("hi!!");
-		});
 		get<input_manager>().init();
 		get<script_manager>().init();
 		get<screen_manager>().init();
+
+		get<event_manager>().subscribe<key_event>([&](key_event& ev) {
+			get<screen_manager>().for_each([&](screen& scr) {
+				if (scr.is_enabled()) ev.cancel();
+
+				if (!scr.is_enabled() && scr.get_hotkey() == ev.key && ev.action == key_action::key_up) scr.set_enabled(true);
+				if (scr.is_enabled() && ev.key == 27 && ev.action == key_action::key_up) scr.set_enabled(false);
+			});
+		});
 
 #ifdef SELAURA_WINDOWS
 		winrt::Windows::ApplicationModel::Core::CoreApplication::MainView().CoreWindow().Dispatcher().RunAsync(winrt::Windows::UI::Core::CoreDispatcherPriority::Normal, []() {
@@ -88,5 +94,13 @@ namespace selaura {
 		std::filesystem::create_directories(this->data_folder);
 
 		return this->data_folder;
+	}
+
+	void instance::set_minecraftgame(MinecraftGame *mc) {
+		this->mc_game = mc;
+	}
+
+	MinecraftGame* instance::get_minecraft_game() {
+		return this->mc_game;
 	}
 };

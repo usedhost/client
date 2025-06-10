@@ -7,6 +7,8 @@ void __cdecl MinecraftGame::update() {
     auto inst = selaura::instance::get();
     auto evm = inst->get<selaura::event_manager>();
 
+    inst->set_minecraftgame(this);
+
     selaura::minecraftgame_update_event ev{};
     evm.dispatch<selaura::minecraftgame_update_event>(ev);
 

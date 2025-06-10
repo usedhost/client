@@ -15,7 +15,8 @@ namespace selaura {
 
 #ifdef SELAURA_WINDOWS
         void init_winrt_hooks();
-        void key_down_hk(winrt::Windows::UI::Core::CoreWindow const& sender, winrt::Windows::UI::Core::KeyEventArgs const& args);
+        static void key_hk(winrt::Windows::UI::Core::CoreDispatcher const& sender, winrt::Windows::UI::Core::AcceleratorKeyEventArgs const& args);
+        static void pointer_moved_hk(winrt::Windows::UI::Core::CoreWindow const& sender, winrt::Windows::UI::Core::PointerEventArgs const& args);
 #endif
 
         // jni hooks

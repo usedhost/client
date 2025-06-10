@@ -49,8 +49,12 @@ namespace selaura {
 
 		const std::filesystem::path& get_data_folder();
 		static std::shared_ptr<selaura::instance> get();
+
+		void set_minecraftgame(MinecraftGame* mc);
+		MinecraftGame* get_minecraft_game();
 	private:
 		components_t components{};
 		std::filesystem::path data_folder;
+		MinecraftGame* mc_game;
 	};
 }
