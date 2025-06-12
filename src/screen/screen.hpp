@@ -29,11 +29,11 @@ namespace selaura {
 		bool is_enabled() const;
 		void toggle();
 
-		void set_hotkey(int hotkey = 0);
-		int get_hotkey() const;
+		void set_hotkey(selaura::key hotkey);
+		selaura::key get_hotkey() const;
 
 	private:
 		bool enabled = false;
-		int hotkey;
+		selaura::key hotkey;
 	};
 }

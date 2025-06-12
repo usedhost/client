@@ -7,7 +7,7 @@
 
 namespace selaura {
     click_gui::click_gui() : screen() {
-        this->set_hotkey(76); // L
+        this->set_hotkey(selaura::key::L); // L
         this->set_enabled(false);
     }
 

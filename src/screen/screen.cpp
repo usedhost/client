@@ -17,11 +17,11 @@ namespace selaura {
         this->enabled = !this->enabled;
     }
 
-    void screen::set_hotkey(int hotkey) {
+    void screen::set_hotkey(selaura::key hotkey) {
         this->hotkey = hotkey;
     }
 
-    int screen::get_hotkey() const {
+    selaura::key screen::get_hotkey() const {
         return this->hotkey;
     }
 

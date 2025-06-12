@@ -2,6 +2,7 @@
 #include "../../sdk/mc/renderer/screen/MinecraftUIRenderContext.hpp"
 #include "../../sdk/mc/gui/ScreenView.hpp"
 #include "../../renderer/renderer.hpp"
+#include "../../input/key.hpp"
 
 namespace selaura {
 	struct cancellable {
@@ -19,15 +20,8 @@ namespace selaura {
 		ScreenView* screen_view;
 	};
 
-	enum class key_action {
-		key_down,
-		key_up,
-		system_key_down,
-		system_key_up,
-		unknown
-	};
 	struct key_event : public cancellable {
-		uint32_t key;
-		key_action action;
+		selaura::key key;
+		selaura::key_action action;
 	};
 };

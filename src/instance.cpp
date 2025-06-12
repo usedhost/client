@@ -40,8 +40,8 @@ namespace selaura {
 			get<screen_manager>().for_each([&](screen& scr) {
 				if (scr.is_enabled()) ev.cancel();
 
-				if (!scr.is_enabled() && scr.get_hotkey() == ev.key && ev.action == key_action::key_up) scr.set_enabled(true);
-				if (scr.is_enabled() && ev.key == 27 && ev.action == key_action::key_up) scr.set_enabled(false);
+				if (!scr.is_enabled() && scr.get_hotkey() == ev.key && ev.action == selaura::key_action::key_up) scr.set_enabled(true);
+				if (scr.is_enabled() && ev.key == selaura::key::Escape && ev.action == selaura::key_action::key_up) scr.set_enabled(false);
 			});
 		});
 

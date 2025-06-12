@@ -8,6 +8,8 @@
 #include <Windows.h>
 #endif
 
+#include "key.hpp"
+
 namespace selaura {
     struct input_manager {
 
@@ -16,7 +18,7 @@ namespace selaura {
 #ifdef SELAURA_WINDOWS
         void init_winrt_hooks();
 
-        static uint32_t translate_key(winrt::Windows::System::VirtualKey key);
+        static selaura::key translate_key(winrt::Windows::System::VirtualKey vkey);
         static void key_hk(winrt::Windows::UI::Core::CoreDispatcher const& sender, winrt::Windows::UI::Core::AcceleratorKeyEventArgs const& args);
         static void pointer_moved_hk(winrt::Windows::UI::Core::CoreWindow const& sender, winrt::Windows::UI::Core::PointerEventArgs const& args);
 #endif
