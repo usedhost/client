@@ -28,7 +28,7 @@ void __cdecl ScreenView::SetupAndRender(MinecraftUIRenderContext* ctx) {
     auto drawlist = ImGui::GetBackgroundDrawList();
 	drawlist->AddText(ImVec2(0, 0), ImColor(255, 255, 255, 255), "Hello, ImGui!");
 
-	selaura::setupandrender_event ev{ ctx, renderer };
+	selaura::setupandrender_event ev{ ctx, renderer, this };
 	evm.dispatch<selaura::setupandrender_event>(ev);
 
 	inst->get<selaura::screen_manager>().for_each([&](selaura::screen& screen) {
@@ -48,4 +48,8 @@ void __cdecl ScreenView::SetupAndRender(MinecraftUIRenderContext* ctx) {
 
     auto original = hk.get_original<&ScreenView::SetupAndRender>();
     return (this->*original)(ctx);
+}
+
+VisualTree* ScreenView::getVisualTree() {
+	return hat::member_at<VisualTree*>(this, selaura::signatures::screenview_visualtree.resolve());
 }

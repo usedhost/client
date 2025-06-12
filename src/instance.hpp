@@ -17,6 +17,7 @@
 
 #include "sdk/signatures.hpp"
 #include "event/event_manager.hpp"
+#include "sdk/globals.hpp"
 #include "hook/hook_manager.hpp"
 #include "renderer/renderer.hpp"
 #include "input/input_manager.hpp"
@@ -24,12 +25,11 @@
 #include "screen/screen_manager.hpp"
 #include "scripting/script_manager.hpp"
 
-#include "sdk/mc/game/MinecraftGame.hpp"
-
 namespace selaura {
 	struct instance : public std::enable_shared_from_this<instance> {
 		using components_t = std::tuple<
 			event_manager,
+			globals,
 			hook_manager,
 			renderer,
 			input_manager,
@@ -55,6 +55,5 @@ namespace selaura {
 	private:
 		components_t components{};
 		std::filesystem::path data_folder;
-		MinecraftGame* mc_game;
 	};
 }

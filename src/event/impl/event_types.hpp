@@ -1,5 +1,6 @@
 #pragma once
 #include "../../sdk/mc/renderer/screen/MinecraftUIRenderContext.hpp"
+#include "../../sdk/mc/gui/ScreenView.hpp"
 #include "../../renderer/renderer.hpp"
 
 namespace selaura {
@@ -15,6 +16,7 @@ namespace selaura {
 	struct setupandrender_event {
 		MinecraftUIRenderContext* ctx;
 		selaura::renderer& renderer;
+		ScreenView* screen_view;
 	};
 
 	enum class key_action {

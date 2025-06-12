@@ -105,20 +105,28 @@ namespace selaura {
 		}
 	};
 
-	template <typename T>
-	struct offset_symbol : selaura::base_symbol<T> {
-		std::string_view name;
-		std::ptrdiff_t offset;
+	struct offset_symbol {
+		struct offset_info {
+			uintptr_t offset;
+		};
 
-		offset_symbol(std::string_view nm, std::ptrdiff_t off)
-			: name(nm), offset(off) {
+		std::string_view name;
+		std::unordered_map<platform, offset_info> platform_offsets;
+
+		offset_symbol(std::string_view nm, std::unordered_map<platform, offset_info> list)
+			: name(nm), platform_offsets(list) {
 		}
 
-		void* resolve() const override {
-			return this->offset;
+		uintptr_t resolve() const {
+			auto it = platform_offsets.find(current_platform);
+			if (it == platform_offsets.end()) {
+				spdlog::error("No symbol for current platform: {}", name);
+				return 0;
+			}
+
+			return it->second.offset;
 		}
 	};
-
 
 	template <typename T>
 	struct direct_symbol : base_symbol<T> {

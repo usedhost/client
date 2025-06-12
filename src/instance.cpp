@@ -95,12 +95,4 @@ namespace selaura {
 
 		return this->data_folder;
 	}
-
-	void instance::set_minecraftgame(MinecraftGame *mc) {
-		this->mc_game = mc;
-	}
-
-	MinecraftGame* instance::get_minecraft_game() {
-		return this->mc_game;
-	}
 };

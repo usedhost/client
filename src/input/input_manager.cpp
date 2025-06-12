@@ -20,6 +20,11 @@ namespace selaura {
         auto mouse_token = coreWindow.PointerMoved({ &input_manager::pointer_moved_hk });
     }
 
+
+    uint32_t input_manager::translate_key(winrt::Windows::System::VirtualKey key) {
+        return static_cast<uint32_t>(key);
+    }
+
     void input_manager::key_hk(winrt::Windows::UI::Core::CoreDispatcher const& sender, winrt::Windows::UI::Core::AcceleratorKeyEventArgs const& args) {
         auto inst = selaura::instance::get();
         auto evm = inst->get<selaura::event_manager>();
@@ -37,7 +42,7 @@ namespace selaura {
             default: break;
         }
 
-        selaura::key_event ev{&cancelled, static_cast<uint32_t>(args.VirtualKey()), action};
+        selaura::key_event ev{&cancelled, translate_key(args.VirtualKey()), action};
         evm.dispatch<selaura::key_event>(ev);
 
         if (cancelled) {

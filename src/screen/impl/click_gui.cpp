@@ -3,6 +3,7 @@
 #include "../../instance.hpp"
 #include "../../event/event_manager.hpp"
 #include "../../renderer/renderer.hpp"
+#include "../../sdk/globals.hpp"
 
 namespace selaura {
     click_gui::click_gui() : screen() {
@@ -11,6 +12,18 @@ namespace selaura {
     }
 
     void click_gui::on_render(selaura::setupandrender_event& ev) {
+        auto currentScreen = ev.screen_view->getVisualTree()->getRoot()->getLayerName();
+        static auto lastScreen = currentScreen;
+        if (currentScreen != "hud_screen") {
+            if (lastScreen != "hud_screen" || (currentScreen != "toast_screen" && currentScreen != "debug_screen")) {
+                lastScreen = currentScreen;
+                this->set_enabled(false);
+                return;
+            }
+        } else {
+            lastScreen = "hud_screen";
+        }
+
         auto& io = ImGui::GetIO();
 
         glm::vec2 mod_menu_size = { io.DisplaySize.x * 0.5 , io.DisplaySize.x * 0.3 };

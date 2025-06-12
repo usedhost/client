@@ -86,4 +86,60 @@ namespace selaura::signatures {
             { selaura::platform::android, { "todo: find this" } }
         }
     };
+
+    inline offset_symbol clientinstance_guidata{
+        "ClientInstance::GuiData",
+        {
+                { selaura::platform::windows, {0x5B8}},
+                { selaura::platform::android, {0x0} }
+        }
+    };
+
+    inline offset_symbol minecraftuirendercontext_screencontext{
+        "MinecraftUIRenderContext::ScreenContext",
+        {
+            { selaura::platform::windows, {0x10}},
+            { selaura::platform::android, {0x0} }
+        }
+    };
+
+    inline offset_symbol minecraftuirendercontext_clientinstance{
+        "MinecraftUIRenderContext::ClientInstance",
+        {
+                { selaura::platform::windows, {0x8}},
+                { selaura::platform::android, {0x0} }
+        }
+    };
+
+    inline offset_symbol screencontext_tessellator{
+        "ScreenContext::Tessellator",
+        {
+                    { selaura::platform::windows, {0xC8}},
+                    { selaura::platform::android, {0x0} }
+        }
+    };
+
+    inline offset_symbol screenview_visualtree{
+        "ScreenView::VisualTree",
+        {
+                        { selaura::platform::windows, {0x48}},
+                        { selaura::platform::android, {0x0} }
+        }
+    };
+
+    inline offset_symbol visualtree_root{
+        "VisualTree::root",
+        {
+                            { selaura::platform::windows, {0x8}},
+                            { selaura::platform::android, {0x0} }
+        }
+    };
+
+    inline offset_symbol uicontrol_layername{
+        "UIControl::layerName",
+        {
+                                { selaura::platform::windows, {0x20}},
+                                { selaura::platform::android, {0x0} }
+        }
+    };
 }

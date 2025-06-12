@@ -1,5 +1,6 @@
 #include "ScreenContext.hpp"
+#include "../../../signatures.hpp"
 
 Tessellator* ScreenContext::getTessellator() {
-	return hat::member_at<Tessellator*>(this, 0xC8);
+	return hat::member_at<Tessellator*>(this, selaura::signatures::screencontext_tessellator.resolve());
 }
