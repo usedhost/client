@@ -3,7 +3,11 @@
 #include "../instance.hpp"
 #include <thread>
 
+#ifdef SELAURA_WINDOWS
+DWORD WINAPI init(LPVOID hModule);
+#else
 void init();
+#endif
 
 #ifdef SELAURA_WINDOWS
 #include <Windows.h>

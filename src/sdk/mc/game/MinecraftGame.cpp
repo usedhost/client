@@ -18,3 +18,7 @@ void __cdecl MinecraftGame::update() {
     auto original = hk.get_original<&MinecraftGame::update>();
     return (this->*original)();
 }
+
+std::shared_ptr<mce::TextureGroup> MinecraftGame::getTextureGroup() {
+    return hat::member_at<std::shared_ptr<mce::TextureGroup>>(this, selaura::signatures::minecraftgame_gettexturegroup.resolve());
+}

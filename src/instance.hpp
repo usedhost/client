@@ -40,20 +40,24 @@ namespace selaura {
 
 		bool start();
 		void init();
-		void shutdown();
 
 		template<typename component>
 		constexpr auto& get() {
 			return std::get<component>(components);
 		}
 
+#ifdef SELAURA_WINDOWS
+		void set_hmodule(HMODULE dll);
+#endif
+
 		const std::filesystem::path& get_data_folder();
 		static std::shared_ptr<selaura::instance> get();
-
-		void set_minecraftgame(MinecraftGame* mc);
-		MinecraftGame* get_minecraft_game();
 	private:
 		components_t components{};
 		std::filesystem::path data_folder;
+
+#ifdef SELAURA_WINDOWS
+		HMODULE instance_dll;
+#endif
 	};
 }

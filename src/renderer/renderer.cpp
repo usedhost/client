@@ -1,6 +1,13 @@
 ﻿#include "renderer.hpp"
 
+#include "instance.hpp"
+
+int i = 0;
+
 namespace selaura {
+
+	mce::TexturePtr renderer::texturePtr;
+
 	bool renderer::initialize_imgui(MinecraftUIRenderContext& ctx) {
 		ImGui::GetStyle().AntiAliasedLines = true;
 		ImGui::GetStyle().AntiAliasedFill = true;
@@ -15,7 +22,21 @@ namespace selaura {
 
 		unsigned char* pixels;
 		int width, height, bytesPerPixel;
+		io.Fonts->AddFontFromMemoryCompressedTTF(ProductSans::compressed_data, ProductSans::compressed_size, 20.f);
+		io.Fonts->Build();
 		io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height, &bytesPerPixel);
+
+		mce::Blob blob(pixels, width * height * bytesPerPixel);
+		cg::ImageDescription description(width, height, mce::TextureFormat::R8G8B8A8_UNORM, cg::ColorSpace::sRGB, cg::ImageType::Texture2D, 1);
+		cg::ImageBuffer imageBuffer(std::move(blob), std::move(description));
+
+		auto inst = selaura::instance::get();
+
+		ResourceLocation resource("imgui_font");
+
+		inst->get<selaura::globals>().mc_game->getTextureGroup()->uploadTexture(resource, imageBuffer);
+		this->texturePtr = ctx.getTexture(resource, false);
+		io.Fonts->TexID = (void*)&texturePtr;
 	}
 
 	void renderer::new_frame(MinecraftUIRenderContext& ctx) {
@@ -27,6 +48,12 @@ namespace selaura {
 	}
 
 	void renderer::render_draw_data(ImDrawData* data, MinecraftUIRenderContext& ctx) {
+
+		i += 1;
+		if (i > 250) {
+			load_fonts(ctx);
+		}
+
 		float scale = ctx.getClientInstance()->getGuiData()->getGuiScale();
 		ScreenContext* screen_context = ctx.getScreenContext();
 		Tessellator* tess = screen_context->getTessellator();
@@ -58,7 +85,7 @@ namespace selaura {
 
 				
 				mce::MaterialPtr* material = mce::MaterialPtr::createMaterial(HashedString("ui_texture_and_color_blur"));
-				MeshHelpers::renderMeshImmediately(screen_context, tess, material);
+				MeshHelpers::renderMeshImmediately(screen_context, tess, material, *texturePtr.mClientTexture);
 			}
 		}
 	}

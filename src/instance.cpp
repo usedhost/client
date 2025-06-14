@@ -1,5 +1,15 @@
 #include "instance.hpp"
 
+#ifdef SELAURA_WINDOWS
+DWORD WINAPI unload_thread(LPVOID hModule) {
+	Sleep(100);
+
+	FreeLibraryAndExitThread(static_cast<HMODULE>(hModule), 0);
+	return 0;
+}
+#endif
+
+
 namespace selaura {
 	std::shared_ptr<selaura::instance> inst;
 
@@ -55,27 +65,6 @@ namespace selaura {
 		std::chrono::duration<float> duration = endTime - startTime;
 
 		spdlog::info("Successfully injected [{:.2f}s]", duration.count());
-
-	}
-
-	void instance::shutdown() {
-		auto startTime = std::chrono::high_resolution_clock::now();
-		spdlog::info("Attempting to uninject");
-
-		//this->hook_manager->for_each([&](auto& hook) {
-			//hook.disable();
-		//});
-
-#ifdef SELAURA_WINDOWS
-		winrt::Windows::ApplicationModel::Core::CoreApplication::MainView().CoreWindow().Dispatcher().RunAsync(winrt::Windows::UI::Core::CoreDispatcherPriority::Normal, []() {
-			winrt::Windows::UI::ViewManagement::ApplicationView::GetForCurrentView().Title(winrt::to_hstring(""));
-		});
-#endif
-
-		auto endTime = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<float> duration = endTime - startTime;
-
-		spdlog::info("Successfully uninjected [{:.2f}s]", duration.count());
 	}
 
 	const std::filesystem::path& instance::get_data_folder() {
@@ -95,4 +84,10 @@ namespace selaura {
 
 		return this->data_folder;
 	}
+
+#ifdef SELAURA_WINDOWS
+	void instance::set_hmodule(HMODULE dll) {
+		this->instance_dll = dll;
+	}
+#endif
 };

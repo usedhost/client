@@ -77,6 +77,8 @@ namespace selaura {
             hook_groups_.emplace_back(std::make_shared<group_t>(*this, std::forward<Args>(args)...));
         }
 
+        void destroy();
+
     private:
         struct hook_entry {
             void* target;

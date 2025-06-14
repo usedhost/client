@@ -8,3 +8,7 @@ ScreenContext* MinecraftUIRenderContext::getScreenContext() {
 ClientInstance* MinecraftUIRenderContext::getClientInstance() {
 	return hat::member_at<ClientInstance*>(this, selaura::signatures::minecraftuirendercontext_clientinstance.resolve());
 }
+
+mce::TexturePtr MinecraftUIRenderContext::getTexture(const ResourceLocation& resourceLocation, bool forceReload) {
+	return selaura::call_virtual<mce::TexturePtr>(this, 29, resourceLocation, forceReload);
+}

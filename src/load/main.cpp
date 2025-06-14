@@ -1,9 +1,20 @@
 #include "main.hpp"
 
+#ifdef SELAURA_WINDOWS
+DWORD WINAPI init(LPVOID hModule) {
+	auto instance = std::make_shared<selaura::instance>();
+	instance->set_hmodule(static_cast<HMODULE>(hModule));
+	if (instance->start()) instance->init();
+
+	return 0;
+}
+#else
 void init() {
 	auto instance = std::make_shared<selaura::instance>();
 	if (instance->start()) instance->init();
 }
+#endif
+
 
 #ifdef SELAURA_WINDOWS
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved) {

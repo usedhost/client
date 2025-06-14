@@ -6,6 +6,8 @@
 #include "mc/game/MinecraftGame.hpp"
 #include "mc/renderer/Tessellator.hpp"
 #include "mc/renderer/helpers/MeshHelpers.hpp"
+#include "mc/deps/coregraphics/ImageBuffer.hpp"
+#include "mc/deps/core/resource/ResourceHelper.hpp"
 
 #ifdef SELAURA_WINDOW
 #define THISCALL __thiscall
@@ -69,11 +71,11 @@ namespace selaura::signatures {
         }
     };
 
-    using meshhelpers_rendermeshimmediately_t = void(THISCALL*)(void*, void*, void*, char*);
+    using meshhelpers_rendermeshimmediately_t = void(THISCALL*)(void*, void*, void*, BedrockTextureData&, char*);
     inline signature_symbol<meshhelpers_rendermeshimmediately_t> meshhelpers_rendermeshimmediately{
         "MeshHelpers::renderMeshImmediately",
         {
-            { selaura::platform::windows, { "E8 ? ? ? ? 41 C6 44 24 38 01 F3 0F 10 1D" } },
+            { selaura::platform::windows, { "40 55 53 56 57 41 54 41 55 41 56 41 57 48 8D AC 24 98 FC FF FF 48 81 EC 68 04 00 00 49" } },
             { selaura::platform::android, { "todo: find this" } }
         }
     };
@@ -84,6 +86,14 @@ namespace selaura::signatures {
         {
             { selaura::platform::windows, { "48 8B 05 ? ? ? ? 48 8D 55 90 48 8D 0D ? ? ? ? 48 8B 40 08 FF 15 ? ? ? ? 48 8B D8" } },
             { selaura::platform::android, { "todo: find this" } }
+        }
+    };
+
+    using mce_texturegroup_uploadtexture_t = mce::BedrockTexture&(THISCALL*)(void*, const ResourceLocation&, cg::ImageBuffer);
+    inline signature_symbol<mce_texturegroup_uploadtexture_t> mce_texturegroup_uploadtexture{
+        "mce::TextureGroup::uploadTexture",
+        {
+            { selaura::platform::windows, {"48 89 5C 24 20 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 D9 48 81 EC C0 00 00 00 48 8B 05 ?? ?? ?? ?? 48 33 C4 48 89 45 1F 4D 8B F0"}},
         }
     };
 
@@ -140,6 +150,14 @@ namespace selaura::signatures {
         {
                                 { selaura::platform::windows, {0x20}},
                                 { selaura::platform::android, {0x0} }
+        }
+    };
+
+    inline offset_symbol minecraftgame_gettexturegroup{
+        "MinecraftGame::getTextureGroup",
+        {
+                                    { selaura::platform::windows, {0x6C8}},
+                                    { selaura::platform::android, {0x0} }
         }
     };
 }

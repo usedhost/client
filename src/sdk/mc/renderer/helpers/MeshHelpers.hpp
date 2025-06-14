@@ -5,6 +5,8 @@
 #include <memory>
 
 #include "../../HashedString.hpp"
+#include "../../deps/minecraftrenderer/renderer/BedrockTexture.hpp"
+#include "../../deps/core/resource/ResourceHelper.hpp"
 
 namespace mce {
     enum class PrimitiveMode : uint8_t {
@@ -17,7 +19,10 @@ namespace mce {
     };
 
     struct BedrockTexture {};
-    struct TexturePtr {};
+    struct TexturePtr {
+        std::shared_ptr<BedrockTextureData> mClientTexture;
+        std::shared_ptr<ResourceLocation> mResourceLocation;
+    };
 
     struct MaterialPtr {
         static mce::MaterialPtr* createMaterial(const HashedString& name);
@@ -25,5 +30,5 @@ namespace mce {
 };
 
 struct MeshHelpers {
-    static void renderMeshImmediately(void* a1, void* a2, void* a3);
+    static void renderMeshImmediately(void* a1, void* a2, void* a3, BedrockTextureData& a4);
 };

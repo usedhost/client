@@ -14,4 +14,16 @@ namespace selaura {
         register_hookgroup<hook_registry>();
         
     }
+
+    void hook_manager::destroy() {
+#ifdef SELAURA_WINDOWS
+        MH_RemoveHook(MH_ALL_HOOKS);
+        MH_Uninitialize();
+#else
+        for (auto& hook : hook_entries_) {
+            DobbyDestroy((void*)hook.target);
+        }
+#endif
+    }
+
 }

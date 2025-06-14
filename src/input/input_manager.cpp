@@ -26,6 +26,9 @@ namespace selaura {
 
         switch (key) {
             case 0x09: return selaura::key::Tab;
+            case 0x10: return selaura::key::Shift;
+            case 0x11: return selaura::key::Control;
+            case 0x12: return selaura::key::Alt;
             case 0x25: return selaura::key::LeftArrow;
             case 0x27: return selaura::key::RightArrow;
             case 0x26: return selaura::key::UpArrow;
@@ -40,19 +43,7 @@ namespace selaura {
             case 0x20: return selaura::key::Space;
             case 0x0D: return selaura::key::Enter;
             case 0x1B: return selaura::key::Escape;
-
-            case 0xA2: return selaura::key::LeftCtrl;
-            case 0xA0: return selaura::key::LeftShift;
-            case 0xA4: return selaura::key::LeftAlt;
-            case 0x5B: return selaura::key::LeftSuper;
-
-            case 0xA3: return selaura::key::RightCtrl;
-            case 0xA1: return selaura::key::RightShift;
-            case 0xA5: return selaura::key::RightAlt;
-            case 0x5C: return selaura::key::RightSuper;
-
             case 0x5D: return selaura::key::Menu;
-
             case 0x30: return selaura::key::NUM_0;
             case 0x31: return selaura::key::NUM_1;
             case 0x32: return selaura::key::NUM_2;
