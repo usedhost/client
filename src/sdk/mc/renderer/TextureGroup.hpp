@@ -8,5 +8,6 @@ namespace mce {
     class TextureGroup {
     public:
         mce::BedrockTexture& uploadTexture(const ResourceLocation& resource, cg::ImageBuffer image_buffer);
+        void unloadAllTextures();
     };
 };

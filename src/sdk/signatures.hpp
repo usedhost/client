@@ -97,6 +97,14 @@ namespace selaura::signatures {
         }
     };
 
+    using mce_texturegroup_unloadalltextures_t = void(*)();
+    inline signature_symbol<mce_texturegroup_unloadalltextures_t> mce_texturegroup_unloadalltextures{
+        "mce::TextureGroup::unloadAllTextures",
+        {
+            {selaura::platform::windows, {"48 89 5C 24 ? 57 48 83 EC ? 48 8B 99 ? ? ? ? 48 8B F9 48 8B 1B 80 7B ? ? 75 ? 0F 1F 00 48 8D 53"}}
+        }
+    };
+
     inline offset_symbol clientinstance_guidata{
         "ClientInstance::GuiData",
         {

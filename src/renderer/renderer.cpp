@@ -8,6 +8,10 @@ namespace selaura {
 
 	mce::TexturePtr renderer::texturePtr;
 
+	void renderer::set_textures_unloaded() {
+		this->textures_unloaded = false;
+	}
+
 	bool renderer::initialize_imgui(MinecraftUIRenderContext& ctx) {
 		ImGui::GetStyle().AntiAliasedLines = true;
 		ImGui::GetStyle().AntiAliasedFill = true;
@@ -22,8 +26,10 @@ namespace selaura {
 
 		unsigned char* pixels;
 		int width, height, bytesPerPixel;
-		io.Fonts->AddFontFromMemoryCompressedTTF(ProductSans::compressed_data, ProductSans::compressed_size, 20.f);
-		io.Fonts->Build();
+
+		//io.Fonts->AddFontFromMemoryCompressedTTF(ProductSans::compressed_data, ProductSans::compressed_size, 16.f);
+		//io.Fonts->Build();
+
 		io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height, &bytesPerPixel);
 
 		mce::Blob blob(pixels, width * height * bytesPerPixel);
@@ -37,6 +43,8 @@ namespace selaura {
 		inst->get<selaura::globals>().mc_game->getTextureGroup()->uploadTexture(resource, imageBuffer);
 		this->texturePtr = ctx.getTexture(resource, false);
 		io.Fonts->TexID = (void*)&texturePtr;
+
+		this->textures_unloaded = false;
 	}
 
 	void renderer::new_frame(MinecraftUIRenderContext& ctx) {
@@ -48,9 +56,7 @@ namespace selaura {
 	}
 
 	void renderer::render_draw_data(ImDrawData* data, MinecraftUIRenderContext& ctx) {
-
-		i += 1;
-		if (i > 250) {
+		if (this->textures_unloaded) {
 			load_fonts(ctx);
 		}
 

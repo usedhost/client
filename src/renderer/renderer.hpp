@@ -16,6 +16,8 @@
 
 namespace selaura {
 	struct renderer {
+		void set_textures_unloaded();
+
 		bool initialize_imgui(MinecraftUIRenderContext& ctx);
 		void load_fonts(MinecraftUIRenderContext& ctx);
 		void new_frame(MinecraftUIRenderContext& ctx);
@@ -28,5 +30,6 @@ namespace selaura {
 		void draw_filled_rect(glm::vec2 pos, glm::vec2 size, glm::vec3 color, float radius = 0.f, ImDrawFlags flags = 0);
 	private:
 		static mce::TexturePtr texturePtr;
+		bool textures_unloaded = true;
 	};
 };
