@@ -1,5 +1,5 @@
 #include "TextureGroup.hpp"
-#include "../../signatures.hpp"
+#include "../../mem/symbols.hpp"
 #include "../../../instance.hpp"
 #include "../../../renderer/renderer.hpp"
 #include <spdlog/spdlog.h>

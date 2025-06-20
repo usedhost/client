@@ -1,5 +1,6 @@
 #pragma once
 #include "../renderer/screen/MinecraftUIRenderContext.hpp"
+#include "../../mem/symbols.hpp"
 #include <spdlog/spdlog.h>
 #include <imgui.h>
 

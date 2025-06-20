@@ -1,5 +1,6 @@
 #include "MinecraftUIRenderContext.hpp"
-#include "../../../signatures.hpp"
+#include "../../../mem/symbols.hpp"
+#include "../../../mem/virtual.hpp"
 
 ScreenContext* MinecraftUIRenderContext::getScreenContext() {
 	return hat::member_at<ScreenContext*>(this, selaura::signatures::minecraftuirendercontext_screencontext.resolve());

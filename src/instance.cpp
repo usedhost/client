@@ -84,10 +84,4 @@ namespace selaura {
 
 		return this->data_folder;
 	}
-
-#ifdef SELAURA_WINDOWS
-	void instance::set_hmodule(HMODULE dll) {
-		this->instance_dll = dll;
-	}
-#endif
 };

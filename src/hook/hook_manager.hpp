@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../sdk/symbol.hpp"
-#include "../sdk/signatures.hpp"
+#include "../sdk/mem/storage.hpp"
+#include "../sdk/mem/signatures.hpp"
 
 #ifdef SELAURA_WINDOWS
 #include <MinHook.h>

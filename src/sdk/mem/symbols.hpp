@@ -1,13 +1,15 @@
 #pragma once
-#include "symbol.hpp"
+#include "storage.hpp"
 #include <vector>
 #include <string>
 
-#include "mc/game/MinecraftGame.hpp"
-#include "mc/renderer/Tessellator.hpp"
-#include "mc/renderer/helpers/MeshHelpers.hpp"
-#include "mc/deps/coregraphics/ImageBuffer.hpp"
-#include "mc/deps/core/resource/ResourceHelper.hpp"
+#include "../mc/game/MinecraftGame.hpp"
+#include "../mc/renderer/Tessellator.hpp"
+#include "../mc/renderer/helpers/MeshHelpers.hpp"
+#include "../mc/deps/coregraphics/ImageBuffer.hpp"
+#include "../mc/deps/core/resource/ResourceHelper.hpp"
+#include "../mc/renderer/screen/MinecraftUIRenderContext.hpp"
+#include "../mc/gui/gui/UIControl.hpp"
 
 #ifdef SELAURA_WINDOW
 #define THISCALL __thiscall
@@ -17,20 +19,20 @@
 
 namespace selaura::signatures {
 
-    using splashtextrenderer_loadsplashes_t = std::vector<std::string>* (THISCALL*)(void*, void*);
-    inline signature_symbol<splashtextrenderer_loadsplashes_t> splashtextrenderer_loadsplashes{
-        "SplashTextRenderer::_loadSplashes",
-        {
-            { selaura::platform::windows, { "48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 49 8B D9 49 8B F8 4C 89 44 24" } },
-            { selaura::platform::android, { "? ? ? A9 ? ? ? A9 FD 03 00 91 ? ? ? A9 ? ? ? A9 ? ? ? A9 ? ? ? A9 ? ? ? D1 ? ? ? F9 F6 03 02 AA" } }
-        }
+    using splashtextrenderer_render_t = void(THISCALL*)(MinecraftUIRenderContext* ctx, ClientInstance* ci, UIControl* owner, int pass, void* renderAABB);
+    inline signature_symbol<splashtextrenderer_render_t> splashtextrenderer_render{
+        "SplashTextRenderer::render",
+{
+                { selaura::platform::windows, { "48 89 5C 24 18 55 56 57 48 8D AC 24 50 FC FF FF 48 81 EC B0 04 00 00 48 8B FA" } },
+             }
     };
 
     using minecraftgame_update_t = void(THISCALL*)();
     inline signature_symbol<minecraftgame_update_t> minecraftgame_update{
         "MinecraftGame::update",
         {
-            { selaura::platform::windows, { "48 8B C4 48 89 58 10 48 89 70 18 48 89 78 20 55 41 54 41 55 41 56 41 57 48 8D A8 18 F7" } },
+            { selaura::platform::windows, { "48 8B C4 48 89 58 10 48 89 70 18 48 89 78 20 55 41 54 41 55 41 56 41 57 48 8D A8 F8 F6" } },
+            // 1.21.80: { selaura::platform::windows, { "48 8B C4 48 89 58 10 48 89 70 18 48 89 78 20 55 41 54 41 55 41 56 41 57 48 8D A8 18 F7" } },
             { selaura::platform::android, { "? ? ? FC ? ? ? A9 ? ? ? 91 ? ? ? A9 ? ? ? A9 ? ? ? A9 ? ? ? A9 ? ? ? A9 ? ? ? D1 ? ? ? D5 F3 03 00 AA ? ? ? F9 ? ? ? F8 ? ? ? F9 ? ? ? 95" } }
         }
     };
@@ -93,7 +95,7 @@ namespace selaura::signatures {
     inline signature_symbol<mce_texturegroup_uploadtexture_t> mce_texturegroup_uploadtexture{
         "mce::TextureGroup::uploadTexture",
         {
-            { selaura::platform::windows, {"48 89 5C 24 20 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 D9 48 81 EC C0 00 00 00 48 8B 05 ?? ?? ?? ?? 48 33 C4 48 89 45 1F 4D 8B F0"}},
+            { selaura::platform::windows, {"48 89 5C 24 20 55 56 57 41 55 41 56 48 83 EC 20 48 8B 29"}},
         }
     };
 
@@ -101,7 +103,8 @@ namespace selaura::signatures {
     inline signature_symbol<mce_texturegroup_unloadalltextures_t> mce_texturegroup_unloadalltextures{
         "mce::TextureGroup::unloadAllTextures",
         {
-            {selaura::platform::windows, {"48 89 5C 24 ? 57 48 83 EC ? 48 8B 99 ? ? ? ? 48 8B F9 48 8B 1B 80 7B ? ? 75 ? 0F 1F 00 48 8D 53"}}
+            { selaura::platform::windows, {""}}
+            // 1.21.80 {selaura::platform::windows, {"48 89 5C 24 ? 57 48 83 EC ? 48 8B 99 ? ? ? ? 48 8B F9 48 8B 1B 80 7B ? ? 75 ? 0F 1F 00 48 8D 53"}}
         }
     };
 
@@ -164,7 +167,8 @@ namespace selaura::signatures {
     inline offset_symbol minecraftgame_gettexturegroup{
         "MinecraftGame::getTextureGroup",
         {
-                                    { selaura::platform::windows, {0x6C8}},
+                                    { selaura::platform::windows, {0x6D8}},
+                                    // 1.21.80: { selaura::platform::windows, {0x6C8}},
                                     { selaura::platform::android, {0x0} }
         }
     };

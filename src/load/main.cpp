@@ -3,7 +3,6 @@
 #ifdef SELAURA_WINDOWS
 DWORD WINAPI init(LPVOID hModule) {
 	auto instance = std::make_shared<selaura::instance>();
-	instance->set_hmodule(static_cast<HMODULE>(hModule));
 	if (instance->start()) instance->init();
 
 	return 0;

@@ -33,7 +33,7 @@ namespace selaura {
 		io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height, &bytesPerPixel);
 
 		mce::Blob blob(pixels, width * height * bytesPerPixel);
-		cg::ImageDescription description(width, height, mce::TextureFormat::R8G8B8A8_UNORM, cg::ColorSpace::sRGB, cg::ImageType::Texture2D, 1);
+		cg::ImageDescription description(width, height, mce::TextureFormat::R8G8B8A8_UNORM_SRGB, cg::ColorSpace::sRGB, cg::ImageType::Texture2D, 1);
 		cg::ImageBuffer imageBuffer(std::move(blob), std::move(description));
 
 		auto inst = selaura::instance::get();

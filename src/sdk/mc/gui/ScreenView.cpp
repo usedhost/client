@@ -3,14 +3,16 @@
 #include "../../../instance.hpp"
 #include "../../../hook/hook_manager.hpp"
 #include "../../../renderer/renderer.hpp"
-#include "../../signatures.hpp"
+#include "../../mem/symbols.hpp"
 #include <glm/glm.hpp>
 
 void __cdecl ScreenView::SetupAndRender(MinecraftUIRenderContext* ctx) {
     auto inst = selaura::instance::get();
     auto evm = inst->get<selaura::event_manager>();
 
-    // imgui test here
+	auto globals = inst->get<selaura::globals>();
+	// reset splash text to show selaura
+
 	auto renderer = inst->get<selaura::renderer>();
 
     if (ImGui::GetCurrentContext() == nullptr) {
@@ -25,9 +27,6 @@ void __cdecl ScreenView::SetupAndRender(MinecraftUIRenderContext* ctx) {
 	renderer.new_frame(*ctx);
 	ImGui::NewFrame();
 
-    auto drawlist = ImGui::GetBackgroundDrawList();
-	drawlist->AddText(ImVec2(0, 0), ImColor(255, 255, 255, 255), "Hello, ImGui!");
-
 	selaura::setupandrender_event ev{ ctx, renderer, this };
 	evm.dispatch<selaura::setupandrender_event>(ev);
 
@@ -39,10 +38,6 @@ void __cdecl ScreenView::SetupAndRender(MinecraftUIRenderContext* ctx) {
 	ImGui::Render();
 
 	renderer.render_draw_data(ImGui::GetDrawData(), *ctx);
-
-    // imgui test end
-
-
 
     auto hk = inst->get<selaura::hook_manager>();
 

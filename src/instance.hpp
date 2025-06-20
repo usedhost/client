@@ -15,7 +15,7 @@
 #include <winrt/Windows.UI.Core.h>
 #endif
 
-#include "sdk/signatures.hpp"
+#include "sdk/mem/signatures.hpp"
 #include "event/event_manager.hpp"
 #include "sdk/globals.hpp"
 #include "hook/hook_manager.hpp"
@@ -46,18 +46,10 @@ namespace selaura {
 			return std::get<component>(components);
 		}
 
-#ifdef SELAURA_WINDOWS
-		void set_hmodule(HMODULE dll);
-#endif
-
 		const std::filesystem::path& get_data_folder();
 		static std::shared_ptr<selaura::instance> get();
 	private:
 		components_t components{};
 		std::filesystem::path data_folder;
-
-#ifdef SELAURA_WINDOWS
-		HMODULE instance_dll;
-#endif
 	};
 }
