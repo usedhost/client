@@ -1,55 +1,25 @@
 #pragma once
-#include <memory>
-#include <format>
-#include <chrono>
-#include <tuple>
 
+#include <cstddef>
+#include <span>
+#include <memory>
+#include <stdexcept>
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
-#include <filesystem>
 
 #ifdef SELAURA_WINDOWS
-#include <winrt/base.h>
-#include <winrt/Windows.UI.ViewManagement.h>
-#include <winrt/Windows.ApplicationModel.Core.h>
-#include <winrt/Windows.UI.Core.h>
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#include <Psapi.h>
 #endif
 
-#include "sdk/mem/signatures.hpp"
-#include "event/event_manager.hpp"
-#include "sdk/globals.hpp"
-#include "hook/hook_manager.hpp"
-#include "renderer/renderer.hpp"
-#include "input/input_manager.hpp"
-#include "feature/feature_manager.hpp"
-#include "screen/screen_manager.hpp"
-#include "scripting/script_manager.hpp"
+#include "platform.hpp"
 
 namespace selaura {
-	struct instance : public std::enable_shared_from_this<instance> {
-		using components_t = std::tuple<
-			event_manager,
-			globals,
-			hook_manager,
-			renderer,
-			input_manager,
-			feature_manager,
-			screen_manager,
-			script_manager
-		>;
+    struct instance : std::enable_shared_from_this<instance> {
+        bool start();
+        void init();
+    };
 
-		bool start();
-		void init();
-
-		template<typename component>
-		constexpr auto& get() {
-			return std::get<component>(components);
-		}
-
-		const std::filesystem::path& get_data_folder();
-		static std::shared_ptr<selaura::instance> get();
-	private:
-		components_t components{};
-		std::filesystem::path data_folder;
-	};
-}
+    std::shared_ptr<selaura::instance> get();
+};

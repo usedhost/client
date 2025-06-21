@@ -1,6 +1,6 @@
 include(FetchContent)
 set(CMAKE_CXX_STANDARD 23)
-cmake_minimum_required(VERSION 3.5.0)
+cmake_minimum_required(VERSION 3.15)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 project(Selaura)
@@ -13,7 +13,7 @@ elseif(UNIX)
     add_compile_definitions(SELAURA_LINUX)
 endif()
 
-set(CLIENT_VERSION "0.20")
+set(CLIENT_VERSION "0.30")
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
     set(DEVELOPER_MODE "")
@@ -54,7 +54,7 @@ endif()
 file(GLOB_RECURSE SOURCE "src/*.cpp" "src/*.hpp")
 file(GLOB_RECURSE LIB "include/*.cpp" "include/*.h")
 
-add_library(Selaura SHARED "src/load/main.cpp" ${SOURCE} ${LIB})
+add_library(Selaura SHARED "src/main.cpp" ${SOURCE} ${LIB})
 
 target_include_directories(Selaura PRIVATE
     "src"
@@ -84,29 +84,14 @@ FetchContent_Declare(
     GIT_TAG        d4014c74dc3793aba95ae354d6e23a026c2796db
 )
 FetchContent_Declare(
-    typesafe
-    GIT_REPOSITORY https://github.com/foonathan/type_safe.git
-    GIT_TAG        cdf334cd8e5fcb5e21ab470decdfcbd190ef7347
-)
-FetchContent_Declare(
     libhat
     GIT_REPOSITORY https://github.com/BasedInc/libhat.git
-    GIT_TAG        master
-)
-FetchContent_Declare(
-    magic_enum
-    GIT_REPOSITORY https://github.com/Neargye/magic_enum.git
     GIT_TAG        master
 )
 FetchContent_Declare(
     LuaBridge
     GIT_REPOSITORY https://github.com/kunitoki/LuaBridge3.git
     GIT_TAG        master
-)
-FetchContent_Declare(
-    cpp-i18n
-    GIT_REPOSITORY https://github.com/Sinan-Karakaya/cpp-i18n.git
-    GIT_TAG        main 
 )
 FetchContent_Declare(
     glm
@@ -141,7 +126,7 @@ endif()
 set(DOBBY_DEBUG OFF)
 set(DOBBY_GENERATE_SHARED OFF)
 
-FetchContent_MakeAvailable(fmt entt typesafe libhat magic_enum LuaBridge glm cpp-i18n spdlog)
+FetchContent_MakeAvailable(fmt entt libhat LuaBridge glm spdlog)
 if (MSVC)
     FetchContent_MakeAvailable(minhook)
 else()
@@ -152,7 +137,7 @@ target_include_directories(Selaura PUBLIC ${cpp-i18n_SOURCE_DIR}/include)
 
 FetchContent_GetProperties(imgui)
 if(NOT imgui_POPULATED)
-    FetchContent_Populate(imgui)
+    FetchContent_MakeAvailable(imgui)
     add_library(ImGui STATIC
         "${imgui_SOURCE_DIR}/imgui.cpp"
         "${imgui_SOURCE_DIR}/imgui_demo.cpp"
@@ -164,9 +149,9 @@ if(NOT imgui_POPULATED)
 endif()
 
 if(MSVC)
-    target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat ImGui magic_enum LuaBridge glm cpp-i18n spdlog minhook)
+    target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT libhat ImGui LuaBridge glm spdlog minhook)
 else()
-    target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT type_safe libhat ImGui magic_enum LuaBridge glm cpp-i18n spdlog dobby_static)
+    target_link_libraries(Selaura PRIVATE fmt::fmt EnTT::EnTT libhat ImGui LuaBridge glm spdlog dobby_static)
 endif()
 
 if (ANDROID)
