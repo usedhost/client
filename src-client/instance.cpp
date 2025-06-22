@@ -27,9 +27,6 @@ namespace selaura {
 
         spdlog::set_default_logger(logger);
 
-        spdlog::info("hello!");
-
-
         std::filesystem::path mods_path = selaura::platform::get_data_folder() / "mods";
 
         if (!std::filesystem::exists(mods_path)) {
@@ -49,7 +46,7 @@ namespace selaura {
             }
         }
 
-        selaura::platform::set_title("Selaura Client {}{}", CLIENT_VERSION, DEVELOPER_MODE);
+        selaura::platform::set_title(fmt::runtime("Selaura Client {}"), CLIENT_VERSION);
     }
 
     std::shared_ptr<selaura::instance> get() {

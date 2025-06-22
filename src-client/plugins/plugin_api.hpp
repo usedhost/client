@@ -26,7 +26,12 @@ struct selaura_mod_info {
 
 struct selaura_runtime {
     selaura_runtime() = default;
-    using log_fn = void(*)(const char*);
+    using log_fn = std::function<void(const char*)>;
+
+    const char* name;
+    const char* description;
+    selaura_mod_version version;
+    const char* author;
 
     log_fn info = nullptr;
     log_fn debug = nullptr;
@@ -34,6 +39,11 @@ struct selaura_runtime {
     log_fn error = nullptr;
 
     selaura_mod_info ret_info(const char* name = "Unknown Mod Name", const char* description = "Unknown Mod Description", selaura_mod_version version = {0, 1, 0}, const char* author = "Author") {
+        this->name = name;
+        this->description = description;
+        this->version = version;
+        this->author = author;
+
         return {
             name,
             description,
