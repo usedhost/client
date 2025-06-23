@@ -1,24 +1,37 @@
 #pragma once
-#include <spdlog/spdlog.h>
-#include "plugin_api.hpp"
+#include <format>
+#include <functional>
+#include <optional>
 
 namespace selaura {
-    inline void runtime_init(const std::shared_ptr<selaura_runtime> &runtime) {
-        auto r = runtime;
-        runtime->info = [r](const char* msg) {
-            spdlog::info("[Plugin Info] [{}] {}", r->name, msg);
-        };
+    struct runtime {
+        std::function<void()> terminate;
+        std::function<void(void* target, void* detour, void** original)> hook_raw;
+        std::function<std::optional<uintptr_t>(const std::string_view pattern)> sig;
+        std::function<void(const std::string&)> info_fn;
+        std::function<void(const std::string&)> warn_fn;
+        std::function<void(const std::string&)> error_fn;
+        std::function<void(const std::string&)> debug_fn;
 
-        runtime->debug = [r](const char* msg) {
-            spdlog::info("[Plugin Debug] [{}] {}", r->name, msg);
-        };
+        template<typename... Args>
+        void info(std::format_string<Args...> fmt, Args&&... args) {
+            if (info_fn) info_fn(std::format(fmt, std::forward<Args>(args)...));
+        }
 
-        runtime->warn = [r](const char* msg) {
-            spdlog::info("[Plugin Warn] [{}] {}", r->name, msg);
-        };
+        template<typename... Args>
+        void warn(std::format_string<Args...> fmt, Args&&... args) {
+            if (warn_fn) warn_fn(std::format(fmt, std::forward<Args>(args)...));
+        }
 
-        runtime->error = [r](const char* msg) {
-            spdlog::info("[Plugin Error] [{}] {}", r->name, msg);
-        };
-    }
+        template<typename... Args>
+        void error(std::format_string<Args...> fmt, Args&&... args) {
+            if (error_fn) error_fn(std::format(fmt, std::forward<Args>(args)...));
+        }
+
+        template<typename... Args>
+        void debug(std::format_string<Args...> fmt, Args&&... args) {
+            if (debug_fn) debug_fn(std::format(fmt, std::forward<Args>(args)...));
+        }
+
+    };
 };

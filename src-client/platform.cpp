@@ -52,63 +52,33 @@ std::filesystem::path selaura::platform::get_data_folder() {
     return dir;
 }
 
-selaura::platform::mod_info_t selaura::platform::load_mod_info(std::filesystem::path path) {
+selaura::plugin* selaura::platform::load_plugin(std::filesystem::path path) {
 #ifdef SELAURA_WINDOWS
 
-    HMODULE mod_handle = LoadLibraryW(path.wstring().c_str());
-    if (!mod_handle) {
-        spdlog::error("Failed to load mod: {}", path.filename().string());
+    HMODULE plugin_handle = LoadLibraryW(path.wstring().c_str());
+    if (!plugin_handle) {
+        spdlog::error("Failed to load plugin: {}", path.filename().string());
     }
 
-    auto mod_entry = reinterpret_cast<mod_info_t>(GetProcAddress(mod_handle, "SelauraRuntime_LoadModInfo"));
+    auto plugin_entry = reinterpret_cast<plugin_entry_t>(GetProcAddress(plugin_handle, "SelauraRuntime_RegisterPlugin"));
 
 #else
 
-    void* mod_handle = dlopen(path.c_str(), RTLD_NOW);
-    if (!mod_handle) {
-        spdlog::error("Failed to load mod: {}: {}", path.filename().string(), dlerror());
+    void* plugin_handle = dlopen(path.c_str(), RTLD_NOW);
+    if (!plugin_handle) {
+        spdlog::error("Failed to load plugin: {}: {}", path.filename().string(), dlerror());
         continue;
     }
 
-    auto mod_entry = reinterpret_cast<mod_info_t>(dlsym(mod_handle, "SelauraRuntime_LoadModInfo"));
+    auto plugin_entry = reinterpret_cast<plugin_entry_t>(dlsym(plugin_handle, "SelauraRuntime_RegisterPlugin"));
 
 #endif
 
-    if (!mod_entry) {
-        spdlog::warn("Mod {} does not export SelauraRuntime_LoadModInfo", path.filename().string());
+    if (!plugin_entry) {
+        spdlog::warn("Plugin {} does not export SelauraRuntime_RegisterPlugin", path.filename().string());
     }
 
-    return mod_entry;
-}
-
-
-selaura::platform::mod_entry_t selaura::platform::load_mod(std::filesystem::path path) {
-#ifdef SELAURA_WINDOWS
-
-    HMODULE mod_handle = LoadLibraryW(path.wstring().c_str());
-    if (!mod_handle) {
-        spdlog::error("Failed to load mod: {}", path.filename().string());
-    }
-
-    auto mod_entry = reinterpret_cast<mod_entry_t>(GetProcAddress(mod_handle, "SelauraRuntime_LoadMod"));
-
-#else
-
-    void* mod_handle = dlopen(path.c_str(), RTLD_NOW);
-    if (!mod_handle) {
-        spdlog::error("Failed to load mod: {}: {}", path.filename().string(), dlerror());
-        continue;
-    }
-
-    auto mod_entry = reinterpret_cast<mod_entry_t>(dlsym(mod_handle, "SelauraRuntime_LoadMod"));
-
-#endif
-
-    if (!mod_entry) {
-        spdlog::warn("Mod {} does not export SelauraRuntime_LoadMod", path.filename().string());
-    }
-
-    return mod_entry;
+    return plugin_entry();
 }
 
 void selaura::platform::hook_init() {

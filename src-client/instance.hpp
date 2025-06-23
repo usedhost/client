@@ -14,11 +14,14 @@
 #endif
 
 #include "platform.hpp"
+#include "plugins/runtime_linkage.hpp"
 
 namespace selaura {
     struct instance : std::enable_shared_from_this<instance> {
         bool start();
         void init();
+    private:
+        std::shared_ptr<selaura::runtime> runtime;
     };
 
     std::shared_ptr<selaura::instance> get();

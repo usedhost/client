@@ -1,9 +1,21 @@
-#include <../src-client/plugins/plugin_api.hpp>
+#include <../src-client/plugins/plugin.hpp>
 
-extern "C" SELAURA_API selaura_mod_info SelauraRuntime_LoadModInfo(std::shared_ptr<selaura_runtime> runtime) {
-    return runtime->ret_info("Selaura Example Mod");
-}
+class ExamplePlugin : public selaura::plugin {
+public:
+    ExamplePlugin() {
+        _name = "Example Plugin";
+        _desc = "This plugin doesn't have any functionality by itself!";
+        _author = "notchyves";
+        _version = {1, 2, 3};
+    }
 
-extern "C" SELAURA_API void SelauraRuntime_LoadMod(std::shared_ptr<selaura_runtime> runtime) {
-    runtime->warn("This mod is an example mod, it does not do anything useful.");
+    void on_load(std::shared_ptr<selaura::runtime> runtime) override {
+        runtime->debug("hello");
+        runtime->debug("splashtextrenderer::render value: {}", runtime->sig("48 89 5C 24 18 55 56 57 48 8D AC 24 50 FC FF FF 48 81 EC B0 04 00 00 48 8B FA").value());
+    }
+};
+
+extern "C" SELAURA_API selaura::plugin* SelauraRuntime_RegisterPlugin() {
+    static ExamplePlugin instance;
+    return &instance;
 }

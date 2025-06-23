@@ -1,6 +1,6 @@
 #include "instance.hpp"
 
-#include "plugins/plugin_api.hpp"
+#include "plugins/plugin.hpp"
 #include "plugins/runtime.hpp"
 
 namespace selaura {
@@ -32,17 +32,15 @@ namespace selaura {
         if (!std::filesystem::exists(mods_path)) {
             std::filesystem::create_directory(mods_path);
         } else {
+            this->runtime = std::make_shared<selaura::runtime>();
+            selaura::runtime_link(this->runtime);
+
             for (const auto& entry : std::filesystem::directory_iterator(mods_path)) {
                 if (!entry.is_regular_file() || (entry.path().extension() != ".dll" && entry.path().extension() != ".so")) continue;
 
-                auto mod = selaura::platform::load_mod(entry.path());
-                auto mod_info = selaura::platform::load_mod_info(entry.path());
-                auto runtime = std::make_shared<selaura_runtime>();
-                selaura::runtime_init(runtime);
-
-                selaura_mod_info info = mod_info(runtime);
-                mod(runtime);
-                spdlog::info("Loaded mod: {}, version: {}.{}.{}", info.name, info.version.major, info.version.minor, info.version.patch);
+                auto mod = selaura::platform::load_plugin(entry.path());
+                mod->on_load(this->runtime);
+                spdlog::info("Loaded mod: {}, version: {}.{}.{}", mod->_name, mod->_version.major, mod->_version.minor, mod->_version.patch);
             }
         }
 
