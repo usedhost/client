@@ -31,19 +31,14 @@ jobs:
           name: atum
           path: build\Release\*.dll
 
-      - name: Upload Windows Release Binaries
-        shell: cmd
-        run: |
-          git config --global user.email "github-actions@users.noreply.github.com"
-          git config --global user.name "GitHub Actions"
-          git clone https://x-access-token:${{ secrets.CDN_TOKEN }}@github.com/selauraclient/cdn.git cdn
-          mkdir cdn\windows
-          copy build\Release\*.exe cdn\windows\ >nul 2>&1
-          copy build\Release\*.dll cdn\windows\ >nul 2>&1
-          cd cdn
-          git add .
-          git commit -m "Upload Windows release binaries from ${{ github.sha }}" || echo No changes to commit
-          git push
+
+      - name: Upload (exe)
+        uses: actions/upload-artifact@v4
+        with:
+          name: sardinha
+          path: build\Release\*.exe
+
+
 
 
 
