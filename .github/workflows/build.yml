@@ -29,14 +29,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: atum
-          path: build\Release\*.dll
+          path: build\Release\*
 
-
-      - name: Upload (exe)
-        uses: actions/upload-artifact@v4
-        with:
-          name: sardinha
-          path: build\Release\*.exe
 
 
 
