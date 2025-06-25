@@ -24,6 +24,13 @@ jobs:
       - name: Build (Windows)
         run: cmake --build build --config Release
 
+
+      - name: Upload (dll)
+        uses: actions/upload-artifact@v4
+        with:
+          name: atum
+          path: build\Release\*.dll
+
       - name: Upload Windows Release Binaries
         shell: cmd
         run: |
