@@ -36,34 +36,34 @@ jobs:
 
 
 
-  build-linux:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-  
-      - name: Install Clang and CMake
-        run: sudo apt-get update && sudo apt-get install -y clang cmake
-  
-      - name: Configure CMake (Linux with Clang)
-        env:
-          CC: clang
-          CXX: clang++
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-  
-      - name: Build (Linux)
-        run: cmake --build build --config Release
-  
-      - name: Upload Linux Release Binaries
-        run: |
-          git config --global user.email "$COMMIT_EMAIL"
-          git config --global user.name "$COMMIT_NAME"
-          git clone $CDN_REPO cdn
-          mkdir -p cdn/linux
-          find build -type f -name "libSelaura.so" -exec cp {} cdn/linux/ \;
-          cd cdn
-          git add .
-          git commit -m "Upload Linux release binaries from ${{ github.sha }}" || echo "No changes to commit"
-          git push
+#  build-linux:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#  
+#      - name: Install Clang and CMake
+#        run: sudo apt-get update && sudo apt-get install -y clang cmake
+#  
+#      - name: Configure CMake (Linux with Clang)
+#        env:
+#          CC: clang
+#          CXX: clang++
+#        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+#  
+#      - name: Build (Linux)
+#        run: cmake --build build --config Release
+#  
+#      - name: Upload Linux Release Binaries
+#        run: |
+#          git config --global user.email "$COMMIT_EMAIL"
+#          git config --global user.name "$COMMIT_NAME"
+#          git clone $CDN_REPO cdn
+#          mkdir -p cdn/linux
+#          find build -type f -name "libSelaura.so" -exec cp {} cdn/linux/ \;
+#          cd cdn
+#          git add .
+#          git commit -m "Upload Linux release binaries from ${{ github.sha }}" || echo "No changes to commit"
+#          git push
 
 
   build-android:
